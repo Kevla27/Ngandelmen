@@ -16,6 +16,8 @@ typedef struct {
     uint32_t value_u32;
 } obis_entry_t;
 
+#include "display.h"
+
 bool dlms_obis_match(const obis_code_t *a, const obis_code_t *b);
 
 /* Deklarasi prototipe fungsi lookup: */
@@ -25,6 +27,9 @@ dlms_result_t dlms_obis_lookup(
     uint8_t attribute_id, 
     uint8_t *data_type, 
     uint32_t *val_u32);
+
+/* Fungsi sinkronisasi data metrologi ke kamus register OBIS */
+void dlms_obis_update_from_meter(const meter_measurements_t *meas);
 
 #ifdef __cplusplus
 }

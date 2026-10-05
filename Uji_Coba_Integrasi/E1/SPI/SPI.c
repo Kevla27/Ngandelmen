@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#if defined(USE_FREERTOS) || defined(EMBEDDED_HARDWARE_TARGET)
+#define printf(...) ((void)0)
+#endif
+
 #include "SPI.h"
 #include "../Mock/Mock.h"
 

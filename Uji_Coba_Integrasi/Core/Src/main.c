@@ -12,8 +12,6 @@
 
 /* USER CODE BEGIN Includes */
 #include "FreeRTOS.h"
-#include "ssd1306.h"
-#include "ssd1306_fonts.h"
 #include "task.h"
 #include "queue.h"
 #include "rtos_tasks.h"
@@ -23,6 +21,16 @@
 #include "stm32u5xx.h"
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
+
+/* E1 Metrology & ADE9000 Mock Includes */
+#include "RegisterMap.h"
+#include "Mock.h"
+#include "Metrology.h"
+#include "SPI.h"
+
+/* E2 DLMS Protocol Includes */
+#include "dlms_obis.h"
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/
@@ -35,6 +43,9 @@ I2C_HandleTypeDef hi2c1;
 /* USER CODE BEGIN PV */
 DMA_HandleTypeDef handle_GPDMA1_Channel1;
 static uint8_t g_uart_rx_dma_buf[UART_RX_BUF_SIZE];
+volatile bool g_tamper_alarm_active = false;
+static volatile bool g_tamper_trigger_instant_display = false;
+static volatile uint32_t g_tamper_press_count = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -121,40 +132,247 @@ void vApplicationTickHook(void)
 {
     /* HAL_IncTick dipanggil secara andal di SysTick_Handler */
 }
+/* ========================================================================== */
+/*                E1 METROLOGY & ADE9000 INTEGRATION ADAPTER                  */
+/* ========================================================================== */
+
+static void init_metrology_e1(void)
+{
+    /* 1. Inisialisasi Mock Device ADE9000 & SPI Abstraction Layer E1 */
+    ADE9000_Mock_Init();
+    ADE9000_SPI_Init();
+
+    /* 2. Set Baseline Register Metrologi 3-Fasa (Data Simulasi E1) */
+    /* PHASE A: V=230V, I=11.95A, P=2.3kW, f=50Hz */
+    ADE9000_Mock_SetAIRMS(5962491);
+    ADE9000_Mock_SetAVRMS(17136895);
+    ADE9000_Mock_SetAIFRMS(26347436);
+    ADE9000_Mock_SetAWATT(636984);
+    ADE9000_Mock_SetAPERIOD(20000);
+    ADE9000_Mock_SetAWATTHR_HI(0x00000001);
+    ADE9000_Mock_SetAWATTHR_LO(0x00001000);
+
+    /* PHASE B: V=230V, I=11.95A, P=2.3kW, f=50Hz */
+    ADE9000_Mock_SetBIRMS(5962491);
+    ADE9000_Mock_SetBVRMS(17136895);
+    ADE9000_Mock_SetBWATT(636984);
+    ADE9000_Mock_SetBPERIOD(20000);
+    ADE9000_Mock_SetBWATTHR_HI(0x00000001);
+    ADE9000_Mock_SetBWATTHR_LO(0x00001000);
+
+    /* PHASE C: V=230V, I=11.95A, P=2.3kW, f=50Hz */
+    ADE9000_Mock_SetCIRMS(5962491);
+    ADE9000_Mock_SetCVRMS(17136895);
+    ADE9000_Mock_SetCWATT(636984);
+    ADE9000_Mock_SetCPERIOD(20000);
+    ADE9000_Mock_SetCWATTHR_HI(0x00000001);
+    ADE9000_Mock_SetCWATTHR_LO(0x00001000);
+
+    /* NEUTRAL: I=2.39A */
+    ADE9000_Mock_SetNIRMS(1192498);
+}
+
+static void update_measurements_from_e1(meter_measurements_t *out_meas)
+{
+    if (out_meas == NULL) return;
+
+    /* 1. Baca register RMS Tegangan & Arus via SPI Driver E1 */
+    uint32_t airms = ADE9000_SPI_ReadRegister(ADE9000_AIRMS);
+    uint32_t birms = ADE9000_SPI_ReadRegister(ADE9000_BIRMS);
+    uint32_t cirms = ADE9000_SPI_ReadRegister(ADE9000_CIRMS);
+    uint32_t nirms = ADE9000_SPI_ReadRegister(ADE9000_NIRMS);
+
+    uint32_t avrms = ADE9000_SPI_ReadRegister(ADE9000_AVRMS);
+    uint32_t bvrms = ADE9000_SPI_ReadRegister(ADE9000_BVRMS);
+    uint32_t cvrms = ADE9000_SPI_ReadRegister(ADE9000_CVRMS);
+
+    /* 2. Baca register Daya Aktif & Frekuensi (Period) */
+    int32_t awatt = (int32_t)ADE9000_SPI_ReadRegister(ADE9000_AWATT);
+    int32_t bwatt = (int32_t)ADE9000_SPI_ReadRegister(ADE9000_BWATT);
+    int32_t cwatt = (int32_t)ADE9000_SPI_ReadRegister(ADE9000_CWATT);
+
+    uint32_t aperiod = ADE9000_SPI_ReadRegister(ADE9000_APERIOD);
+
+    /* 3. Baca register Akumulasi Energi */
+    uint32_t awatthr_hi = ADE9000_SPI_ReadRegister(ADE9000_AWATTHR_HI);
+    uint32_t awatthr_lo = ADE9000_SPI_ReadRegister(ADE9000_AWATTHR_LO);
+    uint32_t bwatthr_hi = ADE9000_SPI_ReadRegister(ADE9000_BWATTHR_HI);
+    uint32_t bwatthr_lo = ADE9000_SPI_ReadRegister(ADE9000_BWATTHR_LO);
+    uint32_t cwatthr_hi = ADE9000_SPI_ReadRegister(ADE9000_CWATTHR_HI);
+    uint32_t cwatthr_lo = ADE9000_SPI_ReadRegister(ADE9000_CWATTHR_LO);
+
+    /* 4. Konversi nilai mentah register ke unit engineering menggunakan library Metrology E1 */
+    float va = Metrology_VoltageFromAVRMS(avrms);
+    float vb = Metrology_VoltageFromBVRMS(bvrms);
+    float vc = Metrology_VoltageFromCVRMS(cvrms);
+
+    float ia = Metrology_CurrentFromAIRMS(airms);
+    float ib = Metrology_CurrentFromBIRMS(birms);
+    float ic = Metrology_CurrentFromCIRMS(cirms);
+    float in = Metrology_CurrentFromNIRMS(nirms);
+
+    float pa = Metrology_PowerFromAWATT(awatt);
+    float pb = Metrology_PowerFromBWATT(bwatt);
+    float pc = Metrology_PowerFromCWATT(cwatt);
+    float p_total = pa + pb + pc;
+
+    float freq = Metrology_FrequencyFromPeriod(aperiod);
+
+    int64_t raw_energy_a = Metrology_CombineEnergyRegister(awatthr_hi, awatthr_lo);
+    int64_t raw_energy_b = Metrology_CombineEnergyRegister(bwatthr_hi, bwatthr_lo);
+    int64_t raw_energy_c = Metrology_CombineEnergyRegister(cwatthr_hi, cwatthr_lo);
+
+    float ea = Metrology_EnergyFromRaw(raw_energy_a);
+    float eb = Metrology_EnergyFromRaw(raw_energy_b);
+    float ec = Metrology_EnergyFromRaw(raw_energy_c);
+    float e_total_wh = ea + eb + ec;
+
+    /* 5. Petakan ke struct meter_measurements_t (E3 Display & Profiling) */
+    out_meas->voltage_r_dvolts = (uint32_t)(va * 10.0f);
+    out_meas->voltage_s_dvolts = (uint32_t)(vb * 10.0f);
+    out_meas->voltage_t_dvolts = (uint32_t)(vc * 10.0f);
+
+    out_meas->current_r_mamps  = (uint32_t)(ia * 1000.0f);
+    out_meas->current_s_mamps  = (uint32_t)(ib * 1000.0f);
+    out_meas->current_t_mamps  = (uint32_t)(ic * 1000.0f);
+    out_meas->current_n_mamps  = (uint32_t)(in * 1000.0f);
+
+    out_meas->active_power_w   = (int32_t)p_total;
+    out_meas->reactive_power_var = 0;
+    out_meas->apparent_power_va  = (uint32_t)((va * ia) + (vb * ib) + (vc * ic));
+    out_meas->power_factor_ppm   = (out_meas->apparent_power_va > 0) ? (uint16_t)((fabsf(p_total) / out_meas->apparent_power_va) * 1000.0f) : 1000;
+
+    out_meas->frequency_mhz    = (uint16_t)(freq * 1000.0f);
+
+    /* Simulasi akumulasi energi aktif yang terus bertambah seiring berjalannya meter */
+    static uint32_t s_simulated_energy_increment = 0;
+    s_simulated_energy_increment += 4; /* ~4 Wh tiap iterasi 2 detik (~7 kW) */
+    out_meas->active_energy_wh = 125430ULL + (uint64_t)e_total_wh + s_simulated_energy_increment;
+
+    /* Sinkronkan data pengukuran terbaru ke tabel register OBIS DLMS/COSEM (E2) */
+    dlms_obis_update_from_meter(out_meas);
+}
+
 static void task_oled128x32_carousel(void *pvParameters)
 {
     (void)pvParameters;
     display_context_t disp_ctx;
     display_init(&disp_ctx, "530000000001", 2000);
 
-    /* Simulasi pengukuran meter untuk visualisasi OLED 128x32 */
-    meter_measurements_t meas = {
-        .voltage_r_dvolts = 2205,    /* 220.5 V */
-        .voltage_s_dvolts = 2212,    /* 221.2 V */
-        .voltage_t_dvolts = 2198,    /* 219.8 V */
-        .current_r_mamps  = 5420,    /* 5.420 A */
-        .active_power_w   = 1195,    /* 1.195 kW */
-        .frequency_mhz    = 50000    /* 50.00 Hz */
-    };
-    display_update_measurements(&disp_ctx, &meas);
+    /* Inisialisasi Subsistem Metrologi E1 (ADE9000 & Mock Data) */
+    init_metrology_e1();
 
-    char l1[32], l2[32], l3[32];
+    meter_measurements_t meas;
+    memset(&meas, 0, sizeof(meas));
+
+    display_spln_frame_t spln_frame;
+
+    uint32_t elapsed_accumulator_ms = 2000; /* Langsung render saat startup */
 
     for (;;) {
-        display_process_tick(&disp_ctx, 2000);
-        display_render_frame(&disp_ctx, l1, l2, l3, sizeof(l1));
+        bool need_render = false;
 
-        ssd1306_Fill(Black);
-        /* Format 3 Baris Proporsional untuk Layar OLED 128x32 */
-        ssd1306_SetCursor(0, 1);
-        ssd1306_WriteString(l1, Font_6x8, White);
-        ssd1306_SetCursor(0, 11);
-        ssd1306_WriteString(l2, Font_6x8, White);
-        ssd1306_SetCursor(0, 21);
-        ssd1306_WriteString(l3, Font_7x10, White);
-        ssd1306_UpdateScreen();
+        /* Tangani event tombol darurat sabotase PC13 */
+        if (g_tamper_trigger_instant_display) {
+            g_tamper_trigger_instant_display = false;
+            elapsed_accumulator_ms = 0;
+            disp_ctx.alarm_icon_active = g_tamper_alarm_active;
+            if (g_tamper_alarm_active) {
+                disp_ctx.current_page = DISP_PAGE_TAMPER_ALARM;
+            } else {
+                disp_ctx.current_page = DISP_PAGE_IDPEL;
+            }
+            need_render = true;
+        } else if (elapsed_accumulator_ms >= 2000) {
+            elapsed_accumulator_ms = 0;
+            display_process_tick(&disp_ctx, 2000);
+            need_render = true;
+        }
 
-        vTaskDelay(pdMS_TO_TICKS(2000));
+        if (need_render) {
+            /* 1. Update data pengukuran dari register metrologi E1 & sinkron ke DLMS */
+            update_measurements_from_e1(&meas);
+            display_update_measurements(&disp_ctx, &meas);
+            disp_ctx.alarm_icon_active = g_tamper_alarm_active;
+            display_render_spln_frame(&disp_ctx, &spln_frame);
+
+            /* 2. Render ke layar OLED 128x32 sesuai Format Standar PLN (Gambar 4) */
+            ssd1306_Fill(Black);
+
+            /* BARIS 1: Simbol & Kode OBIS (Font_6x8 di Y: 0..8) */
+            if (spln_frame.is_alarm_active) {
+                /* INDIKATOR ALARM PROMINEN (INVERTED SOLID BANNER):
+                 * Kotak putih terang dengan teks hitam "!ALM" di pojok kiri atas */
+                ssd1306_FillRectangle(0, 0, 25, 8, White);
+                ssd1306_SetCursor(1, 0);
+                ssd1306_WriteString("!ALM", Font_6x8, Black);
+            } else {
+                /* Status Normal: Teks "OK" standar warna putih */
+                ssd1306_SetCursor(2, 0);
+                ssd1306_WriteString("OK", Font_6x8, White);
+            }
+
+            /* Simbol Baterai [B] di X = 26 */
+            ssd1306_SetCursor(26, 0);
+            ssd1306_WriteString("[B]", Font_6x8, White);
+
+            /* Indikator Fasa Tegangan L123 di X = 46 */
+            ssd1306_SetCursor(46, 0);
+            ssd1306_WriteString("L123", Font_6x8, White);
+
+            /* Indikator Fasa Arus I123 di X = 72 */
+            ssd1306_SetCursor(72, 0);
+            ssd1306_WriteString("I123", Font_6x8, White);
+
+            /* Kode Register OBIS rata kanan di X = 98..127 */
+            ssd1306_SetCursor(98, 0);
+            ssd1306_WriteString(spln_frame.obis_code, Font_6x8, White);
+
+            /* Garis Pemisah Horizontal (Y = 10)
+             * - Normal: garis putus-putus halus
+             * - Alarm Aktif: garis tebal padat (solid bright alert bar) */
+            if (spln_frame.is_alarm_active) {
+                ssd1306_Line(0, 10, 127, 10, White);
+            } else {
+                for (uint8_t x = 0; x < 128; x += 2) {
+                    ssd1306_DrawPixel(x, 10, White);
+                }
+            }
+
+            /* BARIS 2 KIRI: zz (Indeks Urutan Scrolling, Font_6x8 di Y: 22) */
+            ssd1306_SetCursor(1, 22);
+            ssd1306_WriteString(spln_frame.scroll_index_zz, Font_6x8, White);
+
+            /* BARIS 2 TENGAH: Nilai Angka Utama */
+            if (spln_frame.is_large_font) {
+                /* Nilai angka besar (Font_11x18 di Y: 13..31) */
+                int val_len = (int)strlen(spln_frame.main_value);
+                int x_val = 18 + (76 - (val_len * 11)) / 2;
+                if (x_val < 16) x_val = 16;
+                ssd1306_SetCursor((uint8_t)x_val, 13);
+                ssd1306_WriteString(spln_frame.main_value, Font_11x18, White);
+            } else {
+                /* Teks khusus / IDPEL panjang / SABOTASE (Font_7x10 di Y: 17) */
+                int val_len = (int)strlen(spln_frame.main_value);
+                int x_val = 18 + (82 - (val_len * 7)) / 2;
+                if (x_val < 16) x_val = 16;
+                ssd1306_SetCursor((uint8_t)x_val, 17);
+                ssd1306_WriteString(spln_frame.main_value, Font_7x10, White);
+            }
+
+            /* BARIS 2 KANAN: Satuan Besaran Listrik / Kode Error (Font_6x8 di Y: 22) */
+            if (spln_frame.unit[0] != '\0') {
+                int unit_len = (int)strlen(spln_frame.unit);
+                int x_unit = 127 - (unit_len * 6);
+                ssd1306_SetCursor((uint8_t)x_unit, 22);
+                ssd1306_WriteString(spln_frame.unit, Font_6x8, White);
+            }
+
+            ssd1306_UpdateScreen();
+        }
+
+        vTaskDelay(pdMS_TO_TICKS(100));
+        elapsed_accumulator_ms += 100;
     }
 }
 /* USER CODE END 0 */
@@ -284,7 +502,7 @@ static void MX_GPIO_Init(void)
 
   /* User Button / Tamper Button: PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
@@ -293,31 +511,34 @@ static void MX_GPIO_Init(void)
   HAL_NVIC_EnableIRQ(EXTI13_IRQn);
 }
 
-/* Callback interupsi hardware EXTI saat tombol PC13 ditekan/dilepas */
+/* Callback interupsi hardware EXTI saat tombol PC13 ditekan */
 void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin)
 {
   if (GPIO_Pin == GPIO_PIN_13)
   {
-    tamper_event_msg_t msg = {
-        .timestamp = HAL_GetTick() / 1000,
-        .tamper_code = 0x01, /* Case Open / Button Tamper Event */
-        .is_active = true
-    };
-    rtos_queue_send_tamper_event(&msg);
+    /* Debounce software: minimal 250ms antar penekanan tombol */
+    static uint32_t s_last_btn_tick = 0;
+    uint32_t now = HAL_GetTick();
+    if (now - s_last_btn_tick > 250)
+    {
+      s_last_btn_tick = now;
+      g_tamper_alarm_active = !g_tamper_alarm_active;
+      g_tamper_trigger_instant_display = true;
+      g_tamper_press_count++;
+
+      tamper_event_msg_t msg = {
+          .timestamp = now / 1000,
+          .tamper_code = 0x01, /* Case Open / Button Tamper Event */
+          .is_active = g_tamper_alarm_active
+      };
+      rtos_queue_send_tamper_event_from_isr(&msg);
+    }
   }
 }
 
 void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 {
-  if (GPIO_Pin == GPIO_PIN_13)
-  {
-    tamper_event_msg_t msg = {
-        .timestamp = HAL_GetTick() / 1000,
-        .tamper_code = 0x01, /* Case Open / Button Tamper Event */
-        .is_active = true
-    };
-    rtos_queue_send_tamper_event(&msg);
-  }
+  (void)GPIO_Pin;
 }
 
 void Error_Handler(void)

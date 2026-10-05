@@ -4,7 +4,7 @@
  * Pangkalan Data Register OBIS (Dataset Read-Only Gate G0 Baseline)
  * Mengacu pada ICD & SRS Spesifikasi Antarmuka DLMS Smart Meter 3-Fasa
  */
-static const obis_entry_t g_obis_db[] = {
+static obis_entry_t g_obis_db[] = {
     /* ----------------------------------------------------------------------------------- */
     /* 1. BESARAN TEGANGAN SESAAT (INSTANTANEOUS VOLTAGE) - CLASS ID 3                      */
     /* ----------------------------------------------------------------------------------- */
@@ -125,4 +125,53 @@ dlms_result_t dlms_obis_lookup(uint16_t class_id,
 
     /* Jika OBIS Code atau Attribute tidak terdaftar di Gate G0 */
     return DLMS_ERR_UNAUTHORIZED;
+}
+
+void dlms_obis_update_from_meter(const meter_measurements_t *meas) {
+    if (!meas) return;
+
+    for (size_t i = 0; i < g_obis_db_count; i++) {
+        obis_entry_t *entry = &g_obis_db[i];
+        
+        if (entry->class_id == 3 && entry->attribute_id == 2) {
+            /* 1. Tegangan Sesaat (skala x0.1 V) */
+            if (entry->obis.c == 32 && entry->obis.d == 7) {
+                entry->value_u32 = meas->voltage_r_dvolts;
+            } else if (entry->obis.c == 52 && entry->obis.d == 7) {
+                entry->value_u32 = meas->voltage_s_dvolts;
+            } else if (entry->obis.c == 72 && entry->obis.d == 7) {
+                entry->value_u32 = meas->voltage_t_dvolts;
+            }
+            /* 2. Arus Sesaat (skala x0.01 A / 10 mA) */
+            else if (entry->obis.c == 31 && entry->obis.d == 7) {
+                entry->value_u32 = meas->current_r_mamps / 10;
+            } else if (entry->obis.c == 51 && entry->obis.d == 7) {
+                entry->value_u32 = meas->current_s_mamps / 10;
+            } else if (entry->obis.c == 71 && entry->obis.d == 7) {
+                entry->value_u32 = meas->current_t_mamps / 10;
+            } else if (entry->obis.c == 91 && entry->obis.d == 7) {
+                entry->value_u32 = meas->current_n_mamps / 10;
+            }
+            /* 3. Daya Aktif Total (Watt) */
+            else if (entry->obis.c == 1 && entry->obis.d == 7) {
+                entry->value_u32 = (uint32_t)(meas->active_power_w >= 0 ? meas->active_power_w : -meas->active_power_w);
+            }
+            /* 4. Daya Reaktif & Daya Semu Total (var & VA) */
+            else if (entry->obis.c == 3 && entry->obis.d == 7) {
+                entry->value_u32 = (uint32_t)(meas->reactive_power_var >= 0 ? meas->reactive_power_var : -meas->reactive_power_var);
+            } else if (entry->obis.c == 9 && entry->obis.d == 7) {
+                entry->value_u32 = meas->apparent_power_va;
+            }
+            /* 5. Power Factor (x0.001) & Frekuensi Grid (x0.01 Hz) */
+            else if (entry->obis.c == 13 && entry->obis.d == 7) {
+                entry->value_u32 = meas->power_factor_ppm;
+            } else if (entry->obis.c == 14 && entry->obis.d == 7) {
+                entry->value_u32 = meas->frequency_mhz / 10;
+            }
+            /* 6. Energi Aktif Impor Total (skala x0.01 kWh = 10 Wh per LSB) */
+            else if (entry->obis.c == 1 && entry->obis.d == 8 && entry->obis.e == 0) {
+                entry->value_u32 = (uint32_t)(meas->active_energy_wh / 10);
+            }
+        }
+    }
 }

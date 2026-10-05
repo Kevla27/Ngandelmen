@@ -132,6 +132,7 @@ ADE9000_Mock_t* ADE9000_Mock_GetDevice(void);
 
 void ADE9000_Mock_SetAIRMS(uint32_t value);
 void ADE9000_Mock_SetAVRMS(uint32_t value);
+void ADE9000_Mock_SetAIFRMS(uint32_t value);
 void ADE9000_Mock_SetAWATT(int32_t value);
 
 void ADE9000_Mock_SetAWATT_ACC_LO(uint32_t value);

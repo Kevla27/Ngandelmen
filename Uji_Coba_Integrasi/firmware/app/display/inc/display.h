@@ -39,6 +39,7 @@ typedef enum {
     DISP_PAGE_POWER_FACTOR,
     DISP_PAGE_FREQUENCY,
     DISP_PAGE_ACTIVE_ENERGY,
+    DISP_PAGE_TAMPER_ALARM,
     DISP_PAGE_COUNT
 } display_page_id_t;
 
@@ -79,6 +80,24 @@ void display_update_measurements(display_context_t *ctx, const meter_measurement
 void display_process_tick(display_context_t *ctx, uint32_t elapsed_ms);
 void display_handle_button_press(display_context_t *ctx, button_dir_t dir);
 void display_render_frame(const display_context_t *ctx, char *out_line1, char *out_line2, char *out_line3, size_t max_len);
+
+/**
+ * @brief Struktur Tampilan Standar Layar Meter PLN (SPLN Gambar 4)
+ * Baris 1: Simbol (Respon Alarm NNN, Baterai, Arah Arus, Fasa L/I, Komunikasi) dan Kode OBIS
+ * Baris 2: Indeks Scroll (zz), Teks Nilai Besar (Font 11x18), dan Satuan (kW, V, A, kWh, E01)
+ */
+typedef struct {
+    char header_symbols[32];  /* Baris 1: Simbol & Kode gabungan (Font 6x8) */
+    char scroll_index_zz[6];  /* Baris 2 Kiri: zz urutan scrolling (Font 6x8) */
+    char main_value[16];      /* Baris 2 Tengah: Nilai angka utama besar */
+    char unit[10];            /* Baris 2 Kanan: Satuan besaran listrik / kode error */
+    bool is_large_font;       /* true jika menggunakan Font 11x18 */
+    bool is_alarm_active;     /* true jika alarm sabotase aktif */
+    char alarm_code[6];       /* Respon alarm NNN ("OK " atau "!ALM" / "E01") */
+    char obis_code[10];       /* Kode register OBIS terpisah (misal "32.07") */
+} display_spln_frame_t;
+
+void display_render_spln_frame(const display_context_t *ctx, display_spln_frame_t *frame);
 
 #ifdef __cplusplus
 }

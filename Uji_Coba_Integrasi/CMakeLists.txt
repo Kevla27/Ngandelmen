@@ -80,6 +80,11 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     firmware/drivers/bsp/src/bsp_lpuart_dma.c
     Core/Src/ssd1306.c
     Core/Src/ssd1306_fonts.c
+
+    # Metrology (E1) Sources
+    E1/Metrology/Metrology.c
+    E1/Mock/Mock.c
+    E1/SPI/SPI.c
 )
 
 # Add include paths
@@ -95,6 +100,10 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     firmware/protocols/dlms/inc
     firmware/drivers/bsp/inc
     Core/Inc
+    E1/Metrology
+    E1/Mock
+    E1/RegisterMap
+    E1/SPI
 )
 
 # Add project symbols (macros)

@@ -63,6 +63,20 @@ bool rtos_queue_send_tamper_event(const tamper_event_msg_t *msg) {
  return true;
 #endif
 }
+
+bool rtos_queue_send_tamper_event_from_isr(const tamper_event_msg_t *msg) {
+ if (msg == NULL) return false;
+#if defined(EMBEDDED_HARDWARE_TARGET) || defined(USE_FREERTOS)
+ if (xTamperQueue == NULL) return false;
+ BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+ BaseType_t res = xQueueSendFromISR(xTamperQueue, msg, &xHigherPriorityTaskWoken);
+ portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+ return (res == pdPASS);
+#else
+ return rtos_queue_send_tamper_event(msg);
+#endif
+}
+
 bool rtos_queue_receive_tamper_event(tamper_event_msg_t *out_msg, uint32_t timeout_ms) {
  (void)timeout_ms;
  if (out_msg == NULL) return false;
@@ -77,17 +91,26 @@ bool rtos_queue_receive_tamper_event(tamper_event_msg_t *out_msg, uint32_t timeo
 return true;
 #endif
 }
+
+extern volatile bool g_tamper_alarm_active;
+
 void task_tamper_emergency_entry(void *pvParameters) {
     (void)pvParameters;
     /* Task Darurat Sabotase (Priority 4 - High) */
     printf("[TAMPER] Task started. Menunggu event sabotase...\r\n");
     uint32_t tick_count = 0;
+    bool last_alarm_state = false;
     for (;;) {
         tick_count++;
-        if (tick_count % 10 == 0) { /* Print setiap 10 detik */
-            printf("[TAMPER] Heartbeat #%lu - Idle, tidak ada sabotase.\r\n", tick_count);
+        if (g_tamper_alarm_active != last_alarm_state) {
+            last_alarm_state = g_tamper_alarm_active;
+            if (g_tamper_alarm_active) {
+                printf("[TAMPER] *** DARURAT! SABOTASE TERDETEKSI (CASE OPEN) ***\r\n");
+            } else {
+                printf("[TAMPER] Sabotase dipulihkan. Sistem kembali normal.\r\n");
+            }
         }
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(pdMS_TO_TICKS(500));
     }
 }
 
@@ -95,10 +118,7 @@ void task_metrology_profiling_entry(void *pvParameters) {
     (void)pvParameters;
     /* Task Pembekuan Profil Beban 15-Menit (Priority 3 - Medium) */
     printf("[PROFILE] Task started. Interval profil beban: 15 menit.\r\n");
-    uint32_t profile_cycle = 0;
     for (;;) {
-        profile_cycle++;
-        printf("[PROFILE] Siklus #%lu - Membekukan profil beban (simulasi).\r\n", profile_cycle);
         vTaskDelay(pdMS_TO_TICKS(15000));
     }
 }
@@ -108,15 +128,11 @@ void task_dlms_entry(void *pvParameters) {
     /* Task Protokol DLMS/COSEM (Priority 2 - Normal) */
     printf("[DLMS] Task started. Menunggu event dari queue tamper...\r\n");
     tamper_event_msg_t event_msg;
-    uint32_t poll_count = 0;
     for (;;) {
-        poll_count++;
         /* Membaca event sabotase dari Queue */
         if (rtos_queue_receive_tamper_event(&event_msg, 100)) {
             printf("[DLMS] Tamper Alert Diterima! Code: 0x%02X, Time: %lu detik.\r\n",
                    event_msg.tamper_code, (unsigned long)event_msg.timestamp);
-        } else if (poll_count % 20 == 0) { /* Log setiap 10 detik (500ms * 20) */
-            printf("[DLMS] Heartbeat #%lu - Queue kosong, menunggu event.\r\n", poll_count);
         }
         vTaskDelay(pdMS_TO_TICKS(500));
     }

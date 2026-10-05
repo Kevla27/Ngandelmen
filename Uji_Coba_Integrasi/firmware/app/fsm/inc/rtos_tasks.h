@@ -9,6 +9,7 @@ extern "C" {
 #endif
 #include <stdint.h>
 #include <stdbool.h>
+#include <stddef.h>
 /* Prioritas Task FreeRTOS */
 #define PRIORITY_TASK_TAMPER 4
 #define PRIORITY_TASK_PROFILING 3
@@ -38,6 +39,10 @@ void rtos_system_init(void);
 * @brief Mengirim pesan event tamper ke Queue (Producer)
 */
 bool rtos_queue_send_tamper_event(const tamper_event_msg_t *msg);
+/**
+* @brief Mengirim pesan event tamper ke Queue dari ISR (Interrupt Context)
+*/
+bool rtos_queue_send_tamper_event_from_isr(const tamper_event_msg_t *msg);
 /**
 * @brief Menerima pesan event tamper dari Queue (Consumer)
 */

@@ -28,7 +28,7 @@ bool tamper_process_signal(tamper_context_t *ctx, tamper_vector_t vector, bool i
         entry->timestamp = timestamp;
         entry->vector = vector;
         entry->is_asserted = is_asserted;
-        entry->active_mask== ctx->active_tamper_mask;
+        entry->active_mask = ctx->active_tamper_mask;
 
         ctx->fifo_head = (ctx->fifo_head + 1) % TAMPER_LOG_MAX_ENTRIES;
         if (ctx->fifo_count < TAMPER_LOG_MAX_ENTRIES) ctx->fifo_count++;

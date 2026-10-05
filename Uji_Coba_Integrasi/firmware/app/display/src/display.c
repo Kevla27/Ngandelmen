@@ -39,7 +39,11 @@ void display_process_tick(display_context_t *ctx, uint32_t elapsed_ms) {
     if (ctx->mode == DISPLAY_MODE_AUTO_CAROUSEL) {
         if (ctx->timer_accumulator_ms >= ctx->carousel_interval_ms) {
             ctx->timer_accumulator_ms = 0;
-            ctx->current_page = (display_page_id_t)((ctx->current_page + 1) % DISP_PAGE_COUNT);
+            display_page_id_t next_page = (display_page_id_t)((ctx->current_page + 1) % DISP_PAGE_COUNT);
+            if (!ctx->alarm_icon_active && next_page == DISP_PAGE_TAMPER_ALARM) {
+                next_page = DISP_PAGE_IDPEL;
+            }
+            ctx->current_page = next_page;
         }
     } else if (ctx->mode == DISPLAY_MODE_MANUAL_SCROLL) {
         if (ctx->timer_accumulator_ms >= ctx->manual_timeout_ms) {
@@ -57,10 +61,18 @@ void display_handle_button_press(display_context_t *ctx, button_dir_t dir) {
     ctx->timer_accumulator_ms = 0;
 
     if (dir == BUTTON_DIR_DOWN) {
-        ctx->current_page = (display_page_id_t)((ctx->current_page + 1) % DISP_PAGE_COUNT);
+        display_page_id_t next_page = (display_page_id_t)((ctx->current_page + 1) % DISP_PAGE_COUNT);
+        if (!ctx->alarm_icon_active && next_page == DISP_PAGE_TAMPER_ALARM) {
+            next_page = DISP_PAGE_IDPEL;
+        }
+        ctx->current_page = next_page;
     } else if (dir == BUTTON_DIR_UP) {
-        ctx->current_page = (ctx->current_page == 0) ? (display_page_id_t)(DISP_PAGE_COUNT - 1) 
-                                                     : (display_page_id_t)(ctx->current_page - 1);
+        display_page_id_t prev_page = (ctx->current_page == 0) ? (display_page_id_t)(DISP_PAGE_COUNT - 1) 
+                                                               : (display_page_id_t)(ctx->current_page - 1);
+        if (!ctx->alarm_icon_active && prev_page == DISP_PAGE_TAMPER_ALARM) {
+            prev_page = DISP_PAGE_ACTIVE_ENERGY;
+        }
+        ctx->current_page = prev_page;
     }
 }
 
@@ -78,19 +90,209 @@ void display_render_frame(const display_context_t *ctx, char *out_line1, char *o
             break;
         case DISP_PAGE_VOLTAGE_R:
             snprintf(out_line2, max_len, "VOLTAGE PHASE R");
-            snprintf(out_line3, max_len, "%u.%u V", ctx->meas_buffer.voltage_r_dvolts / 10, ctx->meas_buffer.voltage_r_dvolts % 10);
+            snprintf(out_line3, max_len, "%lu.%lu V", (unsigned long)(ctx->meas_buffer.voltage_r_dvolts / 10), (unsigned long)(ctx->meas_buffer.voltage_r_dvolts % 10));
+            break;
+        case DISP_PAGE_VOLTAGE_S:
+            snprintf(out_line2, max_len, "VOLTAGE PHASE S");
+            snprintf(out_line3, max_len, "%lu.%lu V", (unsigned long)(ctx->meas_buffer.voltage_s_dvolts / 10), (unsigned long)(ctx->meas_buffer.voltage_s_dvolts % 10));
+            break;
+        case DISP_PAGE_VOLTAGE_T:
+            snprintf(out_line2, max_len, "VOLTAGE PHASE T");
+            snprintf(out_line3, max_len, "%lu.%lu V", (unsigned long)(ctx->meas_buffer.voltage_t_dvolts / 10), (unsigned long)(ctx->meas_buffer.voltage_t_dvolts % 10));
             break;
         case DISP_PAGE_CURRENT_R:
             snprintf(out_line2, max_len, "CURRENT PHASE R");
-            snprintf(out_line3, max_len, "%u.%03u A", ctx->meas_buffer.current_r_mamps / 1000, ctx->meas_buffer.current_r_mamps % 1000);
+            snprintf(out_line3, max_len, "%lu.%03lu A", (unsigned long)(ctx->meas_buffer.current_r_mamps / 1000), (unsigned long)(ctx->meas_buffer.current_r_mamps % 1000));
+            break;
+        case DISP_PAGE_CURRENT_S:
+            snprintf(out_line2, max_len, "CURRENT PHASE S");
+            snprintf(out_line3, max_len, "%lu.%03lu A", (unsigned long)(ctx->meas_buffer.current_s_mamps / 1000), (unsigned long)(ctx->meas_buffer.current_s_mamps % 1000));
+            break;
+        case DISP_PAGE_CURRENT_T:
+            snprintf(out_line2, max_len, "CURRENT PHASE T");
+            snprintf(out_line3, max_len, "%lu.%03lu A", (unsigned long)(ctx->meas_buffer.current_t_mamps / 1000), (unsigned long)(ctx->meas_buffer.current_t_mamps % 1000));
+            break;
+        case DISP_PAGE_CURRENT_N:
+            snprintf(out_line2, max_len, "CURRENT NEUTRAL");
+            snprintf(out_line3, max_len, "%lu.%03lu A", (unsigned long)(ctx->meas_buffer.current_n_mamps / 1000), (unsigned long)(ctx->meas_buffer.current_n_mamps % 1000));
             break;
         case DISP_PAGE_ACTIVE_POWER:
             snprintf(out_line2, max_len, "ACTIVE POWER");
             snprintf(out_line3, max_len, "%.3f kW", ctx->meas_buffer.active_power_w / 1000.0);
+            break;
+        case DISP_PAGE_REACTIVE_POWER:
+            snprintf(out_line2, max_len, "REACTIVE POWER");
+            snprintf(out_line3, max_len, "%.3f kvar", ctx->meas_buffer.reactive_power_var / 1000.0);
+            break;
+        case DISP_PAGE_APPARENT_POWER:
+            snprintf(out_line2, max_len, "APPARENT POWER");
+            snprintf(out_line3, max_len, "%.3f kVA", ctx->meas_buffer.apparent_power_va / 1000.0);
+            break;
+        case DISP_PAGE_POWER_FACTOR:
+            snprintf(out_line2, max_len, "POWER FACTOR");
+            snprintf(out_line3, max_len, "%.3f", ctx->meas_buffer.power_factor_ppm / 1000.0);
+            break;
+        case DISP_PAGE_FREQUENCY:
+            snprintf(out_line2, max_len, "GRID FREQUENCY");
+            snprintf(out_line3, max_len, "%lu.%02lu Hz", (unsigned long)(ctx->meas_buffer.frequency_mhz / 1000), (unsigned long)((ctx->meas_buffer.frequency_mhz % 1000) / 10));
+            break;
+        case DISP_PAGE_ACTIVE_ENERGY:
+            snprintf(out_line2, max_len, "TOTAL ENERGY");
+            snprintf(out_line3, max_len, "%.4f kWh", (double)ctx->meas_buffer.active_energy_wh / 1000.0);
+            break;
+        case DISP_PAGE_TAMPER_ALARM:
+            snprintf(out_line2, max_len, "SABOTASE / TAMPER");
+            snprintf(out_line3, max_len, "ERR E01 CASE OPEN");
             break;
         default:
             snprintf(out_line2, max_len, "DISPLAY PAGE %d", ctx->current_page);
             snprintf(out_line3, max_len, "---");
             break;
     }
+}
+
+void display_render_spln_frame(const display_context_t *ctx, display_spln_frame_t *frame) {
+    if (ctx == NULL || frame == NULL) return;
+    memset(frame, 0, sizeof(display_spln_frame_t));
+
+    const char *obis_code = "00.00";
+    frame->is_large_font = true;
+    frame->is_alarm_active = ctx->alarm_icon_active;
+
+    if (ctx->alarm_icon_active) {
+        snprintf(frame->alarm_code, sizeof(frame->alarm_code), "!ALM");
+    } else {
+        snprintf(frame->alarm_code, sizeof(frame->alarm_code), "OK");
+    }
+
+    switch (ctx->current_page) {
+        case DISP_PAGE_IDPEL:
+            obis_code = "96.01";
+            snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "01");
+            snprintf(frame->main_value, sizeof(frame->main_value), "%s", ctx->customer_id);
+            frame->unit[0] = '\0';
+            frame->is_large_font = false; /* 12 digit IDPEL menggunakan Font 7x10 */
+            break;
+        case DISP_PAGE_VOLTAGE_R:
+            obis_code = "32.07";
+            snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "02");
+            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%lu",
+                     (unsigned long)(ctx->meas_buffer.voltage_r_dvolts / 10),
+                     (unsigned long)(ctx->meas_buffer.voltage_r_dvolts % 10));
+            snprintf(frame->unit, sizeof(frame->unit), "V");
+            break;
+        case DISP_PAGE_VOLTAGE_S:
+            obis_code = "52.07";
+            snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "03");
+            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%lu",
+                     (unsigned long)(ctx->meas_buffer.voltage_s_dvolts / 10),
+                     (unsigned long)(ctx->meas_buffer.voltage_s_dvolts % 10));
+            snprintf(frame->unit, sizeof(frame->unit), "V");
+            break;
+        case DISP_PAGE_VOLTAGE_T:
+            obis_code = "72.07";
+            snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "04");
+            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%lu",
+                     (unsigned long)(ctx->meas_buffer.voltage_t_dvolts / 10),
+                     (unsigned long)(ctx->meas_buffer.voltage_t_dvolts % 10));
+            snprintf(frame->unit, sizeof(frame->unit), "V");
+            break;
+        case DISP_PAGE_CURRENT_R:
+            obis_code = "31.07";
+            snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "05");
+            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%02lu",
+                     (unsigned long)(ctx->meas_buffer.current_r_mamps / 1000),
+                     (unsigned long)((ctx->meas_buffer.current_r_mamps % 1000) / 10));
+            snprintf(frame->unit, sizeof(frame->unit), "A");
+            break;
+        case DISP_PAGE_CURRENT_S:
+            obis_code = "51.07";
+            snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "06");
+            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%02lu",
+                     (unsigned long)(ctx->meas_buffer.current_s_mamps / 1000),
+                     (unsigned long)((ctx->meas_buffer.current_s_mamps % 1000) / 10));
+            snprintf(frame->unit, sizeof(frame->unit), "A");
+            break;
+        case DISP_PAGE_CURRENT_T:
+            obis_code = "71.07";
+            snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "07");
+            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%02lu",
+                     (unsigned long)(ctx->meas_buffer.current_t_mamps / 1000),
+                     (unsigned long)((ctx->meas_buffer.current_t_mamps % 1000) / 10));
+            snprintf(frame->unit, sizeof(frame->unit), "A");
+            break;
+        case DISP_PAGE_CURRENT_N:
+            obis_code = "91.07";
+            snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "08");
+            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%02lu",
+                     (unsigned long)(ctx->meas_buffer.current_n_mamps / 1000),
+                     (unsigned long)((ctx->meas_buffer.current_n_mamps % 1000) / 10));
+            snprintf(frame->unit, sizeof(frame->unit), "A");
+            break;
+        case DISP_PAGE_ACTIVE_POWER:
+            obis_code = "01.07";
+            snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "09");
+            snprintf(frame->main_value, sizeof(frame->main_value), "%.3f",
+                     (double)ctx->meas_buffer.active_power_w / 1000.0);
+            snprintf(frame->unit, sizeof(frame->unit), "kW");
+            break;
+        case DISP_PAGE_REACTIVE_POWER:
+            obis_code = "03.07";
+            snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "10");
+            snprintf(frame->main_value, sizeof(frame->main_value), "%.3f",
+                     (double)ctx->meas_buffer.reactive_power_var / 1000.0);
+            snprintf(frame->unit, sizeof(frame->unit), "kvar");
+            break;
+        case DISP_PAGE_APPARENT_POWER:
+            obis_code = "09.07";
+            snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "11");
+            snprintf(frame->main_value, sizeof(frame->main_value), "%.3f",
+                     (double)ctx->meas_buffer.apparent_power_va / 1000.0);
+            snprintf(frame->unit, sizeof(frame->unit), "kVA");
+            break;
+        case DISP_PAGE_POWER_FACTOR:
+            obis_code = "13.07";
+            snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "12");
+            snprintf(frame->main_value, sizeof(frame->main_value), "%.3f",
+                     (double)ctx->meas_buffer.power_factor_ppm / 1000.0);
+            snprintf(frame->unit, sizeof(frame->unit), "PF");
+            break;
+        case DISP_PAGE_FREQUENCY:
+            obis_code = "14.07";
+            snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "13");
+            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%02lu",
+                     (unsigned long)(ctx->meas_buffer.frequency_mhz / 1000),
+                     (unsigned long)((ctx->meas_buffer.frequency_mhz % 1000) / 10));
+            snprintf(frame->unit, sizeof(frame->unit), "Hz");
+            break;
+        case DISP_PAGE_ACTIVE_ENERGY:
+            obis_code = "01.08";
+            snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "14");
+            snprintf(frame->main_value, sizeof(frame->main_value), "%.2f",
+                     (double)ctx->meas_buffer.active_energy_wh / 1000.0);
+            snprintf(frame->unit, sizeof(frame->unit), "kWh");
+            break;
+        case DISP_PAGE_TAMPER_ALARM:
+            obis_code = "96.50";
+            snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "AL");
+            snprintf(frame->main_value, sizeof(frame->main_value), "SABOTASE");
+            snprintf(frame->unit, sizeof(frame->unit), "E01");
+            frame->is_large_font = false; /* 8 huruf "SABOTASE" menggunakan Font 7x10 */
+            break;
+        default:
+            obis_code = "00.00";
+            snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "--");
+            snprintf(frame->main_value, sizeof(frame->main_value), "---");
+            frame->unit[0] = '\0';
+            break;
+    }
+
+    /* Simpan obis_code untuk penataan pixel terpisah */
+    snprintf(frame->obis_code, sizeof(frame->obis_code), "%s", obis_code);
+
+    /* Format Baris 1: Simbol & Kode OBIS gabungan */
+    snprintf(frame->header_symbols, sizeof(frame->header_symbols),
+             "%s [B] L123 I123 %s",
+             frame->alarm_code,
+             obis_code);
 }
