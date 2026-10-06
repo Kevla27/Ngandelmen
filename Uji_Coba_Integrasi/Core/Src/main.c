@@ -99,11 +99,27 @@ int _write(int file, char *ptr, int len) {
     return len;
 }
 
+static void dlms_uart_tx_callback(const uint8_t *data, size_t len) {
+    HAL_UART_Transmit(&huart2, (uint8_t *)data, (uint16_t)len, 1000);
+}
+
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
     if (huart->Instance == USART2) {
         BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+        if (Size > 0 && xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED) {
+            rtos_dlms_task_notify_rx(g_uart_rx_dma_buf, Size);
+        }
         HAL_UARTEx_ReceiveToIdle_DMA(&huart2, g_uart_rx_dma_buf, UART_RX_BUF_SIZE);
-        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+        if (xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED) {
+            portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+        }
+    }
+}
+
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
+    if (huart->Instance == USART2) {
+        __HAL_UART_CLEAR_FLAG(huart, UART_CLEAR_OREF | UART_CLEAR_NEF | UART_CLEAR_PEF | UART_CLEAR_FEF);
+        HAL_UARTEx_ReceiveToIdle_DMA(&huart2, g_uart_rx_dma_buf, UART_RX_BUF_SIZE);
     }
 }
 
@@ -248,9 +264,6 @@ static void update_measurements_from_e1(meter_measurements_t *out_meas)
     static uint32_t s_simulated_energy_increment = 0;
     s_simulated_energy_increment += 4; /* ~4 Wh tiap iterasi 2 detik (~7 kW) */
     out_meas->active_energy_wh = 125430ULL + (uint64_t)e_total_wh + s_simulated_energy_increment;
-
-    /* Sinkronkan data pengukuran terbaru ke tabel register OBIS DLMS/COSEM (E2) */
-    dlms_obis_update_from_meter(out_meas);
 }
 
 static void task_oled128x32_carousel(void *pvParameters)
@@ -258,9 +271,6 @@ static void task_oled128x32_carousel(void *pvParameters)
     (void)pvParameters;
     display_context_t disp_ctx;
     display_init(&disp_ctx, "530000000001", 2000);
-
-    /* Inisialisasi Subsistem Metrologi E1 (ADE9000 & Mock Data) */
-    init_metrology_e1();
 
     meter_measurements_t meas;
     memset(&meas, 0, sizeof(meas));
@@ -290,9 +300,10 @@ static void task_oled128x32_carousel(void *pvParameters)
         }
 
         if (need_render) {
-            /* 1. Update data pengukuran dari register metrologi E1 & sinkron ke DLMS */
-            update_measurements_from_e1(&meas);
-            display_update_measurements(&disp_ctx, &meas);
+            /* 1. Ambil snapshot data pengukuran terbaru secara aman (Thread-Safe) */
+            if (rtos_meter_data_get_snapshot(&meas)) {
+                display_update_measurements(&disp_ctx, &meas);
+            }
             disp_ctx.alarm_icon_active = g_tamper_alarm_active;
             display_render_spln_frame(&disp_ctx, &spln_frame);
 
@@ -407,7 +418,15 @@ int main(void)
   ssd1306_UpdateScreen();
 
   /* 2. Inisialisasi Seluruh Subsystem E3, Queue, dan NVRAM Flash */
+  init_metrology_e1();
+  meter_measurements_t initial_meas;
+  memset(&initial_meas, 0, sizeof(initial_meas));
+  update_measurements_from_e1(&initial_meas);
+
   rtos_system_init();
+  rtos_meter_data_publish(&initial_meas);
+  rtos_metrology_set_sample_cb(update_measurements_from_e1);
+  rtos_dlms_task_set_tx_cb(dlms_uart_tx_callback);
 
   /* 3. Pembuatan Seluruh Task FreeRTOS */
   if (xTaskCreate(task_tamper_emergency_entry, "TamperTask", STACK_SIZE_TAMPER, NULL, PRIORITY_TASK_TAMPER, NULL) != pdPASS) {
@@ -473,12 +492,21 @@ static void MX_USART2_UART_Init(void)
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart2.Init.ClockPrescaler = UART_PRESCALER_DIV1;
+  huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
   huart2.Init.Mode = UART_MODE_TX_RX;
   
   if (HAL_UART_Init(&huart2) != HAL_OK)
   {
     Error_Handler();
   }
+
+  /* Aktifkan interupsi USART2 untuk mendeteksi event IDLE line saat frame DLMS selesai diterima */
+  HAL_NVIC_SetPriority(USART2_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(USART2_IRQn);
 
   HAL_UARTEx_ReceiveToIdle_DMA(&huart2, g_uart_rx_dma_buf, UART_RX_BUF_SIZE);
 }

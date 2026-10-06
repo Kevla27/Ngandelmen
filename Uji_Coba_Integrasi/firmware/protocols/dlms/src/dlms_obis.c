@@ -1,5 +1,12 @@
 #include "dlms_obis.h"
 
+#if defined(USE_FREERTOS)
+#include "rtos_tasks.h"
+#else
+static inline void rtos_meter_data_lock(void) {}
+static inline void rtos_meter_data_unlock(void) {}
+#endif
+
 /* 
  * Pangkalan Data Register OBIS (Dataset Read-Only Gate G0 Baseline)
  * Mengacu pada ICD & SRS Spesifikasi Antarmuka DLMS Smart Meter 3-Fasa
@@ -112,6 +119,7 @@ dlms_result_t dlms_obis_lookup(uint16_t class_id,
                                uint32_t *val_u32) {
     if (!obis || !data_type || !val_u32) return DLMS_ERR_NULL_PTR;
 
+    rtos_meter_data_lock();
     for (size_t i = 0; i < g_obis_db_count; i++) {
         if (g_obis_db[i].class_id == class_id &&
             g_obis_db[i].attribute_id == attribute_id &&
@@ -119,9 +127,11 @@ dlms_result_t dlms_obis_lookup(uint16_t class_id,
             
             *data_type = g_obis_db[i].data_type;
             *val_u32 = g_obis_db[i].value_u32;
+            rtos_meter_data_unlock();
             return DLMS_OK;
         }
     }
+    rtos_meter_data_unlock();
 
     /* Jika OBIS Code atau Attribute tidak terdaftar di Gate G0 */
     return DLMS_ERR_UNAUTHORIZED;

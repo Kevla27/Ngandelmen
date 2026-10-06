@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h> 
+#include <stdio.h>
 #include "main.h" // For memcpy
 
 #if defined(SSD1306_USE_I2C)
@@ -12,12 +13,12 @@ void ssd1306_Reset(void) {
 
 // Send a byte to the command register
 void ssd1306_WriteCommand(uint8_t byte) {
-    HAL_I2C_Mem_Write(&SSD1306_I2C_PORT, SSD1306_I2C_ADDR, 0x00, 1, &byte, 1, HAL_MAX_DELAY);
+    HAL_I2C_Mem_Write(&SSD1306_I2C_PORT, SSD1306_I2C_ADDR, 0x00, 1, &byte, 1, 25);
 }
 
 // Send data
 void ssd1306_WriteData(uint8_t* buffer, size_t buff_size) {
-    HAL_I2C_Mem_Write(&SSD1306_I2C_PORT, SSD1306_I2C_ADDR, 0x40, 1, buffer, buff_size, HAL_MAX_DELAY);
+    HAL_I2C_Mem_Write(&SSD1306_I2C_PORT, SSD1306_I2C_ADDR, 0x40, 1, buffer, buff_size, 100);
 }
 
 #elif defined(SSD1306_USE_SPI)
@@ -75,6 +76,15 @@ void ssd1306_Init(void) {
     if (SSD1306.Initialized) {
         return;
     }
+
+#if defined(SSD1306_USE_I2C)
+    // Cek apakah modul OLED merespons pada bus I2C
+    if (HAL_I2C_IsDeviceReady(&SSD1306_I2C_PORT, SSD1306_I2C_ADDR, 2, 25) != HAL_OK) {
+        printf("[WARN] SSD1306 OLED (I2C Addr: 0x%02X) TIDAK TERDETEKSI di I2C1 (PB8=SCL, PB9=SDA)!\r\n", SSD1306_I2C_ADDR >> 1);
+        printf("       Pastikan kabel OLED: VCC->3.3V, GND->GND, SCL->PB8, SDA->PB9.\r\n");
+        return;
+    }
+#endif
 
     // Reset OLED
     ssd1306_Reset();
@@ -183,6 +193,9 @@ void ssd1306_Fill(SSD1306_COLOR color) {
 
 /* Write the screenbuffer with changed to the screen */
 void ssd1306_UpdateScreen(void) {
+    if (!SSD1306.Initialized) {
+        return;
+    }
     // Write data to each page of RAM. Number of pages
     // depends on the screen height:
     //
