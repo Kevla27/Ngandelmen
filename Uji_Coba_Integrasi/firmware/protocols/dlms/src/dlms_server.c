@@ -113,11 +113,22 @@ dlms_result_t dlms_server_process_bytes(dlms_server_t *server,
                     uint8_t data_type = 0;
                     uint32_t val_u32 = 0;
 
-                    /* Pembacaan Tamper Event Log (Class 7 Profile Generic) */
-                    if (req.class_id == 7 && req.obis.c == 99 && req.obis.d == 98) {
-                        uint8_t log_axdr[256];
-                        size_t log_axdr_len = dlms_tamper_log_encode_axdr(&server->tamper_log, log_axdr, sizeof(log_axdr));
-                        apdu_out_len = dlms_encode_get_response(apdu_out, sizeof(apdu_out), req.invoke_id, DLMS_DATA_TYPE_OCTET_STRING, log_axdr, log_axdr_len);
+                    /* Pembacaan Tamper Event Log (Class 7 Profile Generic: 0.0.99.98.0.255) */
+                    if (req.class_id == 7 && req.obis.c == 99 && req.obis.d == 98 && req.obis.e == 0) {
+                        if (req.attribute_id == 2) {
+                            /* Atribut 2: Buffer (Array / Octet String rekaman sirkular) */
+                            uint8_t log_axdr[256];
+                            size_t log_axdr_len = dlms_tamper_log_encode_axdr(&server->tamper_log, log_axdr, sizeof(log_axdr));
+                            apdu_out_len = dlms_encode_get_response(apdu_out, sizeof(apdu_out), req.invoke_id, DLMS_DATA_TYPE_OCTET_STRING, log_axdr, log_axdr_len);
+                        } else if (req.attribute_id == 7) {
+                            /* Atribut 7: entries_in_use (jumlah rekaman aktif saat ini) */
+                            uint32_t count = (uint32_t)server->tamper_log.entries_in_use;
+                            apdu_out_len = dlms_encode_get_response(apdu_out, sizeof(apdu_out), req.invoke_id, DLMS_DATA_TYPE_DOUBLE_LONG_UNSIGNED, &count, sizeof(count));
+                        } else if (req.attribute_id == 8) {
+                            /* Atribut 8: profile_entries (kapasitas maksimal buffer) */
+                            uint32_t max_entries = (uint32_t)DLMS_TAMPER_LOG_MAX_ENTRIES;
+                            apdu_out_len = dlms_encode_get_response(apdu_out, sizeof(apdu_out), req.invoke_id, DLMS_DATA_TYPE_DOUBLE_LONG_UNSIGNED, &max_entries, sizeof(max_entries));
+                        }
                     } else {
                         /* Pembacaan Register OBIS Standar */
                         if (dlms_obis_lookup(req.class_id, &req.obis, req.attribute_id, &data_type, &val_u32) == DLMS_OK) {

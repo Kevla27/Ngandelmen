@@ -67,3 +67,44 @@ void tamper_get_log_entries(const tamper_context_t *ctx, tamper_event_entry_t *o
 bool tamper_is_alarm_pending(const tamper_context_t *ctx) {
     return (ctx != NULL) && ((ctx->active_tamper_mask != 0) || ctx->alarm_relay_trigger);
 }
+
+dlms_tamper_code_t tamper_vector_to_dlms_code(tamper_vector_t vector) {
+    if (vector & TAMPER_VECTOR_CASE_OPEN) return DLMS_TAMPER_METER_COVER_OPEN;
+    if (vector & TAMPER_VECTOR_TERMINAL_OPEN) return DLMS_TAMPER_TERMINAL_COVER_OPEN;
+    if (vector & TAMPER_VECTOR_MAGNETIC_FIELD) return DLMS_TAMPER_MAGNETIC_INDUCTION;
+    if (vector & TAMPER_VECTOR_REVERSE_POWER) return DLMS_TAMPER_REVERSE_CURRENT;
+    if (vector & TAMPER_VECTOR_NEUTRAL_BYPASS) return DLMS_TAMPER_MISSING_NEUTRAL;
+    return DLMS_TAMPER_NONE;
+}
+
+tamper_vector_t dlms_code_to_tamper_vector(dlms_tamper_code_t code) {
+    switch (code) {
+        case DLMS_TAMPER_METER_COVER_OPEN: return TAMPER_VECTOR_CASE_OPEN;
+        case DLMS_TAMPER_TERMINAL_COVER_OPEN: return TAMPER_VECTOR_TERMINAL_OPEN;
+        case DLMS_TAMPER_MAGNETIC_INDUCTION: return TAMPER_VECTOR_MAGNETIC_FIELD;
+        case DLMS_TAMPER_REVERSE_CURRENT: return TAMPER_VECTOR_REVERSE_POWER;
+        case DLMS_TAMPER_MISSING_NEUTRAL: return TAMPER_VECTOR_NEUTRAL_BYPASS;
+        default: return (tamper_vector_t)0;
+    }
+}
+
+#include "rtos_tasks.h"
+#include "display_task.h"
+
+void tamper_handle_button_press_isr(uint32_t timestamp_ms) {
+    static uint32_t s_last_btn_tick = 0;
+    if (timestamp_ms - s_last_btn_tick > 250) {
+        s_last_btn_tick = timestamp_ms;
+        static bool s_alarm_active = false;
+        s_alarm_active = !s_alarm_active;
+
+        display_task_trigger_instant_refresh(s_alarm_active);
+
+        tamper_event_msg_t msg = {
+            .timestamp = timestamp_ms / 1000,
+            .tamper_code = (uint8_t)DLMS_TAMPER_METER_COVER_OPEN,
+            .is_active = s_alarm_active
+        };
+        rtos_queue_send_tamper_event_from_isr(&msg);
+    }
+}

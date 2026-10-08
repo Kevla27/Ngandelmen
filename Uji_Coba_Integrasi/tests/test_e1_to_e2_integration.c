@@ -189,8 +189,28 @@ int main(void) {
     printf("       -> Respon DLMS: %u (Skala 0.01 kWh -> %.2f kWh) [PASS]\n", val_e, val_e / 100.0f);
     assert(val_e == 12543); /* 125.43 kWh sinkron dengan E1 & Layar OLED! */
 
-    /* 4F. Transaksi DISC (Pelepasan Sesi) */
-    printf("  [4F] Mengirim Frame HDLC DISC (Disconnect)...\n");
+    /* 4F. Injeksi Event Sabotase (Tamper) & GET-Request Tamper Event Log (0.0.99.98.0.255) */
+    printf("  [4F] Injeksi Event Tamper & GET-Request OBIS 0.0.99.98.0.255 (Tamper Log Profile)...\n");
+    assert(dlms_tamper_log_add_event(&server.tamper_log, 1700008888, DLMS_TAMPER_METER_COVER_OPEN, 1) == DLMS_OK);
+    dlms_obis_increment_tamper_counter(DLMS_TAMPER_METER_COVER_OPEN);
+
+    uint8_t get_tamper_apdu[] = {
+        0xC0, 0x01, 0x84, 0x00, 0x07, 0, 0, 99, 98, 0, 255, 0x02
+    };
+    size_t get_t_len = dlms_hdlc_encode_frame(HDLC_CTRL_I, DLMS_SERVER_SAP_MANAGEMENT, DLMS_CLIENT_SAP_PUBLIC, get_tamper_apdu, sizeof(get_tamper_apdu), get_v_hdlc, sizeof(get_v_hdlc));
+    assert(dlms_server_process_bytes(&server, get_v_hdlc, get_t_len, tx_buf, sizeof(tx_buf), &tx_len) == DLMS_OK);
+    assert(dlms_hdlc_decode_frame(tx_buf, tx_len, &res_ctrl, &res_dest, &res_src, res_apdu, &res_apdu_len) == DLMS_OK);
+    assert(res_apdu[0] == DLMS_TAG_GET_RESPONSE);
+    assert(res_apdu[4] == DLMS_DATA_TYPE_OCTET_STRING);
+    assert(res_apdu[5] == 1); /* 1 Record */
+    uint32_t t_ts = ((uint32_t)res_apdu[6] << 24) | ((uint32_t)res_apdu[7] << 16) | ((uint32_t)res_apdu[8] << 8) | (uint32_t)res_apdu[9];
+    assert(t_ts == 1700008888);
+    assert(res_apdu[10] == DLMS_TAMPER_METER_COVER_OPEN);
+    assert(res_apdu[11] == 1);
+    printf("       -> Respon DLMS: Log Tamper Berhasil Dibaca (Time: %u, Code: 0x%02X, Status: %d) [PASS]\n", t_ts, res_apdu[10], res_apdu[11]);
+
+    /* 4G. Transaksi DISC (Pelepasan Sesi) */
+    printf("  [4G] Mengirim Frame HDLC DISC (Disconnect)...\n");
     uint8_t disc_frame[128];
     size_t disc_len = dlms_hdlc_encode_frame(HDLC_CTRL_DISC, DLMS_SERVER_SAP_MANAGEMENT, DLMS_CLIENT_SAP_PUBLIC, NULL, 0, disc_frame, sizeof(disc_frame));
     assert(dlms_server_process_bytes(&server, disc_frame, disc_len, tx_buf, sizeof(tx_buf), &tx_len) == DLMS_OK);

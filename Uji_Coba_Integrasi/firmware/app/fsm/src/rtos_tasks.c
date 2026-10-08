@@ -9,6 +9,7 @@
 #include "nvram_storage.h"
 #include "dlms_task.h"
 #include "dlms_obis.h"
+#include "display_task.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -36,6 +37,8 @@ static size_t q_count = 0;
 static tamper_context_t g_tamper_ctx;
 static load_profile_ctx_t g_load_profile_buf;
 static display_context_t g_display_ctx;
+static dlms_task_ctx_t s_dlms_task_ctx;
+static dlms_uart_tx_fn_t s_dlms_uart_tx_cb = NULL;
 
 /* Thread-safe Measurement Buffer & Callback */
 static meter_measurements_t s_latest_measurements;
@@ -60,6 +63,9 @@ void rtos_system_init(void) {
 
     /* 3. Memuat Snapshot NVRAM Terakhir dari Flash */
     nvram_load_tamper_log_snapshot(&g_tamper_ctx);
+
+    /* 4. Inisialisasi Stack DLMS Task & Tamper Log */
+    dlms_task_init(&s_dlms_task_ctx, s_dlms_uart_tx_cb);
 
     printf("[RTOS] All E3 Firmware Subsystems, Queues, Mutexes & NVRAM Initialized Successfully!\n");
 }
@@ -177,17 +183,16 @@ void rtos_meter_data_unlock(void) {
 /*                             TASK ENTRY POINTS                              */
 /* ========================================================================== */
 
-extern volatile bool g_tamper_alarm_active;
-
 void task_tamper_emergency_entry(void *pvParameters) {
     (void)pvParameters;
     /* Task Darurat Sabotase (Priority 4 - High) */
     printf("[TAMPER] Task started. Menunggu event sabotase...\r\n");
     bool last_alarm_state = false;
     for (;;) {
-        if (g_tamper_alarm_active != last_alarm_state) {
-            last_alarm_state = g_tamper_alarm_active;
-            if (g_tamper_alarm_active) {
+        bool current_alarm = display_task_is_alarm_active();
+        if (current_alarm != last_alarm_state) {
+            last_alarm_state = current_alarm;
+            if (current_alarm) {
                 printf("[TAMPER] *** DARURAT! SABOTASE TERDETEKSI (CASE OPEN) ***\r\n");
             } else {
                 printf("[TAMPER] Sabotase dipulihkan. Sistem kembali normal.\r\n");
@@ -239,9 +244,6 @@ void task_metrology_profiling_entry(void *pvParameters) {
     }
 }
 
-static dlms_task_ctx_t s_dlms_task_ctx;
-static dlms_uart_tx_fn_t s_dlms_uart_tx_cb = NULL;
-
 void rtos_dlms_task_set_tx_cb(dlms_uart_tx_fn_t tx_cb) {
     s_dlms_uart_tx_cb = tx_cb;
 }
@@ -250,12 +252,49 @@ void rtos_dlms_task_notify_rx(const uint8_t *data, size_t len) {
     dlms_task_notify_rx(&s_dlms_task_ctx, data, len);
 }
 
+void rtos_dlms_process_tamper_event(const tamper_event_msg_t *msg) {
+    if (!msg) return;
+
+    dlms_tamper_code_t dcode = (dlms_tamper_code_t)msg->tamper_code;
+    uint8_t status = msg->is_active ? 1 : 0;
+
+    /* 1. Tambahkan ke DLMS Tamper Log Profile Generic (0.0.99.98.0.255) */
+    dlms_tamper_log_add_event(&s_dlms_task_ctx.server.tamper_log,
+                              msg->timestamp,
+                              dcode,
+                              status);
+
+    /* 2. Update akumulasi register OBIS Tamper Counter */
+    if (msg->is_active) {
+        dlms_obis_increment_tamper_counter(dcode);
+    }
+
+    /* 3. Update status tamper context E3 & rekam snapshot ke Flash NVRAM */
+    tamper_vector_t vec = dlms_code_to_tamper_vector(dcode);
+    tamper_process_signal(&g_tamper_ctx, vec, msg->is_active, msg->timestamp);
+    nvram_save_tamper_log_snapshot(&g_tamper_ctx);
+
+    printf("[DLMS] Tamper Event dicatat! Code: 0x%02X, Status: %d, Time: %lu s (Total Log: %u)\r\n",
+           msg->tamper_code, status, (unsigned long)msg->timestamp,
+           (unsigned int)s_dlms_task_ctx.server.tamper_log.total_events);
+}
+
+dlms_task_ctx_t* rtos_dlms_get_task_ctx(void) {
+    return &s_dlms_task_ctx;
+}
+
+tamper_context_t* rtos_tamper_get_ctx(void) {
+    return &g_tamper_ctx;
+}
+
 void task_dlms_entry(void *pvParameters) {
     (void)pvParameters;
     /* Task Protokol DLMS/COSEM (Priority 2 - Normal) */
     printf("[DLMS] Task started. Server DLMS/COSEM HDLC Active!\r\n");
 
-    dlms_task_init(&s_dlms_task_ctx, s_dlms_uart_tx_cb);
+    if (!s_dlms_task_ctx.is_running) {
+        dlms_task_init(&s_dlms_task_ctx, s_dlms_uart_tx_cb);
+    }
 
     tamper_event_msg_t event_msg;
 
@@ -265,12 +304,7 @@ void task_dlms_entry(void *pvParameters) {
 
         /* 2. Tangani event sabotase dari Queue dan catat ke Log DLMS */
         if (rtos_queue_receive_tamper_event(&event_msg, 0)) {
-            dlms_tamper_log_add_event(&s_dlms_task_ctx.server.tamper_log,
-                                      event_msg.timestamp,
-                                      (dlms_tamper_code_t)event_msg.tamper_code,
-                                      event_msg.is_active ? 1 : 0);
-            printf("[DLMS] Tamper Alert Diterima! Code: 0x%02X, Time: %lu detik.\r\n",
-                   event_msg.tamper_code, (unsigned long)event_msg.timestamp);
+            rtos_dlms_process_tamper_event(&event_msg);
         }
 
         vTaskDelay(pdMS_TO_TICKS(10));
@@ -279,8 +313,34 @@ void task_dlms_entry(void *pvParameters) {
 
 void task_ui_display_entry(void *pvParameters) {
     (void)pvParameters;
-    /* Diimplementasikan oleh task_oled128x32_carousel di Core/Src/main.c */
+    /* Diimplementasikan oleh task_oled128x32_carousel di display_task.c */
     for (;;) {
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
+
+bool rtos_start_all_tasks(void) {
+#if defined(EMBEDDED_HARDWARE_TARGET) || defined(USE_FREERTOS)
+    BaseType_t res = pdPASS;
+    if (xTaskCreate(task_tamper_emergency_entry, "TamperTask", STACK_SIZE_TAMPER, NULL, PRIORITY_TASK_TAMPER, NULL) != pdPASS) {
+        printf("[ERROR] Gagal membuat TamperTask!\r\n");
+        res = pdFAIL;
+    }
+    if (xTaskCreate(task_metrology_profiling_entry, "ProfileTask", STACK_SIZE_PROFILING, NULL, PRIORITY_TASK_PROFILING, NULL) != pdPASS) {
+        printf("[ERROR] Gagal membuat ProfileTask!\r\n");
+        res = pdFAIL;
+    }
+    if (xTaskCreate(task_dlms_entry, "DLMSTask", STACK_SIZE_DLMS, NULL, PRIORITY_TASK_DLMS, NULL) != pdPASS) {
+        printf("[ERROR] Gagal membuat DLMSTask!\r\n");
+        res = pdFAIL;
+    }
+    if (xTaskCreate(task_oled128x32_carousel, "OLEDTask", STACK_SIZE_UI, NULL, PRIORITY_TASK_UI, NULL) != pdPASS) {
+        printf("[ERROR] Gagal membuat OLEDTask!\r\n");
+        res = pdFAIL;
+    }
+    return (res == pdPASS);
+#else
+    return true;
+#endif
+}
+

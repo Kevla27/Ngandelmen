@@ -80,6 +80,8 @@ static obis_entry_t g_obis_db[] = {
     /* ----------------------------------------------------------------------------------- */
     /* Penghitung Kejadian Tamper Total (0.0.96.20.0.255) -> 3 Kali */
     {1, {0, 0, 96, 20, 0, 255}, 2, DLMS_DATA_TYPE_LONG_UNSIGNED, 3},
+    /* Akumulasi Tutup Meter Dibuka / Meter Cover Open (0.0.96.20.1.255) -> 0 Kali */
+    {1, {0, 0, 96, 20, 1, 255}, 2, DLMS_DATA_TYPE_LONG_UNSIGNED, 0},
     /* Akumulasi Tutup Terminal Dibuka / Terminal Cover Open (0.0.96.20.5.255) -> 1 Kali */
     {1, {0, 0, 96, 20, 5, 255}, 2, DLMS_DATA_TYPE_LONG_UNSIGNED, 1},
     /* Akumulasi Hilang Netral / Missing Neutral (0.0.96.20.24.255) -> 0 Kali */
@@ -184,4 +186,98 @@ void dlms_obis_update_from_meter(const meter_measurements_t *meas) {
             }
         }
     }
+}
+
+void dlms_obis_increment_tamper_counter(dlms_tamper_code_t code) {
+    rtos_meter_data_lock();
+    for (size_t i = 0; i < g_obis_db_count; i++) {
+        obis_entry_t *entry = &g_obis_db[i];
+        if (entry->class_id == 1 && entry->attribute_id == 2 &&
+            entry->obis.a == 0 && entry->obis.b == 0 && entry->obis.c == 96 && entry->obis.d == 20) {
+            
+            /* Total Tamper Events (0.0.96.20.0.255) */
+            if (entry->obis.e == 0) {
+                entry->value_u32++;
+            }
+            /* Meter Cover Open (0.0.96.20.1.255) */
+            else if (code == DLMS_TAMPER_METER_COVER_OPEN && entry->obis.e == 1) {
+                entry->value_u32++;
+            }
+            /* Terminal Cover Open (0.0.96.20.5.255) */
+            else if (code == DLMS_TAMPER_TERMINAL_COVER_OPEN && entry->obis.e == 5) {
+                entry->value_u32++;
+            }
+            /* Magnetic Field (0.0.96.20.26.255) */
+            else if (code == DLMS_TAMPER_MAGNETIC_INDUCTION && entry->obis.e == 26) {
+                entry->value_u32++;
+            }
+            /* Reverse Current (0.0.96.20.27.255) */
+            else if (code == DLMS_TAMPER_REVERSE_CURRENT && entry->obis.e == 27) {
+                entry->value_u32++;
+            }
+            /* Missing Neutral (0.0.96.20.24.255) */
+            else if (code == DLMS_TAMPER_MISSING_NEUTRAL && entry->obis.e == 24) {
+                entry->value_u32++;
+            }
+        }
+    }
+    rtos_meter_data_unlock();
+}
+
+void dlms_obis_set_tamper_counter(dlms_tamper_code_t code, uint32_t count) {
+    rtos_meter_data_lock();
+    for (size_t i = 0; i < g_obis_db_count; i++) {
+        obis_entry_t *entry = &g_obis_db[i];
+        if (entry->class_id == 1 && entry->attribute_id == 2 &&
+            entry->obis.a == 0 && entry->obis.b == 0 && entry->obis.c == 96 && entry->obis.d == 20) {
+            
+            if (code == DLMS_TAMPER_NONE && entry->obis.e == 0) {
+                entry->value_u32 = count;
+            } else if (code == DLMS_TAMPER_METER_COVER_OPEN && entry->obis.e == 1) {
+                entry->value_u32 = count;
+            } else if (code == DLMS_TAMPER_TERMINAL_COVER_OPEN && entry->obis.e == 5) {
+                entry->value_u32 = count;
+            } else if (code == DLMS_TAMPER_MAGNETIC_INDUCTION && entry->obis.e == 26) {
+                entry->value_u32 = count;
+            } else if (code == DLMS_TAMPER_REVERSE_CURRENT && entry->obis.e == 27) {
+                entry->value_u32 = count;
+            } else if (code == DLMS_TAMPER_MISSING_NEUTRAL && entry->obis.e == 24) {
+                entry->value_u32 = count;
+            }
+        }
+    }
+    rtos_meter_data_unlock();
+}
+
+uint32_t dlms_obis_get_tamper_counter(dlms_tamper_code_t code) {
+    uint32_t val = 0;
+    rtos_meter_data_lock();
+    for (size_t i = 0; i < g_obis_db_count; i++) {
+        const obis_entry_t *entry = &g_obis_db[i];
+        if (entry->class_id == 1 && entry->attribute_id == 2 &&
+            entry->obis.a == 0 && entry->obis.b == 0 && entry->obis.c == 96 && entry->obis.d == 20) {
+            
+            if (code == DLMS_TAMPER_NONE && entry->obis.e == 0) {
+                val = entry->value_u32;
+                break;
+            } else if (code == DLMS_TAMPER_METER_COVER_OPEN && entry->obis.e == 1) {
+                val = entry->value_u32;
+                break;
+            } else if (code == DLMS_TAMPER_TERMINAL_COVER_OPEN && entry->obis.e == 5) {
+                val = entry->value_u32;
+                break;
+            } else if (code == DLMS_TAMPER_MAGNETIC_INDUCTION && entry->obis.e == 26) {
+                val = entry->value_u32;
+                break;
+            } else if (code == DLMS_TAMPER_REVERSE_CURRENT && entry->obis.e == 27) {
+                val = entry->value_u32;
+                break;
+            } else if (code == DLMS_TAMPER_MISSING_NEUTRAL && entry->obis.e == 24) {
+                val = entry->value_u32;
+                break;
+            }
+        }
+    }
+    rtos_meter_data_unlock();
+    return val;
 }

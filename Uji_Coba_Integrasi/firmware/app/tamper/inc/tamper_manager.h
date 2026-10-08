@@ -13,6 +13,7 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include "dlms_tamper_log.h"
 
 #define TAMPER_LOG_MAX_ENTRIES  30
 
@@ -49,6 +50,18 @@ bool tamper_process_signal(tamper_context_t *ctx, tamper_vector_t vector, bool i
 uint32_t tamper_get_active_mask(const tamper_context_t *ctx);
 void tamper_get_log_entries(const tamper_context_t *ctx, tamper_event_entry_t *out_buffer, size_t max_records, size_t *out_count);
 bool tamper_is_alarm_pending(const tamper_context_t *ctx);
+
+/**
+ * @brief Konversi antara Tamper Vector E3 dan DLMS Tamper Code SPLN D3.006
+ */
+dlms_tamper_code_t tamper_vector_to_dlms_code(tamper_vector_t vector);
+tamper_vector_t dlms_code_to_tamper_vector(dlms_tamper_code_t code);
+
+/**
+ * @brief Handler interupsi hardware penekanan tombol sabotase PC13 (Debounced & RTOS Queue)
+ * @param timestamp_ms Waktu tick saat interupsi terjadi (HAL_GetTick)
+ */
+void tamper_handle_button_press_isr(uint32_t timestamp_ms);
 
 #ifdef __cplusplus
 }

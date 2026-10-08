@@ -11,6 +11,8 @@ extern "C" {
 #include <stdbool.h>
 #include <stddef.h>
 #include "display.h"
+#include "tamper_manager.h"
+#include "dlms_task.h"
 
 /* Prioritas Task FreeRTOS */
 #define PRIORITY_TASK_TAMPER 4
@@ -98,6 +100,12 @@ void task_dlms_entry(void *pvParameters);
 void task_ui_display_entry(void *pvParameters);
 
 /**
+ * @brief Membuat dan meluncurkan seluruh 4 Task FreeRTOS aplikasi
+ * @return true jika semua task berhasil dibuat, false jika gagal
+ */
+bool rtos_start_all_tasks(void);
+
+/**
 * @brief Callback pengiriman byte UART dari DLMS Task
 */
 typedef void (*dlms_uart_tx_fn_t)(const uint8_t *data, size_t len);
@@ -111,6 +119,21 @@ void rtos_dlms_task_set_tx_cb(dlms_uart_tx_fn_t tx_cb);
 * @brief Mengirim byte data masuk dari UART RX ISR ke ring buffer DLMS Task
 */
 void rtos_dlms_task_notify_rx(const uint8_t *data, size_t len);
+
+/**
+* @brief Memproses pesan event sabotase secara langsung ke DLMS Log dan tabel OBIS
+*/
+void rtos_dlms_process_tamper_event(const tamper_event_msg_t *msg);
+
+/**
+* @brief Mengambil pointer konteks DLMS Task aktif
+*/
+dlms_task_ctx_t* rtos_dlms_get_task_ctx(void);
+
+/**
+* @brief Mengambil pointer konteks Tamper aktif
+*/
+tamper_context_t* rtos_tamper_get_ctx(void);
 
 #ifdef __cplusplus
 }

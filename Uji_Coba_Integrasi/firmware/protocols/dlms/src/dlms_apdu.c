@@ -72,6 +72,27 @@ size_t dlms_encode_get_response(uint8_t *buffer, size_t max_len, uint8_t invoke_
         uint16_t val = (uint16_t)(*(const uint32_t *)val_ptr);
         buffer[offset++] = (uint8_t)((val >> 8) & 0xFF);
         buffer[offset++] = (uint8_t)(val & 0xFF);
+    } else if (data_type == DLMS_DATA_TYPE_OCTET_STRING) {
+        if (!val_ptr || val_len == 0) return 0;
+        const uint8_t *p = (const uint8_t *)val_ptr;
+        /* Jika val_ptr sudah merupakan data A-XDR terformat (diawali tag 0x09) */
+        if (p[0] == DLMS_DATA_TYPE_OCTET_STRING) {
+            if (max_len < 4 + val_len) return 0;
+            memcpy(&buffer[4], val_ptr, val_len);
+            return 4 + val_len;
+        } else {
+            /* Raw octet string payload: tulis tag (sudah ada di buffer[4]), panjang A-XDR, lalu isi */
+            if (val_len < 128) {
+                if (max_len < offset + 1 + val_len) return 0;
+                buffer[offset++] = (uint8_t)val_len;
+            } else {
+                if (max_len < offset + 2 + val_len) return 0;
+                buffer[offset++] = 0x81;
+                buffer[offset++] = (uint8_t)val_len;
+            }
+            memcpy(&buffer[offset], val_ptr, val_len);
+            offset += val_len;
+        }
     }
 
     return offset;
