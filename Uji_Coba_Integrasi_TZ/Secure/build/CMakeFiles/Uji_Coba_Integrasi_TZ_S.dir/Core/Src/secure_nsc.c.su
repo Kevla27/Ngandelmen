@@ -1,1 +1,6 @@
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/Core/Src/secure_nsc.c:51:24:SECURE_RegisterCallback	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/Core/Src/secure_nsc.c:56:20:SECURE_RegisterCallback	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/Core/Src/secure_nsc.c:82:6:Secure_TriggerTamperCallback	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/Core/Src/secure_nsc.c:95:20:Secure_AddEnergyWh	48	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/Core/Src/secure_nsc.c:105:20:Secure_AddEnergyMilliWh	32	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/Core/Src/secure_nsc.c:114:24:Secure_GetTotalEnergyWh	8	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/Core/Src/secure_nsc.c:123:24:Secure_GetTotalEnergyMilliWh	4	static

@@ -11,6 +11,10 @@
 #include <string.h>
 #include <math.h>
 
+#if defined(__arm__)
+#include "secure_nsc.h"
+#endif
+
 void metrology_adapter_init(void)
 {
     /* 1. Inisialisasi Mock Device ADE9000 & SPI Abstraction Layer E1 */
@@ -119,9 +123,16 @@ void metrology_adapter_sample(meter_measurements_t *out_meas)
 
     out_meas->frequency_mhz    = (uint16_t)(freq * 1000.0f);
 
-    /* Simulasi akumulasi energi aktif yang terus bertambah seiring berjalannya meter */
+    /* Akumulasi energi aktif secara aman ke sisi Secure World (Anti-Tamper & Anti-Rollback Pascabayar) */
+#if defined(__arm__)
+    (void)e_total_wh;
+    Secure_AddEnergyWh(4); /* ~4 Wh tiap iterasi sampling (~7 kW) */
+    out_meas->active_energy_wh = Secure_GetTotalEnergyWh();
+#else
+    /* Simulasi akumulasi energi aktif yang terus bertambah seiring berjalannya meter (Host Tests) */
     static uint32_t s_simulated_energy_increment = 0;
     s_simulated_energy_increment += 4; /* ~4 Wh tiap iterasi 2 detik (~7 kW) */
     out_meas->active_energy_wh = 125430ULL + (uint64_t)e_total_wh + s_simulated_energy_increment;
+#endif
 }
 

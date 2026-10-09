@@ -79,6 +79,12 @@ if((CMAKE_C_STANDARD EQUAL 90) OR (CMAKE_C_STANDARD EQUAL 99))
     message(ERROR "Generated code requires C11 or higher")
 endif()
 
+# Generate physical Flash HEX file (converting Secure 0x0C000000 to physical 0x08000000 for DFU programmer)
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O ihex --change-addresses -0x04000000 $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.hex
+    COMMENT "Generating physical flash HEX file for Secure World (${CMAKE_PROJECT_NAME}.hex)"
+)
+
 
 
 

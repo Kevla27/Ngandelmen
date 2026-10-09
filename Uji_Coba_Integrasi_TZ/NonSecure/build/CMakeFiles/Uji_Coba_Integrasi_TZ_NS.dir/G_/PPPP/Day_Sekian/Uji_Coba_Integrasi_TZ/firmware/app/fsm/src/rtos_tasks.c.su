@@ -1,13 +1,12 @@
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:28:20:vTaskDelay	16	static
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:48:6:rtos_system_init	8	static
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:72:6:rtos_queue_send_tamper_event	16	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:86:6:rtos_queue_send_tamper_event_from_isr	16	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:99:6:rtos_queue_receive_tamper_event	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:86:6:rtos_queue_send_tamper_event_from_isr	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:99:6:rtos_queue_receive_tamper_event	48	static
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:120:6:rtos_metrology_set_sample_cb	16	static
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:124:6:rtos_meter_data_publish	24	static
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:146:6:rtos_meter_data_get_snapshot	24	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:166:6:rtos_meter_data_lock	4	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:174:6:rtos_meter_data_unlock	4	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:166:6:rtos_meter_data_lock	8	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:174:6:rtos_meter_data_unlock	8	static
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:186:6:task_tamper_emergency_entry	24	static
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:205:6:task_metrology_profiling_entry	160	static
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:247:6:rtos_dlms_task_set_tx_cb	16	static
@@ -17,4 +16,4 @@ G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:282:1
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:286:19:rtos_tamper_get_ctx	4	static
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:290:6:task_dlms_entry	24	static
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:314:6:task_ui_display_entry	16	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:322:6:rtos_start_all_tasks	4	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c:322:6:rtos_start_all_tasks	24	static

@@ -1,4 +1,4 @@
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/profiling/src/nvram_storage.c:13:6:nvram_write_load_profile_entry	16	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/profiling/src/nvram_storage.c:26:6:nvram_read_load_profile_entry	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/profiling/src/nvram_storage.c:13:6:nvram_write_load_profile_entry	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/profiling/src/nvram_storage.c:26:6:nvram_read_load_profile_entry	24	static
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/profiling/src/nvram_storage.c:40:6:nvram_save_tamper_log_snapshot	16	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/profiling/src/nvram_storage.c:51:6:nvram_load_tamper_log_snapshot	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/profiling/src/nvram_storage.c:51:6:nvram_load_tamper_log_snapshot	24	static

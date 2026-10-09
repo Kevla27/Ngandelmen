@@ -1,4 +1,4 @@
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/SPI/SPI.c:15:6:ADE9000_SPI_Init	8	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/SPI/SPI.c:15:6:ADE9000_SPI_Init	4	static
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/SPI/SPI.c:38:10:ADE9000_SPI_BuildCommand	24	static
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/SPI/SPI.c:76:17:CRC16_CCITT_Update	24	static
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/SPI/SPI.c:99:10:ADE9000_SPI_CalculateCRC16	24	static

@@ -36,7 +36,7 @@ rule C_COMPILER__Uji_Coba_Integrasi_TZ_S_unscanned_Debug
 
 rule C_EXECUTABLE_LINKER__Uji_Coba_Integrasi_TZ_S_Debug
   command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && G:\STM32CubeCLT_1.22.0\GNU-tools-for-STM32\bin\arm-none-eabi-gcc.exe $FLAGS $LINK_FLAGS $in -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
-  description = Linking C executable $TARGET_FILE
+  description = Linking C executable $TARGET_FILE; Generating physical flash HEX file for Secure World (Uji_Coba_Integrasi_TZ_S.hex)
   restat = $RESTAT
 
 

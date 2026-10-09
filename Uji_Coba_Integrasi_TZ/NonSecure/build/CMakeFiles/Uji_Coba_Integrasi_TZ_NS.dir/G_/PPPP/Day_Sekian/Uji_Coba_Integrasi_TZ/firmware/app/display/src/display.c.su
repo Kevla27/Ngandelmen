@@ -6,5 +6,5 @@ G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c:79:6
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c:85:6:display_set_internal_alarm	16	static
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c:91:6:display_get_spln_tamper_info	24	static
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c:138:6:display_get_spln_alarm_info	24	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c:166:6:display_render_frame	64	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c:253:6:display_render_spln_frame	64	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c:166:6:display_render_frame	88	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c:259:6:display_render_spln_frame	80	static

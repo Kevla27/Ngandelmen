@@ -31,8 +31,6 @@ events:
       - "samu"
     candidate_directories:
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -79,24 +77,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/samu.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/samu.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/samu"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/ninja-build.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/ninja-build.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/ninja-build"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/ninja.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/ninja.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/ninja"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/samu.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/samu.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/samu"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/ninja-build.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/ninja-build.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/ninja-build"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/ninja.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/ninja.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/ninja"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/samu.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/samu.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/samu"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/ninja-build.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/ninja-build.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/ninja-build"
@@ -150,8 +130,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -209,8 +187,6 @@ events:
       - "arm-none-eabi-gcc"
     candidate_directories:
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -251,12 +227,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc"
@@ -280,8 +250,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -346,8 +314,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -454,8 +420,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -539,8 +503,6 @@ events:
     candidate_directories:
       - "G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/"
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -582,8 +544,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -643,8 +603,6 @@ events:
     candidate_directories:
       - "G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/"
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -686,8 +644,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -747,8 +703,6 @@ events:
     candidate_directories:
       - "G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/"
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -790,8 +744,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -851,8 +803,6 @@ events:
     candidate_directories:
       - "G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/"
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -894,8 +844,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -955,8 +903,6 @@ events:
     candidate_directories:
       - "G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/"
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -998,8 +944,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -1059,8 +1003,6 @@ events:
     candidate_directories:
       - "G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/"
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -1102,8 +1044,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -1163,8 +1103,6 @@ events:
     candidate_directories:
       - "G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/"
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -1206,8 +1144,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -1267,8 +1203,6 @@ events:
     candidate_directories:
       - "G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/"
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -1311,12 +1245,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-dlltool.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-dlltool.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-dlltool"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-dlltool.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-dlltool.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-dlltool"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-dlltool.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-dlltool.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-dlltool"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-dlltool.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-dlltool.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-dlltool"
@@ -1428,12 +1356,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/dlltool.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/dlltool.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/dlltool"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/dlltool.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/dlltool.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/dlltool"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/dlltool.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/dlltool.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/dlltool"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/dlltool.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/dlltool.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/dlltool"
@@ -1502,8 +1424,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -1563,8 +1483,6 @@ events:
     candidate_directories:
       - "G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/"
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -1606,8 +1524,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -1667,8 +1583,6 @@ events:
     candidate_directories:
       - "G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/"
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -1711,12 +1625,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-tapi.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-tapi.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-tapi"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-tapi.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-tapi.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-tapi"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-tapi.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-tapi.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-tapi"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-tapi.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-tapi.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-tapi"
@@ -1828,12 +1736,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/tapi.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/tapi.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/tapi"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/tapi.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/tapi.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/tapi"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/tapi.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/tapi.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/tapi"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/tapi.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/tapi.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/tapi"
@@ -1943,8 +1845,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -2006,8 +1906,6 @@ events:
     candidate_directories:
       - "G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/"
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -2050,12 +1948,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar-14.3.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar-14.3.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar-14.3"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar-14.3.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar-14.3.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar-14.3"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar-14.3.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar-14.3.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar-14.3"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar-14.3.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar-14.3.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar-14.3"
@@ -2167,12 +2059,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar-14.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar-14.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar-14"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar-14.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar-14.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar-14"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar-14.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar-14.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar-14"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar-14.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar-14.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar-14"
@@ -2284,12 +2170,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar14.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar14.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar14"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar14.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar14.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar14"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar14.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar14.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar14"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar14.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar14.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar14"
@@ -2400,8 +2280,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -2463,8 +2341,6 @@ events:
     candidate_directories:
       - "G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/"
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -2507,12 +2383,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib-14.3.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib-14.3.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib-14.3"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib-14.3.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib-14.3.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib-14.3"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib-14.3.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib-14.3.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib-14.3"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib-14.3.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib-14.3.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib-14.3"
@@ -2624,12 +2494,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib-14.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib-14.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib-14"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib-14.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib-14.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib-14"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib-14.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib-14.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib-14"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib-14.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib-14.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib-14"
@@ -2741,12 +2605,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib14.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib14.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib14"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib14.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib14.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib14"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib14.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib14.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib14"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib14.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib14.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib14"
@@ -2857,8 +2715,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -2916,8 +2772,6 @@ events:
       - "arm-none-eabi-g++"
     candidate_directories:
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -2958,12 +2812,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-g++.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-g++.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-g++"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-g++.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-g++.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-g++"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-g++.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-g++.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-g++"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-g++.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-g++.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-g++"
@@ -2987,8 +2835,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -3053,8 +2899,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -3161,8 +3005,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -3248,8 +3090,6 @@ events:
     candidate_directories:
       - "G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/"
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -3292,12 +3132,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar-14.3.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar-14.3.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar-14.3"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar-14.3.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar-14.3.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar-14.3"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar-14.3.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar-14.3.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar-14.3"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar-14.3.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar-14.3.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar-14.3"
@@ -3409,12 +3243,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar-14.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar-14.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar-14"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar-14.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar-14.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar-14"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar-14.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar-14.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar-14"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar-14.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar-14.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar-14"
@@ -3526,12 +3354,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar14.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar14.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar14"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar14.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar14.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar14"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar14.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar14.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar14"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar14.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar14.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar14"
@@ -3642,8 +3464,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -3705,8 +3525,6 @@ events:
     candidate_directories:
       - "G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/"
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -3749,12 +3567,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib-14.3.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib-14.3.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib-14.3"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib-14.3.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib-14.3.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib-14.3"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib-14.3.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib-14.3.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib-14.3"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib-14.3.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib-14.3.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib-14.3"
@@ -3866,12 +3678,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib-14.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib-14.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib-14"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib-14.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib-14.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib-14"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib-14.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib-14.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib-14"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib-14.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib-14.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib-14"
@@ -3983,12 +3789,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib14.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib14.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib14"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib14.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib14.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib14"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib14.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib14.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib14"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib14.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib14.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib14"
@@ -4099,8 +3899,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -4146,8 +3944,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/CMakeScratch/TryCompile-pxg0fk"
-      binary: "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/CMakeScratch/TryCompile-pxg0fk"
+      source: "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/CMakeScratch/TryCompile-d3ytzz"
+      binary: "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/CMakeScratch/TryCompile-d3ytzz"
     cmakeVariables:
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: " -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage"
@@ -4157,10 +3955,10 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/CMakeScratch/TryCompile-pxg0fk'
+        Change Dir: 'G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/CMakeScratch/TryCompile-d3ytzz'
         
-        Run Build Command(s): G:/STM32CubeCLT_1.22.0/Ninja/bin/ninja.exe -v cmTC_b0907
-        [1/2] G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-gcc.exe   -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage  -std=gnu11   -v -o CMakeFiles/cmTC_b0907.dir/CMakeCCompilerABI.c.obj -c G:/STM32CubeCLT_1.22.0/CMake/share/cmake-4.3/Modules/CMakeCCompilerABI.c
+        Run Build Command(s): G:/STM32CubeCLT_1.22.0/Ninja/bin/ninja.exe -v cmTC_ab152
+        [1/2] G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-gcc.exe   -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage  -std=gnu11   -v -o CMakeFiles/cmTC_ab152.dir/CMakeCCompilerABI.c.obj -c G:/STM32CubeCLT_1.22.0/CMake/share/cmake-4.3/Modules/CMakeCCompilerABI.c
         Using built-in specs.
         COLLECT_GCC=G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-gcc.exe
         Target: arm-none-eabi
@@ -4168,8 +3966,8 @@ events:
         Thread model: single
         Supported LTO compression algorithms: zlib
         gcc version 14.3.1 20250623 (GNU Tools for STM32 14.3.rel1.20251027-0700) 
-        COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-std=gnu11' '-v' '-o' 'CMakeFiles/cmTC_b0907.dir/CMakeCCompilerABI.c.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_b0907.dir/'
-         G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/cc1.exe -quiet -v -imultilib thumb/v8-m.main+fp/hard -iprefix G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/14.3.1/ -isysroot G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\../arm-none-eabi -D__USES_INITFINI__ G:/STM32CubeCLT_1.22.0/CMake/share/cmake-4.3/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_b0907.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse -mthumb -mlibarch=armv8-m.main+dsp+fp -march=armv8-m.main+dsp+fp -Wall -std=gnu11 -version -fstack-usage -fdata-sections -ffunction-sections -fstack-usage -o C:\\Users\\Akmal\\AppData\\Local\\Temp\\ccXOO2hq.s
+        COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-std=gnu11' '-v' '-o' 'CMakeFiles/cmTC_ab152.dir/CMakeCCompilerABI.c.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_ab152.dir/'
+         G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/cc1.exe -quiet -v -imultilib thumb/v8-m.main+fp/hard -iprefix G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/14.3.1/ -isysroot G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\../arm-none-eabi -D__USES_INITFINI__ G:/STM32CubeCLT_1.22.0/CMake/share/cmake-4.3/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_ab152.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse -mthumb -mlibarch=armv8-m.main+dsp+fp -march=armv8-m.main+dsp+fp -Wall -std=gnu11 -version -fstack-usage -fdata-sections -ffunction-sections -fstack-usage -o C:\\Users\\Akmal\\AppData\\Local\\Temp\\ccF3pibk.s
         GNU C11 (GNU Tools for STM32 14.3.rel1.20251027-0700) version 14.3.1 20250623 (arm-none-eabi)
         	compiled by GNU C version 7.3-win32 20180312, GMP version 6.2.1, MPFR version 3.1.6, MPC version 1.0.3, isl version isl-0.15-1-g835ea3a-GMP
         
@@ -4186,13 +3984,13 @@ events:
          G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/lib/gcc/../../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/include
         End of search list.
         Compiler executable checksum: 6ff0de7787db02762f469a6076f3ba78
-        COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-std=gnu11' '-v' '-o' 'CMakeFiles/cmTC_b0907.dir/CMakeCCompilerABI.c.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_b0907.dir/'
-         G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/as.exe -v -march=armv8-m.main+dsp+fp -mfloat-abi=hard -mfloat-abi=hard -mfpu=fpv5-sp-d16 -mfpu=fpv5-sp-d16 -meabi=5 -o CMakeFiles/cmTC_b0907.dir/CMakeCCompilerABI.c.obj C:\\Users\\Akmal\\AppData\\Local\\Temp\\ccXOO2hq.s
+        COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-std=gnu11' '-v' '-o' 'CMakeFiles/cmTC_ab152.dir/CMakeCCompilerABI.c.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_ab152.dir/'
+         G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/as.exe -v -march=armv8-m.main+dsp+fp -mfloat-abi=hard -mfloat-abi=hard -mfpu=fpv5-sp-d16 -mfpu=fpv5-sp-d16 -meabi=5 -o CMakeFiles/cmTC_ab152.dir/CMakeCCompilerABI.c.obj C:\\Users\\Akmal\\AppData\\Local\\Temp\\ccF3pibk.s
         GNU assembler version 2.44.0 (arm-none-eabi) using BFD version (GNU Tools for STM32 14.3.rel1.20251027-0700) 2.44.0.20250616
         COMPILER_PATH=G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/;G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/;G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/
         LIBRARY_PATH=G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v8-m.main+fp/hard/;G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard/;G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../arm-none-eabi/lib/thumb/v8-m.main+fp/hard/;G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/;G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/;G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/;G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../arm-none-eabi/lib/
-        COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-std=gnu11' '-v' '-o' 'CMakeFiles/cmTC_b0907.dir/CMakeCCompilerABI.c.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_b0907.dir/CMakeCCompilerABI.c.'
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && G:\\STM32CubeCLT_1.22.0\\CMake\\bin\\cmake.exe -E rm -f libcmTC_b0907.a && G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-ar.exe qc libcmTC_b0907.a  CMakeFiles/cmTC_b0907.dir/CMakeCCompilerABI.c.obj && G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-ranlib.exe libcmTC_b0907.a && cd ."
+        COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-std=gnu11' '-v' '-o' 'CMakeFiles/cmTC_ab152.dir/CMakeCCompilerABI.c.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_ab152.dir/CMakeCCompilerABI.c.'
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && G:\\STM32CubeCLT_1.22.0\\CMake\\bin\\cmake.exe -E rm -f libcmTC_ab152.a && G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-ar.exe qc libcmTC_ab152.a  CMakeFiles/cmTC_ab152.dir/CMakeCCompilerABI.c.obj && G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-ranlib.exe libcmTC_ab152.a && cd ."
         
       exitCode: 0
   -
@@ -4231,10 +4029,10 @@ events:
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(arm-none-eabi-g\\+\\+\\.exe|;ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(arm-none-eabi-g\\+\\+\\.exe|;ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: 'G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/CMakeScratch/TryCompile-pxg0fk']
+        ignore line: [Change Dir: 'G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/CMakeScratch/TryCompile-d3ytzz']
         ignore line: []
-        ignore line: [Run Build Command(s): G:/STM32CubeCLT_1.22.0/Ninja/bin/ninja.exe -v cmTC_b0907]
-        ignore line: [[1/2] G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-gcc.exe   -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage  -std=gnu11   -v -o CMakeFiles/cmTC_b0907.dir/CMakeCCompilerABI.c.obj -c G:/STM32CubeCLT_1.22.0/CMake/share/cmake-4.3/Modules/CMakeCCompilerABI.c]
+        ignore line: [Run Build Command(s): G:/STM32CubeCLT_1.22.0/Ninja/bin/ninja.exe -v cmTC_ab152]
+        ignore line: [[1/2] G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-gcc.exe   -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage  -std=gnu11   -v -o CMakeFiles/cmTC_ab152.dir/CMakeCCompilerABI.c.obj -c G:/STM32CubeCLT_1.22.0/CMake/share/cmake-4.3/Modules/CMakeCCompilerABI.c]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-gcc.exe]
         ignore line: [Target: arm-none-eabi]
@@ -4242,8 +4040,8 @@ events:
         ignore line: [Thread model: single]
         ignore line: [Supported LTO compression algorithms: zlib]
         ignore line: [gcc version 14.3.1 20250623 (GNU Tools for STM32 14.3.rel1.20251027-0700) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-std=gnu11' '-v' '-o' 'CMakeFiles/cmTC_b0907.dir/CMakeCCompilerABI.c.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_b0907.dir/']
-        ignore line: [ G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/cc1.exe -quiet -v -imultilib thumb/v8-m.main+fp/hard -iprefix G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/14.3.1/ -isysroot G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\../arm-none-eabi -D__USES_INITFINI__ G:/STM32CubeCLT_1.22.0/CMake/share/cmake-4.3/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_b0907.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse -mthumb -mlibarch=armv8-m.main+dsp+fp -march=armv8-m.main+dsp+fp -Wall -std=gnu11 -version -fstack-usage -fdata-sections -ffunction-sections -fstack-usage -o C:\\Users\\Akmal\\AppData\\Local\\Temp\\ccXOO2hq.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-std=gnu11' '-v' '-o' 'CMakeFiles/cmTC_ab152.dir/CMakeCCompilerABI.c.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_ab152.dir/']
+        ignore line: [ G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/cc1.exe -quiet -v -imultilib thumb/v8-m.main+fp/hard -iprefix G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/14.3.1/ -isysroot G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\../arm-none-eabi -D__USES_INITFINI__ G:/STM32CubeCLT_1.22.0/CMake/share/cmake-4.3/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_ab152.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse -mthumb -mlibarch=armv8-m.main+dsp+fp -march=armv8-m.main+dsp+fp -Wall -std=gnu11 -version -fstack-usage -fdata-sections -ffunction-sections -fstack-usage -o C:\\Users\\Akmal\\AppData\\Local\\Temp\\ccF3pibk.s]
         ignore line: [GNU C11 (GNU Tools for STM32 14.3.rel1.20251027-0700) version 14.3.1 20250623 (arm-none-eabi)]
         ignore line: [	compiled by GNU C version 7.3-win32 20180312  GMP version 6.2.1  MPFR version 3.1.6  MPC version 1.0.3  isl version isl-0.15-1-g835ea3a-GMP]
         ignore line: []
@@ -4260,8 +4058,8 @@ events:
         ignore line: [ G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/lib/gcc/../../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/include]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: 6ff0de7787db02762f469a6076f3ba78]
-        ignore line: [COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-std=gnu11' '-v' '-o' 'CMakeFiles/cmTC_b0907.dir/CMakeCCompilerABI.c.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_b0907.dir/']
-        ignore line: [ G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/as.exe -v -march=armv8-m.main+dsp+fp -mfloat-abi=hard -mfloat-abi=hard -mfpu=fpv5-sp-d16 -mfpu=fpv5-sp-d16 -meabi=5 -o CMakeFiles/cmTC_b0907.dir/CMakeCCompilerABI.c.obj C:\\Users\\Akmal\\AppData\\Local\\Temp\\ccXOO2hq.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-std=gnu11' '-v' '-o' 'CMakeFiles/cmTC_ab152.dir/CMakeCCompilerABI.c.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_ab152.dir/']
+        ignore line: [ G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/as.exe -v -march=armv8-m.main+dsp+fp -mfloat-abi=hard -mfloat-abi=hard -mfpu=fpv5-sp-d16 -mfpu=fpv5-sp-d16 -meabi=5 -o CMakeFiles/cmTC_ab152.dir/CMakeCCompilerABI.c.obj C:\\Users\\Akmal\\AppData\\Local\\Temp\\ccF3pibk.s]
         ignore line: [GNU assembler version 2.44.0 (arm-none-eabi) using BFD version (GNU Tools for STM32 14.3.rel1.20251027-0700) 2.44.0.20250616]
         ignore line: [COMPILER_PATH=G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/]
         ignore line: [G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/]
@@ -4273,8 +4071,8 @@ events:
         ignore line: [G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/]
         ignore line: [G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/]
         ignore line: [G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../arm-none-eabi/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-std=gnu11' '-v' '-o' 'CMakeFiles/cmTC_b0907.dir/CMakeCCompilerABI.c.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_b0907.dir/CMakeCCompilerABI.c.']
-        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && G:\\STM32CubeCLT_1.22.0\\CMake\\bin\\cmake.exe -E rm -f libcmTC_b0907.a && G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-ar.exe qc libcmTC_b0907.a  CMakeFiles/cmTC_b0907.dir/CMakeCCompilerABI.c.obj && G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-ranlib.exe libcmTC_b0907.a && cd ."]
+        ignore line: [COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-std=gnu11' '-v' '-o' 'CMakeFiles/cmTC_ab152.dir/CMakeCCompilerABI.c.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_ab152.dir/CMakeCCompilerABI.c.']
+        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && G:\\STM32CubeCLT_1.22.0\\CMake\\bin\\cmake.exe -E rm -f libcmTC_ab152.a && G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-ar.exe qc libcmTC_ab152.a  CMakeFiles/cmTC_ab152.dir/CMakeCCompilerABI.c.obj && G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-ranlib.exe libcmTC_ab152.a && cd ."]
         ignore line: []
         ignore line: []
         implicit libs: []
@@ -4292,8 +4090,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/CMakeScratch/TryCompile-mh1h57"
-      binary: "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/CMakeScratch/TryCompile-mh1h57"
+      source: "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/CMakeScratch/TryCompile-3pn4qg"
+      binary: "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/CMakeScratch/TryCompile-3pn4qg"
     cmakeVariables:
       CMAKE_CXX_FLAGS: " -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage -fno-rtti -fno-exceptions -fno-threadsafe-statics"
       CMAKE_CXX_FLAGS_DEBUG: "-O0 -g3"
@@ -4304,10 +4102,10 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/CMakeScratch/TryCompile-mh1h57'
+        Change Dir: 'G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/CMakeScratch/TryCompile-3pn4qg'
         
-        Run Build Command(s): G:/STM32CubeCLT_1.22.0/Ninja/bin/ninja.exe -v cmTC_3268d
-        [1/2] G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-g++.exe   -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage -fno-rtti -fno-exceptions -fno-threadsafe-statics    -v -o CMakeFiles/cmTC_3268d.dir/CMakeCXXCompilerABI.cpp.obj -c G:/STM32CubeCLT_1.22.0/CMake/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s): G:/STM32CubeCLT_1.22.0/Ninja/bin/ninja.exe -v cmTC_3b19d
+        [1/2] G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-g++.exe   -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage -fno-rtti -fno-exceptions -fno-threadsafe-statics    -v -o CMakeFiles/cmTC_3b19d.dir/CMakeCXXCompilerABI.cpp.obj -c G:/STM32CubeCLT_1.22.0/CMake/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp
         Using built-in specs.
         COLLECT_GCC=G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-g++.exe
         Target: arm-none-eabi
@@ -4315,8 +4113,8 @@ events:
         Thread model: single
         Supported LTO compression algorithms: zlib
         gcc version 14.3.1 20250623 (GNU Tools for STM32 14.3.rel1.20251027-0700) 
-        COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-fno-rtti' '-fno-exceptions' '-fno-threadsafe-statics' '-v' '-o' 'CMakeFiles/cmTC_3268d.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_3268d.dir/'
-         G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/cc1plus.exe -quiet -v -imultilib thumb/v8-m.main+fp/hard -iprefix G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/14.3.1/ -isysroot G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\../arm-none-eabi -D__USES_INITFINI__ G:/STM32CubeCLT_1.22.0/CMake/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_3268d.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse -mthumb -mlibarch=armv8-m.main+dsp+fp -march=armv8-m.main+dsp+fp -Wall -version -fstack-usage -fdata-sections -ffunction-sections -fstack-usage -fno-rtti -fno-exceptions -fno-threadsafe-statics -o C:\\Users\\Akmal\\AppData\\Local\\Temp\\ccbOuEK0.s
+        COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-fno-rtti' '-fno-exceptions' '-fno-threadsafe-statics' '-v' '-o' 'CMakeFiles/cmTC_3b19d.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_3b19d.dir/'
+         G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/cc1plus.exe -quiet -v -imultilib thumb/v8-m.main+fp/hard -iprefix G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/14.3.1/ -isysroot G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\../arm-none-eabi -D__USES_INITFINI__ G:/STM32CubeCLT_1.22.0/CMake/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_3b19d.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse -mthumb -mlibarch=armv8-m.main+dsp+fp -march=armv8-m.main+dsp+fp -Wall -version -fstack-usage -fdata-sections -ffunction-sections -fstack-usage -fno-rtti -fno-exceptions -fno-threadsafe-statics -o C:\\Users\\Akmal\\AppData\\Local\\Temp\\ccKFhNNl.s
         GNU C++17 (GNU Tools for STM32 14.3.rel1.20251027-0700) version 14.3.1 20250623 (arm-none-eabi)
         	compiled by GNU C version 7.3-win32 20180312, GMP version 6.2.1, MPFR version 3.1.6, MPC version 1.0.3, isl version isl-0.15-1-g835ea3a-GMP
         
@@ -4339,13 +4137,13 @@ events:
          G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/lib/gcc/../../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/include
         End of search list.
         Compiler executable checksum: 43d99ff7460098f9cee06aa2d6324907
-        COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-fno-rtti' '-fno-exceptions' '-fno-threadsafe-statics' '-v' '-o' 'CMakeFiles/cmTC_3268d.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_3268d.dir/'
-         G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/as.exe -v -march=armv8-m.main+dsp+fp -mfloat-abi=hard -mfloat-abi=hard -mfpu=fpv5-sp-d16 -mfpu=fpv5-sp-d16 -meabi=5 -o CMakeFiles/cmTC_3268d.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\Akmal\\AppData\\Local\\Temp\\ccbOuEK0.s
+        COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-fno-rtti' '-fno-exceptions' '-fno-threadsafe-statics' '-v' '-o' 'CMakeFiles/cmTC_3b19d.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_3b19d.dir/'
+         G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/as.exe -v -march=armv8-m.main+dsp+fp -mfloat-abi=hard -mfloat-abi=hard -mfpu=fpv5-sp-d16 -mfpu=fpv5-sp-d16 -meabi=5 -o CMakeFiles/cmTC_3b19d.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\Akmal\\AppData\\Local\\Temp\\ccKFhNNl.s
         GNU assembler version 2.44.0 (arm-none-eabi) using BFD version (GNU Tools for STM32 14.3.rel1.20251027-0700) 2.44.0.20250616
         COMPILER_PATH=G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/;G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/;G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/
         LIBRARY_PATH=G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v8-m.main+fp/hard/;G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard/;G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../arm-none-eabi/lib/thumb/v8-m.main+fp/hard/;G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/;G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/;G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/;G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../arm-none-eabi/lib/
-        COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-fno-rtti' '-fno-exceptions' '-fno-threadsafe-statics' '-v' '-o' 'CMakeFiles/cmTC_3268d.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_3268d.dir/CMakeCXXCompilerABI.cpp.'
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && G:\\STM32CubeCLT_1.22.0\\CMake\\bin\\cmake.exe -E rm -f libcmTC_3268d.a && G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-ar.exe qc libcmTC_3268d.a  CMakeFiles/cmTC_3268d.dir/CMakeCXXCompilerABI.cpp.obj && G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-ranlib.exe libcmTC_3268d.a && cd ."
+        COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-fno-rtti' '-fno-exceptions' '-fno-threadsafe-statics' '-v' '-o' 'CMakeFiles/cmTC_3b19d.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_3b19d.dir/CMakeCXXCompilerABI.cpp.'
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && G:\\STM32CubeCLT_1.22.0\\CMake\\bin\\cmake.exe -E rm -f libcmTC_3b19d.a && G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-ar.exe qc libcmTC_3b19d.a  CMakeFiles/cmTC_3b19d.dir/CMakeCXXCompilerABI.cpp.obj && G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-ranlib.exe libcmTC_3b19d.a && cd ."
         
       exitCode: 0
   -
@@ -4396,10 +4194,10 @@ events:
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(arm-none-eabi-g\\+\\+\\.exe|;ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(arm-none-eabi-g\\+\\+\\.exe|;ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: 'G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/CMakeScratch/TryCompile-mh1h57']
+        ignore line: [Change Dir: 'G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/CMakeScratch/TryCompile-3pn4qg']
         ignore line: []
-        ignore line: [Run Build Command(s): G:/STM32CubeCLT_1.22.0/Ninja/bin/ninja.exe -v cmTC_3268d]
-        ignore line: [[1/2] G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-g++.exe   -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage -fno-rtti -fno-exceptions -fno-threadsafe-statics    -v -o CMakeFiles/cmTC_3268d.dir/CMakeCXXCompilerABI.cpp.obj -c G:/STM32CubeCLT_1.22.0/CMake/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): G:/STM32CubeCLT_1.22.0/Ninja/bin/ninja.exe -v cmTC_3b19d]
+        ignore line: [[1/2] G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-g++.exe   -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse  -Wall -fdata-sections -ffunction-sections -fstack-usage -fno-rtti -fno-exceptions -fno-threadsafe-statics    -v -o CMakeFiles/cmTC_3b19d.dir/CMakeCXXCompilerABI.cpp.obj -c G:/STM32CubeCLT_1.22.0/CMake/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-g++.exe]
         ignore line: [Target: arm-none-eabi]
@@ -4407,8 +4205,8 @@ events:
         ignore line: [Thread model: single]
         ignore line: [Supported LTO compression algorithms: zlib]
         ignore line: [gcc version 14.3.1 20250623 (GNU Tools for STM32 14.3.rel1.20251027-0700) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-fno-rtti' '-fno-exceptions' '-fno-threadsafe-statics' '-v' '-o' 'CMakeFiles/cmTC_3268d.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_3268d.dir/']
-        ignore line: [ G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/cc1plus.exe -quiet -v -imultilib thumb/v8-m.main+fp/hard -iprefix G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/14.3.1/ -isysroot G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\../arm-none-eabi -D__USES_INITFINI__ G:/STM32CubeCLT_1.22.0/CMake/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_3268d.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse -mthumb -mlibarch=armv8-m.main+dsp+fp -march=armv8-m.main+dsp+fp -Wall -version -fstack-usage -fdata-sections -ffunction-sections -fstack-usage -fno-rtti -fno-exceptions -fno-threadsafe-statics -o C:\\Users\\Akmal\\AppData\\Local\\Temp\\ccbOuEK0.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-fno-rtti' '-fno-exceptions' '-fno-threadsafe-statics' '-v' '-o' 'CMakeFiles/cmTC_3b19d.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_3b19d.dir/']
+        ignore line: [ G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/cc1plus.exe -quiet -v -imultilib thumb/v8-m.main+fp/hard -iprefix G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\../lib/gcc/arm-none-eabi/14.3.1/ -isysroot G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\../arm-none-eabi -D__USES_INITFINI__ G:/STM32CubeCLT_1.22.0/CMake/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_3b19d.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mcmse -mthumb -mlibarch=armv8-m.main+dsp+fp -march=armv8-m.main+dsp+fp -Wall -version -fstack-usage -fdata-sections -ffunction-sections -fstack-usage -fno-rtti -fno-exceptions -fno-threadsafe-statics -o C:\\Users\\Akmal\\AppData\\Local\\Temp\\ccKFhNNl.s]
         ignore line: [GNU C++17 (GNU Tools for STM32 14.3.rel1.20251027-0700) version 14.3.1 20250623 (arm-none-eabi)]
         ignore line: [	compiled by GNU C version 7.3-win32 20180312  GMP version 6.2.1  MPFR version 3.1.6  MPC version 1.0.3  isl version isl-0.15-1-g835ea3a-GMP]
         ignore line: []
@@ -4431,8 +4229,8 @@ events:
         ignore line: [ G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/lib/gcc/../../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/include]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: 43d99ff7460098f9cee06aa2d6324907]
-        ignore line: [COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-fno-rtti' '-fno-exceptions' '-fno-threadsafe-statics' '-v' '-o' 'CMakeFiles/cmTC_3268d.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_3268d.dir/']
-        ignore line: [ G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/as.exe -v -march=armv8-m.main+dsp+fp -mfloat-abi=hard -mfloat-abi=hard -mfpu=fpv5-sp-d16 -mfpu=fpv5-sp-d16 -meabi=5 -o CMakeFiles/cmTC_3268d.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\Akmal\\AppData\\Local\\Temp\\ccbOuEK0.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-fno-rtti' '-fno-exceptions' '-fno-threadsafe-statics' '-v' '-o' 'CMakeFiles/cmTC_3b19d.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_3b19d.dir/']
+        ignore line: [ G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/as.exe -v -march=armv8-m.main+dsp+fp -mfloat-abi=hard -mfloat-abi=hard -mfpu=fpv5-sp-d16 -mfpu=fpv5-sp-d16 -meabi=5 -o CMakeFiles/cmTC_3b19d.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\Akmal\\AppData\\Local\\Temp\\ccKFhNNl.s]
         ignore line: [GNU assembler version 2.44.0 (arm-none-eabi) using BFD version (GNU Tools for STM32 14.3.rel1.20251027-0700) 2.44.0.20250616]
         ignore line: [COMPILER_PATH=G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/]
         ignore line: [G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/]
@@ -4444,8 +4242,8 @@ events:
         ignore line: [G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/]
         ignore line: [G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/]
         ignore line: [G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/../arm-none-eabi/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-fno-rtti' '-fno-exceptions' '-fno-threadsafe-statics' '-v' '-o' 'CMakeFiles/cmTC_3268d.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_3268d.dir/CMakeCXXCompilerABI.cpp.']
-        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && G:\\STM32CubeCLT_1.22.0\\CMake\\bin\\cmake.exe -E rm -f libcmTC_3268d.a && G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-ar.exe qc libcmTC_3268d.a  CMakeFiles/cmTC_3268d.dir/CMakeCXXCompilerABI.cpp.obj && G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-ranlib.exe libcmTC_3268d.a && cd ."]
+        ignore line: [COLLECT_GCC_OPTIONS='-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-fstack-usage' '-mcpu=cortex-m33' '-mfpu=fpv5-sp-d16' '-mfloat-abi=hard' '-mcmse' '-Wall' '-fdata-sections' '-ffunction-sections' '-fstack-usage' '-fno-rtti' '-fno-exceptions' '-fno-threadsafe-statics' '-v' '-o' 'CMakeFiles/cmTC_3b19d.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mthumb' '-mlibarch=armv8-m.main+dsp+fp' '-march=armv8-m.main+dsp+fp' '-dumpdir' 'CMakeFiles/cmTC_3b19d.dir/CMakeCXXCompilerABI.cpp.']
+        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && G:\\STM32CubeCLT_1.22.0\\CMake\\bin\\cmake.exe -E rm -f libcmTC_3b19d.a && G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-ar.exe qc libcmTC_3b19d.a  CMakeFiles/cmTC_3b19d.dir/CMakeCXXCompilerABI.cpp.obj && G:\\STM32CubeCLT_1.22.0\\GNU-tools-for-STM32\\bin\\arm-none-eabi-ranlib.exe libcmTC_3b19d.a && cd ."]
         ignore line: []
         ignore line: []
         linker tool for 'CXX': [1/2] G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/arm-none-eabi-g++.exe
@@ -4506,8 +4304,6 @@ events:
       - "arm-none-eabi-gcc"
     candidate_directories:
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -4549,12 +4345,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc"
@@ -4578,8 +4368,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -4657,8 +4445,6 @@ events:
     candidate_directories:
       - "G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/"
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -4702,12 +4488,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar-.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar-.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar-"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar-.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar-.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar-"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar-.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar-.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar-"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar-.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar-.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar-"
@@ -4822,12 +4602,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar-.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar-.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ar-"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar-.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar-.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ar-"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar-.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar-.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ar-"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar-.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar-.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ar-"
@@ -4941,8 +4715,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"
@@ -5007,8 +4779,6 @@ events:
     candidate_directories:
       - "G:/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/"
       - "C:/Users/Akmal/.gemini/antigravity/bin/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/"
       - "G:/STM32CubeCLT_1.22.0/"
       - "G:/STM32CubeCLT_1.22.0/Make/bin/"
@@ -5052,12 +4822,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib-.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib-.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib-"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib-.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib-.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib-"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib-.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib-.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib-"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib-.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib-.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib-"
@@ -5172,12 +4936,6 @@ events:
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib-.com"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib-.exe"
       - "C:/Users/Akmal/.gemini/antigravity/bin/arm-none-eabi-gcc-ranlib-"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib-.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib-.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64/arm-none-eabi-gcc-ranlib-"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib-.com"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib-.exe"
-      - "C:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64/resources/binaries/win32/x86_64/arm-none-eabi-gcc-ranlib-"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib-.com"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib-.exe"
       - "C:/Program Files (x86)/STMicroelectronics/stlink_server/arm-none-eabi-gcc-ranlib-"
@@ -5291,8 +5049,6 @@ events:
     search_context:
       ENV{PATH}:
         - "C:/Users/Akmal/.gemini/antigravity/bin"
-        - "c:/Users/Akmal/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.47.0-win32-x64/resources/cube-cmake/win32/x86_64"
-        - "c:\\Users\\Akmal\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.5.0-win32-x64\\resources\\binaries\\win32\\x86_64"
         - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
         - "G:\\STM32CubeCLT_1.22.0"
         - "G:\\STM32CubeCLT_1.22.0\\Make\\bin"

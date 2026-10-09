@@ -40,8 +40,8 @@ ENTRY(Reset_Handler)
 /* Memories definition */
 MEMORY
 {
-  RAM	(xrw)	: ORIGIN = 0x20040000,	LENGTH = 512K     /* Memory is divided. Actual start is 0x20000000 and actual length is 768K */
-  ROM	(rx)	: ORIGIN = 0x08100000,	LENGTH = 1024K    /* Memory is divided. Actual start is 0x08000000 and actual length is 2048K */
+  RAM	(xrw)	: ORIGIN = 0x20040000,	LENGTH = 512K     /* Non-Secure SRAM */
+  ROM	(rx)	: ORIGIN = 0x08100000,	LENGTH = 1024K    /* Bank 2 Non-Secure Flash (1024K) */
   SRAM4	(xrw)   : ORIGIN = 0x28000000,  LENGTH = 16K      /* Non-Secure SRAM4 */
 }
 /* Highest address of the user mode stack */

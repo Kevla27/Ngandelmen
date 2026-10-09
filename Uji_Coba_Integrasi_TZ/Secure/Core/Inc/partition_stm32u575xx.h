@@ -83,7 +83,7 @@
 /*
 //     <o>Start Address <0-0xFFFFFFE0>
 */
-#define SAU_INIT_START0     0x0C0FE000     /* start address of SAU region 0 */
+#define SAU_INIT_START0     0x0C0FE000     /* start address of SAU region 0 (NSC) */
 /*
 //     <o>End Address <0x1F-0xFFFFFFFF>
 */
@@ -107,7 +107,7 @@
 /*
 //     <o>Start Address <0-0xFFFFFFE0>
 */
-#define SAU_INIT_START1     0x08100000     /* start address of SAU region 1 */
+#define SAU_INIT_START1     0x08100000     /* start address of SAU region 1 (Bank 2 NonSecure) */
 /*
 //     <o>End Address <0x1F-0xFFFFFFFF>
 */

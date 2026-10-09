@@ -32,13 +32,20 @@
   */
 typedef enum
 {
-SECURE_FAULT_CB_ID     = 0x00U, /*!< System secure fault callback ID */
-  GTZC_ERROR_CB_ID       = 0x01U  /*!< GTZC secure error callback ID */
+  SECURE_FAULT_CB_ID     = 0x00U, /*!< System secure fault callback ID */
+  GTZC_ERROR_CB_ID       = 0x01U, /*!< GTZC secure error callback ID */
+  SECURE_TAMPER_CB_ID    = 0x02U  /*!< PC13 Case Open Tamper callback ID */
 } SECURE_CallbackIDTypeDef;
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 void SECURE_RegisterCallback(SECURE_CallbackIDTypeDef CallbackId, void *func);
+
+/* Secure Energy Totalizer APIs (Post-Paid Pascabayar Billing Protection) */
+void Secure_AddEnergyWh(uint32_t delta_wh);
+void Secure_AddEnergyMilliWh(uint32_t delta_mwh);
+uint64_t Secure_GetTotalEnergyWh(void);
+uint64_t Secure_GetTotalEnergyMilliWh(void);
 
 #endif /* SECURE_NSC_H */
 /* USER CODE END Non_Secure_CallLib_h */

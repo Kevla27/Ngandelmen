@@ -35,7 +35,7 @@
 /* Non-secure Vector table to jump to (internal Flash Bank2 here)             */
 /* Caution: address must correspond to non-secure internal Flash where is     */
 /*          mapped in the non-secure vector table                             */
-#define VTOR_TABLE_NS_START_ADDR  0x08080000UL
+#define VTOR_TABLE_NS_START_ADDR  0x08100000UL
 
 /* USER CODE END PD */
 
@@ -281,18 +281,58 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*IO attributes management functions */
-  HAL_GPIO_ConfigPinAttributes(GPIOA, GPIO_PIN_2|GPIO_PIN_3, GPIO_PIN_NSEC);
+  HAL_GPIO_ConfigPinAttributes(GPIOA, GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_9|GPIO_PIN_10, GPIO_PIN_NSEC);
 
   /*IO attributes management functions */
   HAL_GPIO_ConfigPinAttributes(GPIOB, GPIO_PIN_8|GPIO_PIN_9, GPIO_PIN_NSEC);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
+  /* Pastikan peripheral I2C1, LPUART1, dan USART1 berstatus Non-Secure di GTZC TZSC */
+  HAL_GTZC_TZSC_ConfigPeriphAttributes(GTZC_PERIPH_I2C1, GTZC_TZSC_PERIPH_NSEC);
+  HAL_GTZC_TZSC_ConfigPeriphAttributes(GTZC_PERIPH_LPUART1, GTZC_TZSC_PERIPH_NSEC);
+  HAL_GTZC_TZSC_ConfigPeriphAttributes(GTZC_PERIPH_USART1, GTZC_TZSC_PERIPH_NSEC);
 
+  /* Alokasikan GPDMA1 Channel 0 dan Channel 1 ke Non-Secure */
+  __HAL_RCC_GPDMA1_CLK_ENABLE();
+  GPDMA1->SECCFGR &= ~(DMA_SECCFGR_SEC0 | DMA_SECCFGR_SEC1);
+  GPDMA1->PRIVCFGR &= ~(DMA_PRIVCFGR_PRIV0 | DMA_PRIVCFGR_PRIV1);
+
+  /* Arahkan Interupsi Periferal Non-Secure ke Non-Secure World */
+  NVIC_SetTargetState(LPUART1_IRQn);
+  NVIC_SetTargetState(USART1_IRQn);
+  NVIC_SetTargetState(I2C1_EV_IRQn);
+  NVIC_SetTargetState(I2C1_ER_IRQn);
+  NVIC_SetTargetState(GPDMA1_Channel0_IRQn);
+  NVIC_SetTargetState(GPDMA1_Channel1_IRQn);
+
+  /* Reconfigure PC13 for Tamper Case Open with Pull-up & Both Edges for responsive detection */
+  GPIO_InitStruct.Pin = GPIO_PIN_13;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /* Enable Interrupt EXTI13 pada NVIC (Prioritas 6 di bawah FreeRTOS max syscall priority 5) */
+  HAL_NVIC_SetPriority(EXTI13_IRQn, 6, 0);
+  HAL_NVIC_EnableIRQ(EXTI13_IRQn);
   /* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
+{
+  if (GPIO_Pin == GPIO_PIN_13)
+  {
+    Secure_TriggerTamperCallback();
+  }
+}
 
+void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin)
+{
+  if (GPIO_Pin == GPIO_PIN_13)
+  {
+    Secure_TriggerTamperCallback();
+  }
+}
 /* USER CODE END 4 */
 
 /**

@@ -16,6 +16,7 @@
 static inline void vTaskDelay(uint32_t ticks) { (void)ticks; }
 #endif
 #include <string.h>
+#include <stdio.h>
 
 
 /* Pointer ke driver perangkat keras display aktif (Hardware Abstraction Layer) */
@@ -90,6 +91,7 @@ void task_oled128x32_carousel(void *pvParameters)
         if (need_render) {
             /* 1. Ambil snapshot data pengukuran terbaru secara thread-safe dari Mutex */
             rtos_meter_data_get_snapshot(&meas);
+            display_update_measurements(&disp_ctx, &meas);
 
             /* 2. Format frame sesuai Standar Layar Meter PLN (SPLN D3.006-1 Gambar 4) */
             disp_ctx.alarm_icon_active = s_tamper_alarm_active;
@@ -104,6 +106,14 @@ void task_oled128x32_carousel(void *pvParameters)
             if (s_display_driver != NULL && s_display_driver->render_frame != NULL) {
                 s_display_driver->render_frame(&spln_frame);
             }
+
+            printf("[OLED DISP] Page %d [%s] -> OBIS: %s | %s %s | Status: %s\r\n",
+                   disp_ctx.current_page,
+                   spln_frame.scroll_index_zz,
+                   spln_frame.obis_code,
+                   spln_frame.main_value,
+                   spln_frame.unit,
+                   spln_frame.is_alarm_active ? "!ALM (SABOTASE)" : "NORMAL");
         }
 
         vTaskDelay(pdMS_TO_TICKS(100));

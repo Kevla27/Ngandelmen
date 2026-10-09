@@ -203,21 +203,27 @@ void display_render_frame(const display_context_t *ctx, char *out_line1, char *o
             snprintf(out_line2, max_len, "CURRENT NEUTRAL");
             snprintf(out_line3, max_len, "%lu.%03lu A", (unsigned long)(ctx->meas_buffer.current_n_mamps / 1000), (unsigned long)(ctx->meas_buffer.current_n_mamps % 1000));
             break;
-        case DISP_PAGE_ACTIVE_POWER:
+        case DISP_PAGE_ACTIVE_POWER: {
+            int32_t pw = ctx->meas_buffer.active_power_w;
+            uint32_t abs_pw = (pw < 0) ? (uint32_t)(-pw) : (uint32_t)pw;
             snprintf(out_line2, max_len, "ACTIVE POWER");
-            snprintf(out_line3, max_len, "%.3f kW", ctx->meas_buffer.active_power_w / 1000.0);
+            snprintf(out_line3, max_len, "%s%lu.%03lu kW", (pw < 0) ? "-" : "", (unsigned long)(abs_pw / 1000), (unsigned long)(abs_pw % 1000));
             break;
-        case DISP_PAGE_REACTIVE_POWER:
+        }
+        case DISP_PAGE_REACTIVE_POWER: {
+            int32_t pvar = ctx->meas_buffer.reactive_power_var;
+            uint32_t abs_pvar = (pvar < 0) ? (uint32_t)(-pvar) : (uint32_t)pvar;
             snprintf(out_line2, max_len, "REACTIVE POWER");
-            snprintf(out_line3, max_len, "%.3f kvar", ctx->meas_buffer.reactive_power_var / 1000.0);
+            snprintf(out_line3, max_len, "%s%lu.%03lu kvar", (pvar < 0) ? "-" : "", (unsigned long)(abs_pvar / 1000), (unsigned long)(abs_pvar % 1000));
             break;
+        }
         case DISP_PAGE_APPARENT_POWER:
             snprintf(out_line2, max_len, "APPARENT POWER");
-            snprintf(out_line3, max_len, "%.3f kVA", ctx->meas_buffer.apparent_power_va / 1000.0);
+            snprintf(out_line3, max_len, "%lu.%03lu kVA", (unsigned long)(ctx->meas_buffer.apparent_power_va / 1000), (unsigned long)(ctx->meas_buffer.apparent_power_va % 1000));
             break;
         case DISP_PAGE_POWER_FACTOR:
             snprintf(out_line2, max_len, "POWER FACTOR");
-            snprintf(out_line3, max_len, "%.3f", ctx->meas_buffer.power_factor_ppm / 1000.0);
+            snprintf(out_line3, max_len, "%lu.%03lu", (unsigned long)(ctx->meas_buffer.power_factor_ppm / 1000), (unsigned long)(ctx->meas_buffer.power_factor_ppm % 1000));
             break;
         case DISP_PAGE_FREQUENCY:
             snprintf(out_line2, max_len, "GRID FREQUENCY");
@@ -225,7 +231,7 @@ void display_render_frame(const display_context_t *ctx, char *out_line1, char *o
             break;
         case DISP_PAGE_ACTIVE_ENERGY:
             snprintf(out_line2, max_len, "TOTAL ENERGY");
-            snprintf(out_line3, max_len, "%.4f kWh", (double)ctx->meas_buffer.active_energy_wh / 1000.0);
+            snprintf(out_line3, max_len, "%lu.%02lu kWh", (unsigned long)(ctx->meas_buffer.active_energy_wh / 1000), (unsigned long)((ctx->meas_buffer.active_energy_wh % 1000) / 10));
             break;
         case DISP_PAGE_TAMPER_ALARM: {
             char spln_text[16] = "RUSAK";
@@ -328,32 +334,44 @@ void display_render_spln_frame(const display_context_t *ctx, display_spln_frame_
                      (unsigned long)((ctx->meas_buffer.current_n_mamps % 1000) / 10));
             snprintf(frame->unit, sizeof(frame->unit), "A");
             break;
-        case DISP_PAGE_ACTIVE_POWER:
+        case DISP_PAGE_ACTIVE_POWER: {
             obis_code = "01.07";
             snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "09");
-            snprintf(frame->main_value, sizeof(frame->main_value), "%.3f",
-                     (double)ctx->meas_buffer.active_power_w / 1000.0);
+            int32_t pw = ctx->meas_buffer.active_power_w;
+            uint32_t abs_pw = (pw < 0) ? (uint32_t)(-pw) : (uint32_t)pw;
+            snprintf(frame->main_value, sizeof(frame->main_value), "%s%lu.%03lu",
+                     (pw < 0) ? "-" : "",
+                     (unsigned long)(abs_pw / 1000),
+                     (unsigned long)(abs_pw % 1000));
             snprintf(frame->unit, sizeof(frame->unit), "kW");
             break;
-        case DISP_PAGE_REACTIVE_POWER:
+        }
+        case DISP_PAGE_REACTIVE_POWER: {
             obis_code = "03.07";
             snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "10");
-            snprintf(frame->main_value, sizeof(frame->main_value), "%.3f",
-                     (double)ctx->meas_buffer.reactive_power_var / 1000.0);
+            int32_t pvar = ctx->meas_buffer.reactive_power_var;
+            uint32_t abs_pvar = (pvar < 0) ? (uint32_t)(-pvar) : (uint32_t)pvar;
+            snprintf(frame->main_value, sizeof(frame->main_value), "%s%lu.%03lu",
+                     (pvar < 0) ? "-" : "",
+                     (unsigned long)(abs_pvar / 1000),
+                     (unsigned long)(abs_pvar % 1000));
             snprintf(frame->unit, sizeof(frame->unit), "kvar");
             break;
+        }
         case DISP_PAGE_APPARENT_POWER:
             obis_code = "09.07";
             snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "11");
-            snprintf(frame->main_value, sizeof(frame->main_value), "%.3f",
-                     (double)ctx->meas_buffer.apparent_power_va / 1000.0);
+            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%03lu",
+                     (unsigned long)(ctx->meas_buffer.apparent_power_va / 1000),
+                     (unsigned long)(ctx->meas_buffer.apparent_power_va % 1000));
             snprintf(frame->unit, sizeof(frame->unit), "kVA");
             break;
         case DISP_PAGE_POWER_FACTOR:
             obis_code = "13.07";
             snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "12");
-            snprintf(frame->main_value, sizeof(frame->main_value), "%.3f",
-                     (double)ctx->meas_buffer.power_factor_ppm / 1000.0);
+            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%03lu",
+                     (unsigned long)(ctx->meas_buffer.power_factor_ppm / 1000),
+                     (unsigned long)(ctx->meas_buffer.power_factor_ppm % 1000));
             snprintf(frame->unit, sizeof(frame->unit), "PF");
             break;
         case DISP_PAGE_FREQUENCY:
@@ -367,8 +385,9 @@ void display_render_spln_frame(const display_context_t *ctx, display_spln_frame_
         case DISP_PAGE_ACTIVE_ENERGY:
             obis_code = "01.08";
             snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "14");
-            snprintf(frame->main_value, sizeof(frame->main_value), "%.2f",
-                     (double)ctx->meas_buffer.active_energy_wh / 1000.0);
+            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%02lu",
+                     (unsigned long)(ctx->meas_buffer.active_energy_wh / 1000),
+                     (unsigned long)((ctx->meas_buffer.active_energy_wh % 1000) / 10));
             snprintf(frame->unit, sizeof(frame->unit), "kWh");
             break;
         case DISP_PAGE_TAMPER_ALARM: {

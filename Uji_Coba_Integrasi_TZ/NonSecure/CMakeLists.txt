@@ -45,7 +45,8 @@ set(CMAKE_CXX_COMPILER_FORCED "true")
 
 # Add project symbols (macros)
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user defined symbols
+    USE_FREERTOS
+    EMBEDDED_HARDWARE_TARGET
 )
 
 # Enable CMake support for ASM and C languages
@@ -138,6 +139,12 @@ list(REMOVE_ITEM CMAKE_C_IMPLICIT_LINK_LIBRARIES ob)
 if((CMAKE_C_STANDARD EQUAL 90) OR (CMAKE_C_STANDARD EQUAL 99))
     message(ERROR "Generated code requires C11 or higher")
 endif()
+
+# Generate physical Flash HEX file for Non-Secure World
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.hex
+    COMMENT "Generating physical flash HEX file for Non-Secure World (${CMAKE_PROJECT_NAME}.hex)"
+)
 
 
 

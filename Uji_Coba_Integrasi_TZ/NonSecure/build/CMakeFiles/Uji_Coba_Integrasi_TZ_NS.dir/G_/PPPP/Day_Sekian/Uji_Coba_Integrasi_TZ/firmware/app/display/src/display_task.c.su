@@ -1,6 +1,5 @@
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display_task.c:16:20:vTaskDelay	16	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display_task.c:28:6:display_task_set_driver	16	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display_task.c:33:6:display_task_trigger_instant_refresh	16	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display_task.c:39:6:display_task_is_alarm_active	4	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display_task.c:44:6:display_task_show_boot_screen	16	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display_task.c:51:6:task_oled128x32_carousel	272	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display_task.c:29:6:display_task_set_driver	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display_task.c:34:6:display_task_trigger_instant_refresh	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display_task.c:40:6:display_task_is_alarm_active	4	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display_task.c:45:6:display_task_show_boot_screen	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display_task.c:52:6:task_oled128x32_carousel	288	static

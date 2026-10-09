@@ -60,7 +60,7 @@ extern DMA_QListTypeDef List_GPDMA1_Channel1;
 extern DMA_HandleTypeDef handle_GPDMA1_Channel1;
 extern DMA_HandleTypeDef handle_GPDMA1_Channel0;
 /* USER CODE BEGIN EV */
-extern UART_HandleTypeDef huart2;
+extern UART_HandleTypeDef hlpuart1;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -153,7 +153,10 @@ void GPDMA1_Channel0_IRQHandler(void)
   /* USER CODE BEGIN GPDMA1_Channel0_IRQn 0 */
 
   /* USER CODE END GPDMA1_Channel0_IRQn 0 */
-  HAL_DMA_IRQHandler(&handle_GPDMA1_Channel0);
+  if (handle_GPDMA1_Channel0.Instance != NULL)
+  {
+    HAL_DMA_IRQHandler(&handle_GPDMA1_Channel0);
+  }
   /* USER CODE BEGIN GPDMA1_Channel0_IRQn 1 */
 
   /* USER CODE END GPDMA1_Channel0_IRQn 1 */
@@ -167,7 +170,10 @@ void GPDMA1_Channel1_IRQHandler(void)
   /* USER CODE BEGIN GPDMA1_Channel1_IRQn 0 */
 
   /* USER CODE END GPDMA1_Channel1_IRQn 0 */
-  HAL_DMA_IRQHandler(&handle_GPDMA1_Channel1);
+  if (handle_GPDMA1_Channel1.Instance != NULL)
+  {
+    HAL_DMA_IRQHandler(&handle_GPDMA1_Channel1);
+  }
   /* USER CODE BEGIN GPDMA1_Channel1_IRQn 1 */
 
   /* USER CODE END GPDMA1_Channel1_IRQn 1 */
@@ -175,16 +181,16 @@ void GPDMA1_Channel1_IRQHandler(void)
 
 /* USER CODE BEGIN 1 */
 /**
-  * @brief This function handles USART2 global interrupt.
+  * @brief This function handles LPUART1 global interrupt.
   */
-void USART2_IRQHandler(void)
+void LPUART1_IRQHandler(void)
 {
-  /* USER CODE BEGIN USART2_IRQn 0 */
+  /* USER CODE BEGIN LPUART1_IRQn 0 */
 
-  /* USER CODE END USART2_IRQn 0 */
-  HAL_UART_IRQHandler(&huart2);
-  /* USER CODE BEGIN USART2_IRQn 1 */
+  /* USER CODE END LPUART1_IRQn 0 */
+  HAL_UART_IRQHandler(&hlpuart1);
+  /* USER CODE BEGIN LPUART1_IRQn 1 */
 
-  /* USER CODE END USART2_IRQn 1 */
+  /* USER CODE END LPUART1_IRQn 1 */
 }
 /* USER CODE END 1 */

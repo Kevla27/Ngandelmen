@@ -16,10 +16,10 @@ extern "C" {
 #include "load_profile.h"
 #include "tamper_manager.h"
 
-/* Alokasi Alamat Memori Flash STM32U575 Bank 2 */
-#define NVRAM_CALIBRATION_START_ADDR  0x08100000U
-#define NVRAM_TAMPER_LOG_START_ADDR    0x08104000U
-#define NVRAM_LOAD_PROFILE_START_ADDR  0x08108000U
+/* Alokasi Alamat Memori Flash STM32U575 Bank 2 (Akhir Bank 2: 0x081F0000) */
+#define NVRAM_CALIBRATION_START_ADDR  0x081F0000U
+#define NVRAM_TAMPER_LOG_START_ADDR   0x081F2000U
+#define NVRAM_LOAD_PROFILE_START_ADDR 0x081F4000U
 
 #define FLASH_PAGE_SIZE_BYTES          8192U  /* 8 KB per Page pada STM32U575 */
 
