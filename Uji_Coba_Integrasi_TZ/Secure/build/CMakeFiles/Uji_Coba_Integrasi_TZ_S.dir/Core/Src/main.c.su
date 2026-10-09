@@ -1,0 +1,6 @@
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/Core/Src/main.c:71:5:main	8	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/Core/Src/main.c:126:13:NonSecure_Init	24	static,ignoring_inline_asm
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/Core/Src/main.c:147:13:MX_GTZC_S_Init	280	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/Core/Src/main.c:241:13:MX_ICACHE_Init	4	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/Core/Src/main.c:262:13:MX_GPIO_Init	40	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/Core/Src/main.c:303:6:Error_Handler	4	static,ignoring_inline_asm

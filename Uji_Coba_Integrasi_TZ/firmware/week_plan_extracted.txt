@@ -1,0 +1,453 @@
+--- PAGE 1 ---
+26-Week Work Plan — Revision D
+Three-phase AMI meter  STM32U575VGT6 + ADE9000ACPZ-RL  in-house KiCad design, two spins, no evaluation board — spin 1 is our eval board
+Team: 5 engineers (onboarding week complete) + program lead + two part-time mentors (firmware, hardware/analog)    Horizon: weeks 1–26    Supersedes Revision C
+What changed in this revision
+1. No EVAL-ADE9000 board will be purchased; the team goes straight to its own hardware. 2. The one-week embedded onboarding is already complete, so week 1 starts on real
+work rather than training. Together these pull the spin 1 fabrication release forward by roughly three weeks and add real margin at the back end — but they also mean no metrology
+firmware can run on hardware until spin 1 arrives.
+1. The Two Changes, and What They Cost
+Change
+Consequence
+How this plan absorbs it
+Onboarding week already complete
+The team can read a schematic symbol, drive a GPIO, and use a debugger.
+Weeks 1–2 of Revision C are freed
+Schematic capture starts in week 2 instead of week 5. Every downstream milestone
+moves earlier, which is where the new back-end margin comes from
+No ADE9000 evaluation board
+There is no hardware on which to develop or validate metrology firmware until
+spin 1 boards arrive. The ADE9000 register map, SPI transactions and
+calibration logic must be written blind
+Two mitigations, both in section 3: the driver is written against the datasheet with a
+host-side mock and a test suite, and spin 1 is built in quantity so it becomes the
+eval board for the whole team
+Spin 1 is now on the critical path for
+firmware as well as hardware
+In Revision C a fabrication slip only delayed hardware. Now it stalls the
+metrology lane too
+Spin 1 is deliberately kept simple and releases in week 5. Section 3 keeps three
+firmware lanes productive during the fab window
+One honest note on cost
+A batch of spin 1 boards will not be cheaper than a single evaluation board — PCB, assembly, stencil and components at low volume usually exceed it. The justification for going
+direct is capability and schedule: the team learns the full design flow earlier, and the board matches our actual sensing design rather than ADI's demonstration one. If the decision
+was made purely on cost, it is worth re-checking the arithmetic before the fab order goes out.
+2. Board Definitions
+ Spin 1 — our evaluation board (low voltage)
+Spin 2 — full mains board
+Purpose
+Replaces the ADE9000 eval board. The firmware development platform for the whole
+team, and the team's first complete KiCad design
+The three-phase meter prototype
+Contents
+STM32U575VGT6, ADE9000, SPI and interrupt wiring, CT input conditioning, divider
+footprints, FRAM, display and debug headers, test points on every analog node, bench
+DC input
+Everything from spin 1, plus wide-range SMPS with diode-OR, terminal block, surge
+protection, supercapacitor and battery backup, tamper inputs, contactor driver, full
+creepage and clearance
+Power
+Bench DC only. No mains on this board, ever
+230/400 V three-phase, under the section 8 protocol
+
+--- PAGE 2 ---
+Spin 1 — our evaluation board (low voltage)
+Spin 2 — full mains board
+Signal source
+Isolated low-voltage AC source or direct signal injection into the CT and divider inputs
+Real three-phase source through the terminal block
+Quantity
+8–10 units — one per engineer, plus spares for destructive or rework experiments
+5–6 units
+Deliberate additions
+Generous test points, series resistors and 0 Ω links on every interface, socketed or
+accessible key nets. This board is for probing, not for looking tidy
+Test points retained; production-style layout otherwise
+Who leads layout
+E4, paired with the hardware mentor (M2)
+M2 owns the mains-side layout personally; E4 owns digital and analog
+Releases to fab
+Week 5
+Week 16
+Boards expected
+Week 8–9
+Week 19–20
+Quantity is the cheapest risk reduction in this plan
+Two boards means the team queues for hardware and one mistake halts a lane. Eight to ten boards means every engineer develops in parallel, someone can cut a track to test a
+theory, and a destroyed board is an afternoon rather than a fortnight. At low volume the marginal cost per extra board is small compared with the assembly setup you are paying for
+anyway.
+
+--- PAGE 3 ---
+3. Firmware Before Hardware Exists
+Weeks 1–8 have no ADE9000 hardware in the building. That time is not lost — it is spent building the parts of the metrology firmware that do not need a chip, in a form that
+can be tested on a workstation. This is the same discipline the onboarding week established with the command parser: separate logic that can be tested on a PC from code
+that must touch a register.
+Work item
+What it is
+How it is verified without hardware
+Register map header
+Every ADE9000 register, address, bit field and reset value transcribed from
+the datasheet into a header file
+Second-person review against the datasheet, line by line. This is tedious and it is exactly
+the kind of error that costs a week during bring-up
+SPI transaction layer
+Read, write, and burst-read functions with the device's framing and CRC
+handling
+Unit tests on the host against a mock SPI that replays known byte sequences from the
+datasheet's timing examples
+Device mock
+A software model of the ADE9000 that answers register reads with
+configurable values and can inject synthetic waveform data
+Lets the whole metrology pipeline — read, scale, accumulate, report — run and be tested
+on a workstation in CI
+Scaling and accumulation logic
+Conversion from raw codes to volts, amps, watts and kWh, including the
+fixed-point arithmetic
+Host tests with known inputs and hand-computed expected outputs. Overflow and rounding
+behaviour tested here, not discovered on hardware
+Calibration procedure draft
+The sequence and the arithmetic for gain, phase and offset calibration per
+channel
+Dry-run against the mock with simulated errors injected, so the procedure is exercised
+before it meets a real board
+Bring-up script
+The exact ordered list of what to read and write on first power-up, with
+expected values
+Reviewed by both mentors. Turns day one with a new board from improvisation into a
+checklist
+When spin 1 arrives in week 8, the team should be swapping the mock for the real SPI driver, not starting to write a driver. If the mock work is done properly, the first
+meaningful register read happens within days of the boards landing rather than weeks.
+Where to get the reference material without buying the board
+ADI publishes the ADE9000 evaluation board schematic, layout guidance and user guide as free documentation. The reference schematic is the starting point for our analog front
+end whether or not we own the hardware — download it in week 1 and design from it rather than from a blank sheet.
+4. Definition of Success at Week 26
+#
+Exit criterion
+1
+Spin 1 designed in KiCad, fabricated in quantity, brought up, and serving as the team's development platform
+2
+Spin 2 full mains board designed, fabricated, and safely powered from a three-phase source
+3
+ADE9000 reading all seven channels on spin 2 from the board's own CTs and dividers
+4
+Three-phase energy accumulation running on own hardware, with an accuracy comparison against a reference
+5
+Calibration procedure executed at least once on real hardware
+
+--- PAGE 4 ---
+#
+Exit criterion
+6
+Tamper inputs, display and local console working on the assembled unit
+7
+DLMS/COSEM read-only association: a test client reads billing registers and the event log
+8
+Power-fail sequence proven on spin 2: last-gasp write to FRAM, state intact across interruption
+9
+Documentation set: KiCad projects in version control, review records, ERC/DRC reports, BOMs, DFM correspondence, bring-up logs, defect registers for both spins, host-side test suite
+10
+Phase-2 plan: spin 3 scope, full V&V, PLN Pusertif / legal metrology / TKDN timeline and cost
+5. Gates
+Gate
+Week
+Exit criteria
+G0 — Requirements and setup
+1
+Requirements v1.0 frozen; KiCad project and CI running; PCBA manufacturer selected with design rules in hand; ADI reference documentation
+obtained
+G1 — Spin 1 release to fab
+5
+Schematic reviewed by both mentors; ERC clean; layout reviewed for mixed-signal integrity; DRC clean against manufacturer rules; BOM availability
+verified; DFM returned and resolved
+G2 — Spin 1 alive
+10
+Boards powered from bench DC; MCU boots; SPI link to ADE9000 working; channels respond to injected signals; mock replaced by the real driver
+G3 — Spin 2 release to fab
+16
+Schematic reviewed with mains-side scrutiny; creepage and clearance formally checked against IEC 62052-11; EMC design review passed; DRC
+clean; DFM resolved
+G-S — Electrical safety gate
+19
+Mandatory before the first mains power-up. Isolation transformer and RCD installed; training signed off; written power-up procedure reviewed;
+two-person rule agreed; M2 present
+G4 — Spin 2 alive on mains
+21
+Board safely powered from three phases; rails verified; all seven channels reading from the board's own sensors
+G5 — Handoff
+26
+Soak passed; documentation set delivered; Phase-2 plan presented
+
+--- PAGE 5 ---
+6. Team Roles
+ID
+Role
+Weeks 1–8 (no hardware)
+Weeks 9–26 (hardware available)
+E1
+Metrology and calibration
+Register map, scaling and accumulation logic, device mock, calibration
+procedure draft — all host-tested
+Swap mock for real driver on spin 1; calibration on hardware; accuracy work on
+spin 2
+E2
+Protocol and data model
+DLMS read-only association on the existing VGT6 board; OBIS model for
+three-phase registers
+Port to spin 1, then spin 2; event log and billing registers readable end to end
+E3
+Application, display, tamper
+Display, console and tamper event manager on the existing VGT6 board; digital
+schematic sheets
+Port to the new boards; tamper integration with the ADE9000 detections
+E4
+Hardware workstream lead
+KiCad project ownership, schematic integration, layout, DFM, manufacturer
+interface for spin 1, then spin 2
+Bring-up lead for both spins; test bench; defect registers
+E5
+QA, documentation,
+coordination
+BOM and sourcing, DFM correspondence, traceability, host-test CI, safety
+records
+Bring-up log discipline; review minutes; documentation set
+PL
+Program lead
+Manufacturer relationship, procurement, PLN engagement, safety accountability
+As before, plus Phase-2 preparation
+M1
+Firmware mentor
+Architecture and code review; reviews the register map and mock design
+Bring-up support; code review
+M2
+Hardware / analog mentor
+Schematic and layout review; pairs with E4 on spin 1 layout
+Owns mains-side layout of spin 2; safety officer; present at G-S and first
+mains power-up
+7. KiCad Discipline (carried forward, unchanged)
+
+Version control from day one. KiCad project in Git alongside the firmware; every review and fab release is a tagged commit.
+
+ERC and DRC in CI. kicad-cli runs on every push, exactly as the firmware tests do; a failing check blocks the merge.
+
+Library discipline. Custom symbols and footprints for the ADE9000 (LFCSP) and STM32U575VGT6 (LQFP100) built once, verified against datasheet drawings by a second
+person.
+
+Footprint verification ritual. Every new footprint printed 1:1 and physically checked against the real component before layout. This single habit prevents the most common
+and most expensive novice error — and with no eval board to fall back on, a wrong footprint now costs the whole metrology lane, not just a board.
+
+Manufacturer rules first. Stackup, trace and space, drill sizes, test point and fiducial requirements encoded as KiCad design rules before layout begins.
+
+Two-person review of every sheet. No schematic sheet goes to layout reviewed only by its author.
+
+Four-layer stackup minimum, with a continuous ground reference under the analog section and under the SPI bus.
+
+DFM round trip before the fab order, with a week budgeted on each spin.
+8. Electrical Safety Protocol
+ Unchanged, and it overrides schedule pressure in every case
+
+--- PAGE 6 ---
+Spin 1 carries no mains, which is why it is first. Spin 2 does. From week 19 onward, five engineers with no electrical experience are working on a 400 V board they designed
+themselves. Rules: formal training signed off before bench access  isolation transformer and RCD on every mains bench  two-person rule, no exceptions  written power-up
+procedure signed for each new revision  prove dead before touching  enclosed fixture for soak tests  M2 is safety officer with E4 deputising, either may halt work without
+justification.
+
+--- PAGE 7 ---
+9. Week-by-Week Plan
+Phase 1 — Spin 1 design and blind firmware (weeks 1–5)
+Wk
+E1 metrology (blind)
+E2 / E3 firmware
+E4 hardware lead
+E5 QA / procurement
+1
+ADE9000 datasheet study; register map
+header begun; Gate G0
+DLMS and display work continues on
+the existing VGT6 board
+KiCad project and CI set up; ADI reference schematic
+obtained; custom symbols and footprints begun
+PCBA manufacturer selected; design rules
+obtained; long-lead parts ordered (ADE9000,
+CTs, FRAM)
+2
+Register map complete and second-person
+reviewed; SPI transaction layer
+OBIS model; tamper event manager
+Spin 1 schematic capture: analog front end adapted
+from the reference, with E1 on the analog sheets
+BOM v1 with availability check; footprints
+verified 1:1 against real parts
+3
+Device mock; scaling and accumulation logic
+with host tests
+Display screens for three-phase
+quantities
+Schematic complete; full review with both mentors;
+corrections applied; ERC clean
+Review minutes; action tracking; test point list
+agreed
+4
+Calibration procedure drafted; dry-run against
+the mock
+Console command set for metering
+data
+Layout, paired with M2; DRC clean; DFM submitted
+DFM findings tracked to closure; assembly
+documentation
+5
+Bring-up script written and reviewed by both
+mentors
+Host-side test suite green in CI
+DFM resolved. Gate G1 — spin 1 released to fab,
+8–10 units
+Fab package archived and tagged; incoming
+inspection checklist
+Phase 2 — Fabrication window and spin 1 bring-up (weeks 6–10)
+Wk
+Activities
+Notes
+6–7
+Spin 1 in fabrication. Metrology pipeline fully exercised against the mock in CI. DLMS, display, tamper and console matured on the existing
+VGT6 board. Test bench assembled: bench supplies, isolated low-voltage AC source, signal injection rig, reference meter
+Firmware lanes are productive because of section
+3. Without the mock work, this fortnight would be
+idle
+8
+Spin 1 boards received. Incoming inspection; bench-DC power-up of one unit following the bring-up script; MCU boot and SWD access
+confirmed
+One board first, not all of them. Find the fault on
+unit one
+9
+SPI link to ADE9000 established; mock replaced by the real driver; first real register reads; remaining units built up and distributed
+This is the moment the blind work pays off, or
+does not
+10
+Signal injection into the CT and divider inputs; per-channel RMS and power verified; defects logged for spin 2. Gate G2 — spin 1 alive
+Every engineer now has their own board
+Phase 3 — Spin 2 design (weeks 11–16)
+Wk
+Firmware on spin 1 (E1–E3)
+Spin 2 design (E4 + M2)
+Program / QA
+11–12
+Energy accumulation across three phases; calibration method
+exercised on real silicon; display and console ported
+Spin 2 schematic: SMPS with diode-OR, surge protection, terminal
+block, backup, contactor driver — M2 leads the mains sheets
+Spin 1 defect register closed out into the spin 2
+change list
+13–14
+Tamper detections integrated with ADE9000 reverse-energy
+and neutral-loss flags; DLMS read set frozen
+Schematic complete; creepage and clearance check against IEC
+62052-11; EMC design review
+Safety gate preparation begins: transformer and
+RCD installed, procedure drafted
+
+--- PAGE 8 ---
+Wk
+Firmware on spin 1 (E1–E3)
+Spin 2 design (E4 + M2)
+Program / QA
+15–16
+Firmware consolidation; host test coverage extended;
+documentation catch-up
+Spin 2 layout — M2 owns the mains side, E4 the digital and analog.
+DRC clean; DFM resolved. Gate G3 — release to fab
+Three-phase source booked for weeks 21–24; fab
+package tagged
+Phase 4 — Mains bring-up, integration and handoff (weeks 17–26)
+Wk
+Activities
+17–18
+Spin 2 in fabrication. Continued firmware maturation on spin 1; safety fixture built; power-up procedure finalised and reviewed
+19
+Spin 2 boards received; inspection; low-voltage digital-only power-up first. Gate G-S — electrical safety gate, M2 present
+20
+First mains power-up under written procedure; rail checks; SMPS and diode-OR verification; SPI integrity on the new board
+21
+All seven channels reading from the board's own CTs and dividers; phase sequence and neutral verified. Gate G4
+22
+Calibration executed on hardware: gain, phase and offset per channel, with the metrology consultant present
+23
+Accuracy comparison against the three-phase reference across load and power factor; results recorded
+24
+Tamper, display, DLMS read and the power-fail sequence verified end to end on spin 2
+25
+Soak test in the safety enclosure; defect triage; feature freeze; documentation sprint
+26
+Phase-2 plan presented; final demo and handoff. Gate G5. Retrospective
+
+--- PAGE 9 ---
+10. Risk Table
+Risk
+Likelihood
+Mitigation / pre-agreed response
+Injury during mains working (week 19
+onward)
+Low but
+unacceptable
+Section 8 in full. G-S is a hard stop. M2 or E4 may halt work at any time without justification. Never traded against schedule
+Spin 1 has a fault that blocks the metrology
+lane
+Medium — new in
+this revision
+With no eval board there is no fallback platform. Mitigations: generous test points and 0 Ω links for isolation and rework; 8–10
+units so a damaged board is not fatal; bring-up script reviewed in advance; M2 available in week 8
+Register map transcription error found during
+bring-up
+Medium
+Second-person review in week 2 against the datasheet. If found late, it is a firmware fix rather than a board fix — which is why
+the mock work is worth doing even though it is tedious
+Footprint or symbol error reaches fabrication
+Medium
+1:1 print-and-check ritual. Now more costly than in Revision C: a wrong ADE9000 footprint stalls both hardware and firmware
+Spin 2 needs a third spin
+Medium–high
+Accepted. Spin 3 is a Phase-2 item. Blue-wire fixes and a documented change list are the Phase-1 deliverable
+Layout quality insufficient for class 0.5S
+Medium
+Analog section adapted from the ADI reference layout. If measured performance falls short, re-baseline to class 1.0 at G4 rather
+than chasing it into Phase 2
+Fabrication slips on either spin
+Medium
+Weeks 17–18 are buffer. Beyond two weeks' slip, reduce the week 23 accuracy comparison to a spot check at a few load points
+and protect bring-up and calibration
+M2 unavailable
+Medium
+Program-stopping for the mains phase: G-S cannot pass without the safety officer, and the spin 2 mains layout is M2's personal
+deliverable
+Scope pressure to re-add STS or full DLMS
+Medium
+Baseline is section 4. Additions only via a gate review stating explicitly what is displaced
+11. Program Lead Checklist
+
+Week 1: PCBA manufacturer selected and design rules obtained in writing; both mentors' schedules confirmed; ADI reference documentation downloaded; long-lead parts
+ordered (ADE9000, CTs with phase-error data, FRAM, reference meter)
+
+Week 1: re-check the spin 1 batch cost against what an evaluation board would have cost — if the gap is large, the decision deserves one more look before the fab order
+
+Week 3: attend the spin 1 schematic review personally
+
+Week 5 and week 16: confirm DFM findings are resolved before each fab order is placed
+
+Week 8: ensure M2 is present for spin 1 first power-up — the first board is where the expensive mistakes surface
+
+Week 14: attend the spin 2 creepage and clearance review; this is a safety review, not a design review
+
+Week 19: chair the safety gate G-S. Do not delegate it
+
+Week 21: Phase-2 budget conversation opened with management
+
+Week 26: handoff review and Phase-2 decision
+12. What This Revision Asks You to Accept
+
+--- PAGE 10 ---
+Revision D is the tightest-coupled plan of the four. Removing the evaluation board removes the safety net underneath the metrology lane: if spin 1 has a serious fault,
+firmware and hardware stall together. In exchange, the completed onboarding buys back three weeks, so the back end of the schedule now has genuine margin —
+calibration and the accuracy comparison sit in weeks 22–23 rather than being squeezed against the handoff.
+Two things decide whether this works. The first is the blind firmware work in section 3: done properly, spin 1 goes from boards-in-hand to real register reads in days. Done
+carelessly, the team starts writing a driver in week 9 and the plan loses its margin immediately. The second is building spin 1 in quantity — it is the cheapest insurance
+available against the risk this revision introduces.
+Prepared by Edy Gunawan, Program Lead. Revision D supersedes Revision C. Supporting detail in the three-phase meter preliminary design document.
+

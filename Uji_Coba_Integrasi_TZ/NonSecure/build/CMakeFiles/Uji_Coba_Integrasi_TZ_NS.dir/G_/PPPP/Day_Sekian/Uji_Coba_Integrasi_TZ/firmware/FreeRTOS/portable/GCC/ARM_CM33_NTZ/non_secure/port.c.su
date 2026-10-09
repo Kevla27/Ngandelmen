@@ -1,0 +1,14 @@
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure/port.c:867:1:vPortSetupTimerInterrupt	4	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure/port.c:900:13:prvTaskExitError	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure/port.c:1044:13:prvSetupFPU	4	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure/port.c:1068:6:vPortYield	4	static,ignoring_inline_asm
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure/port.c:1081:6:vPortEnterCritical	8	static,ignoring_inline_asm
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure/port.c:1092:6:vPortExitCritical	8	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure/port.c:1106:6:SysTick_Handler	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure/port.c:1138:6:vPortSVCHandler_C	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure/port.c:1715:14:pxPortInitialiseStack	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure/port.c:1817:12:xPortStartScheduler	8	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure/port.c:1941:6:vPortEndScheduler	8	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure/port.c:2150:12:xPortIsInsideInterrupt	16	static,ignoring_inline_asm
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure/port.c:2171:6:vPortValidateInterruptPriority	16	static,ignoring_inline_asm
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure/port.c:2229:6:vPortConfigureInterruptPriorities	16	static

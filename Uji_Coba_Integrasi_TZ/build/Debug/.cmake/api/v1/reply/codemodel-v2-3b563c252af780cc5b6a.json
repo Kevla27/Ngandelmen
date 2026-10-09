@@ -1,0 +1,70 @@
+{
+	"configurations" : 
+	[
+		{
+			"abstractTargets" : [],
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f040eec181a89de70dbe.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.22"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Uji_Coba_Integrasi_TZ",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Uji_Coba_Integrasi_TZ_NS::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Uji_Coba_Integrasi_TZ_NS-Debug-b43a69f51fadf37757c6.json",
+					"name" : "Uji_Coba_Integrasi_TZ_NS",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Uji_Coba_Integrasi_TZ_S::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Uji_Coba_Integrasi_TZ_S-Debug-f5825fef3cb9a994afda.json",
+					"name" : "Uji_Coba_Integrasi_TZ_S",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/build/Debug",
+		"source" : "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	}
+}

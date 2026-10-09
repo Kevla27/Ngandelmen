@@ -1,0 +1,26 @@
+# ninja log v7
+86	347	8132124387191286	CMakeFiles/Uji_Coba_Integrasi_TZ_S.dir/Core/Startup/startup_stm32u575xx.s.obj	14aefe3e3eb5249e
+57	541	8132124386903804	CMakeFiles/Uji_Coba_Integrasi_TZ_S.dir/Core/Src/sysmem.c.obj	89d2ab05bba8dced
+72	870	8132124387049504	CMakeFiles/Uji_Coba_Integrasi_TZ_S.dir/Core/Src/syscalls.c.obj	cbe075c047dd167
+28	1673	8132124386615463	CMakeFiles/Uji_Coba_Integrasi_TZ_S.dir/Core/Src/stm32u5xx_hal_msp.c.obj	7946b4d0567f1e9e
+208	1762	8132124388411974	CMakeFiles/STM32_Drivers.dir/G_/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_hal_i2c_ex.c.obj	847dff4440d58b1b
+41	1777	8132124386742916	CMakeFiles/Uji_Coba_Integrasi_TZ_S.dir/Core/Src/secure_nsc.c.obj	728d686290d29e97
+3	1794	8132124386358965	CMakeFiles/Uji_Coba_Integrasi_TZ_S.dir/Core/Src/main.c.obj	db749cbe41e7c574
+105	1809	8132124387375393	CMakeFiles/STM32_Drivers.dir/Core/Src/system_stm32u5xx_s.c.obj	1ec0508887c11b86
+15	1824	8132124386483984	CMakeFiles/Uji_Coba_Integrasi_TZ_S.dir/Core/Src/stm32u5xx_it.c.obj	a1f387f09eca971f
+176	1839	8132124388095597	CMakeFiles/STM32_Drivers.dir/G_/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_hal.c.obj	de6aea48bde8b76d
+193	1881	8132124388255467	CMakeFiles/STM32_Drivers.dir/G_/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_hal_i2c.c.obj	b036ae5fb7ce58bd
+119	1901	8132124387526227	CMakeFiles/STM32_Drivers.dir/G_/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_hal_cortex.c.obj	f618663924ae93bf
+348	1986	8132124389816091	CMakeFiles/STM32_Drivers.dir/G_/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_hal_rcc.c.obj	fc77c11da4db7d5
+555	2014	8132124391879936	CMakeFiles/STM32_Drivers.dir/G_/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_hal_rcc_ex.c.obj	8b961252a1c6c0e6
+135	2021	8132124387677335	CMakeFiles/STM32_Drivers.dir/G_/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_hal_dma.c.obj	3d524a156343aa2f
+870	2035	8132124395036985	CMakeFiles/STM32_Drivers.dir/G_/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_hal_flash.c.obj	effb8a6863a2b8b0
+160	2122	8132124387929178	CMakeFiles/STM32_Drivers.dir/G_/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_hal_dma_ex.c.obj	7dd6b0198633eec5
+1674	2643	8132124403064591	CMakeFiles/STM32_Drivers.dir/G_/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_hal_flash_ex.c.obj	b1a0a3661674b763
+1780	2644	8132124404125671	CMakeFiles/STM32_Drivers.dir/G_/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_hal_exti.c.obj	6e573fd1c48c354c
+1795	2645	8132124404281329	CMakeFiles/STM32_Drivers.dir/G_/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_hal_pwr.c.obj	c1ec269faeb9162b
+1762	2671	8132124403956829	CMakeFiles/STM32_Drivers.dir/G_/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_hal_gpio.c.obj	30da2e663c236c1d
+1839	2689	8132124404719036	CMakeFiles/STM32_Drivers.dir/G_/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_hal_icache.c.obj	e007edf6c7f0b028
+1809	2740	8132124404422101	CMakeFiles/STM32_Drivers.dir/G_/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_hal_pwr_ex.c.obj	a86b6a0ce2eb0ac7
+1824	2762	8132124404567623	CMakeFiles/STM32_Drivers.dir/G_/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_hal_gtzc.c.obj	112400ccc4c6205d
+2762	3216	8132124413952495	Uji_Coba_Integrasi_TZ_S.elf	a40cfe09e76cc79b

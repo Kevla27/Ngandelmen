@@ -1,0 +1,228 @@
+{
+	"backtrace" : 4,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"ExternalProject_Add",
+			"include",
+			"add_dependencies"
+		],
+		"files" : 
+		[
+			"G:/STM32CubeCLT_1.22.0/CMake/share/cmake-4.3/Modules/ExternalProject.cmake",
+			"mx-generated.cmake",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 21,
+				"parent" : 0
+			},
+			{
+				"file" : 1,
+				"parent" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 22,
+				"parent" : 2
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 3176,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 3248,
+				"parent" : 3
+			}
+		]
+	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 5,
+			"id" : "Uji_Coba_Integrasi_TZ_S::@6890427a1f51a3e7e1df"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "ExternalProjectTargets/Uji_Coba_Integrasi_TZ_NS"
+	},
+	"id" : "Uji_Coba_Integrasi_TZ_NS::@6890427a1f51a3e7e1df",
+	"name" : "Uji_Coba_Integrasi_TZ_NS",
+	"orderDependencies" : 
+	[
+		{
+			"backtrace" : 5,
+			"id" : "Uji_Coba_Integrasi_TZ_S::@6890427a1f51a3e7e1df"
+		}
+	],
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "build/Debug/CMakeFiles/Uji_Coba_Integrasi_TZ_NS",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Debug/CMakeFiles/Uji_Coba_Integrasi_TZ_NS.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Debug/CMakeFiles/Uji_Coba_Integrasi_TZ_NS-complete.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Debug/NonSecure/src/Uji_Coba_Integrasi_TZ_NS-stamp/Uji_Coba_Integrasi_TZ_NS-build.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Debug/NonSecure/src/Uji_Coba_Integrasi_TZ_NS-stamp/Uji_Coba_Integrasi_TZ_NS-configure.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Debug/NonSecure/src/Uji_Coba_Integrasi_TZ_NS-stamp/Uji_Coba_Integrasi_TZ_NS-download.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Debug/NonSecure/src/Uji_Coba_Integrasi_TZ_NS-stamp/Uji_Coba_Integrasi_TZ_NS-install.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Debug/NonSecure/src/Uji_Coba_Integrasi_TZ_NS-stamp/Uji_Coba_Integrasi_TZ_NS-mkdir.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Debug/NonSecure/src/Uji_Coba_Integrasi_TZ_NS-stamp/Uji_Coba_Integrasi_TZ_NS-patch.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Debug/NonSecure/src/Uji_Coba_Integrasi_TZ_NS-stamp/Uji_Coba_Integrasi_TZ_NS-update.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Debug/CMakeFiles/Uji_Coba_Integrasi_TZ_S-complete.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Debug/Secure/src/Uji_Coba_Integrasi_TZ_S-stamp/Uji_Coba_Integrasi_TZ_S-build.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Debug/Secure/src/Uji_Coba_Integrasi_TZ_S-stamp/Uji_Coba_Integrasi_TZ_S-configure.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Debug/Secure/src/Uji_Coba_Integrasi_TZ_S-stamp/Uji_Coba_Integrasi_TZ_S-download.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Debug/Secure/src/Uji_Coba_Integrasi_TZ_S-stamp/Uji_Coba_Integrasi_TZ_S-install.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Debug/Secure/src/Uji_Coba_Integrasi_TZ_S-stamp/Uji_Coba_Integrasi_TZ_S-mkdir.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Debug/Secure/src/Uji_Coba_Integrasi_TZ_S-stamp/Uji_Coba_Integrasi_TZ_S-patch.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Debug/Secure/src/Uji_Coba_Integrasi_TZ_S-stamp/Uji_Coba_Integrasi_TZ_S-update.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

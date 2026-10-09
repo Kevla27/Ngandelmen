@@ -1,0 +1,4 @@
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/Uji_Coba_Integrasi_TZ_S.dir
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/STM32_Drivers.dir
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/edit_cache.dir
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/build/CMakeFiles/rebuild_cache.dir

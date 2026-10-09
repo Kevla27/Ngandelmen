@@ -1,0 +1,10 @@
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c:10:6:display_init	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c:28:6:display_update_measurements	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c:34:6:display_process_tick	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c:57:6:display_handle_button_press	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c:79:6:display_set_tamper_status	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c:85:6:display_set_internal_alarm	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c:91:6:display_get_spln_tamper_info	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c:138:6:display_get_spln_alarm_info	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c:166:6:display_render_frame	64	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c:253:6:display_render_spln_frame	64	static

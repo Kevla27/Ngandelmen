@@ -1,0 +1,4 @@
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/drivers/bsp/src/bsp_lpuart_dma.c:4:15:bsp_lpuart_dma_init	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/drivers/bsp/src/bsp_lpuart_dma.c:15:6:bsp_lpuart_dma_rx_idle_isr	544	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/drivers/bsp/src/bsp_lpuart_dma.c:49:15:bsp_lpuart_dma_transmit	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/drivers/bsp/src/bsp_lpuart_dma.c:64:6:bsp_lpuart_dma_tx_cplt_isr	16	static

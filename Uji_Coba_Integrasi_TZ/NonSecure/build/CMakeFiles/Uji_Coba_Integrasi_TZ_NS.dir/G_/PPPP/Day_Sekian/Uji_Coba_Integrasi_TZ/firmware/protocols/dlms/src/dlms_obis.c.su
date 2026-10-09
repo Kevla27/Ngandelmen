@@ -1,0 +1,8 @@
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_obis.c:6:20:rtos_meter_data_lock	4	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_obis.c:7:20:rtos_meter_data_unlock	4	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_obis.c:107:6:dlms_obis_match	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_obis.c:117:15:dlms_obis_lookup	32	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_obis.c:142:6:dlms_obis_update_from_meter	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_obis.c:191:6:dlms_obis_increment_tamper_counter	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_obis.c:227:6:dlms_obis_set_tamper_counter	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_obis.c:252:10:dlms_obis_get_tamper_counter	32	static

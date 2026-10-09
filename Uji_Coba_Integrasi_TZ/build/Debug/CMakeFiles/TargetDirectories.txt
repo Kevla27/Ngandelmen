@@ -1,0 +1,4 @@
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/build/Debug/CMakeFiles/Uji_Coba_Integrasi_TZ_S.dir
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/build/Debug/CMakeFiles/Uji_Coba_Integrasi_TZ_NS.dir
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/build/Debug/CMakeFiles/edit_cache.dir
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/build/Debug/CMakeFiles/rebuild_cache.dir

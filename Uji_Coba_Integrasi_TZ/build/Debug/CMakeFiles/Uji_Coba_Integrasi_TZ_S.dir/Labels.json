@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/build/Debug/CMakeFiles/Uji_Coba_Integrasi_TZ_S"
+		},
+		{
+			"file" : "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/build/Debug/CMakeFiles/Uji_Coba_Integrasi_TZ_S.rule"
+		},
+		{
+			"file" : "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/build/Debug/CMakeFiles/Uji_Coba_Integrasi_TZ_S-complete.rule"
+		},
+		{
+			"file" : "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/build/Debug/Secure/src/Uji_Coba_Integrasi_TZ_S-stamp/Uji_Coba_Integrasi_TZ_S-build.rule"
+		},
+		{
+			"file" : "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/build/Debug/Secure/src/Uji_Coba_Integrasi_TZ_S-stamp/Uji_Coba_Integrasi_TZ_S-configure.rule"
+		},
+		{
+			"file" : "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/build/Debug/Secure/src/Uji_Coba_Integrasi_TZ_S-stamp/Uji_Coba_Integrasi_TZ_S-download.rule"
+		},
+		{
+			"file" : "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/build/Debug/Secure/src/Uji_Coba_Integrasi_TZ_S-stamp/Uji_Coba_Integrasi_TZ_S-install.rule"
+		},
+		{
+			"file" : "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/build/Debug/Secure/src/Uji_Coba_Integrasi_TZ_S-stamp/Uji_Coba_Integrasi_TZ_S-mkdir.rule"
+		},
+		{
+			"file" : "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/build/Debug/Secure/src/Uji_Coba_Integrasi_TZ_S-stamp/Uji_Coba_Integrasi_TZ_S-patch.rule"
+		},
+		{
+			"file" : "G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/build/Debug/Secure/src/Uji_Coba_Integrasi_TZ_S-stamp/Uji_Coba_Integrasi_TZ_S-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Uji_Coba_Integrasi_TZ_S"
+		],
+		"name" : "Uji_Coba_Integrasi_TZ_S"
+	}
+}

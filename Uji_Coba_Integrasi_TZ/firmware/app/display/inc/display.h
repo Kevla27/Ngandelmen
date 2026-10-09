@@ -1,0 +1,117 @@
+/**
+ * @file display.h
+ * @brief Modul Tampilan LCD & Navigasi Carousel Smart Meter 3-Fasa (E3/ENG-3)
+ */
+
+#ifndef DISPLAY_H
+#define DISPLAY_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <stdint.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include "tamper_manager.h"
+
+typedef enum {
+    DISPLAY_MODE_AUTO_CAROUSEL = 0,
+    DISPLAY_MODE_MANUAL_SCROLL
+} display_mode_t;
+
+typedef enum {
+    BUTTON_DIR_UP = 0,
+    BUTTON_DIR_DOWN
+} button_dir_t;
+
+typedef enum {
+    DISP_PAGE_IDPEL = 0,
+    DISP_PAGE_VOLTAGE_R,
+    DISP_PAGE_VOLTAGE_S,
+    DISP_PAGE_VOLTAGE_T,
+    DISP_PAGE_CURRENT_R,
+    DISP_PAGE_CURRENT_S,
+    DISP_PAGE_CURRENT_T,
+    DISP_PAGE_CURRENT_N,
+    DISP_PAGE_ACTIVE_POWER,
+    DISP_PAGE_REACTIVE_POWER,
+    DISP_PAGE_APPARENT_POWER,
+    DISP_PAGE_POWER_FACTOR,
+    DISP_PAGE_FREQUENCY,
+    DISP_PAGE_ACTIVE_ENERGY,
+    DISP_PAGE_TAMPER_ALARM,
+    DISP_PAGE_COUNT
+} display_page_id_t;
+
+typedef struct {
+    uint32_t voltage_r_dvolts;
+    uint32_t voltage_s_dvolts;
+    uint32_t voltage_t_dvolts;
+    
+    uint32_t current_r_mamps;
+    uint32_t current_s_mamps;
+    uint32_t current_t_mamps;
+    uint32_t current_n_mamps;
+    
+    int32_t  active_power_w;
+    int32_t  reactive_power_var;
+    uint32_t apparent_power_va;
+    
+    uint16_t power_factor_ppm;
+    uint16_t frequency_mhz;
+    
+    uint64_t active_energy_wh;
+} meter_measurements_t;
+
+typedef struct {
+    display_mode_t   mode;
+    display_page_id_t current_page;
+    uint32_t         carousel_interval_ms;
+    uint32_t         timer_accumulator_ms;
+    uint32_t         manual_timeout_ms;
+    meter_measurements_t meas_buffer;
+    char             customer_id[16];
+    bool             alarm_icon_active;
+    uint32_t         active_tamper_mask;  /* Bitmask tamper_vector_t (SPLN D3.006 Tabel 6) */
+    uint32_t         active_alarm_mask;   /* Bitmask spln_internal_alarm_t (SPLN D3.006 Tabel 4) */
+} display_context_t;
+
+bool display_init(display_context_t *ctx, const char *customer_id, uint32_t carousel_interval_ms);
+void display_render(display_context_t *ctx);
+void display_update_measurements(display_context_t *ctx, const meter_measurements_t *meas);
+void display_process_tick(display_context_t *ctx, uint32_t elapsed_ms);
+void display_handle_button_press(display_context_t *ctx, button_dir_t dir);
+void display_render_frame(const display_context_t *ctx, char *out_line1, char *out_line2, char *out_line3, size_t max_len);
+
+/**
+ * @brief Helper pengaturan dan pembacaan teks / kode error resmi SPLN D3.006:2021
+ */
+void display_set_tamper_status(display_context_t *ctx, uint32_t active_tamper_mask);
+void display_set_internal_alarm(display_context_t *ctx, uint32_t active_alarm_mask);
+void display_get_spln_tamper_info(uint32_t tamper_mask, char *out_text, size_t text_sz, char *out_code, size_t code_sz);
+void display_get_spln_alarm_info(uint32_t alarm_mask, char *out_text, size_t text_sz, char *out_code, size_t code_sz);
+
+/**
+ * @brief Struktur Tampilan Standar Layar Meter PLN (SPLN Gambar 4)
+ * Baris 1: Simbol (Respon Alarm NNN, Baterai, Arah Arus, Fasa L/I, Komunikasi) dan Kode OBIS
+ * Baris 2: Indeks Scroll (zz), Teks Nilai Besar (Font 11x18), dan Satuan (kW, V, A, kWh, ERRxx)
+ */
+typedef struct {
+    char header_symbols[32];  /* Baris 1: Simbol & Kode gabungan (Font 6x8) */
+    char scroll_index_zz[6];  /* Baris 2 Kiri: zz urutan scrolling (Font 6x8) */
+    char main_value[16];      /* Baris 2 Tengah: Nilai angka utama besar / Teks status (RUSAK/PERIKSA/REVERSE) */
+    char unit[10];            /* Baris 2 Kanan: Satuan besaran listrik / Kode Error (ERR00..ERR27) */
+    bool is_large_font;       /* true jika menggunakan Font 11x18 */
+    bool is_alarm_active;     /* true jika alarm sabotase/hardware aktif */
+    char alarm_code[6];       /* Respon alarm NNN ("OK" atau "!ALM") */
+    char obis_code[10];       /* Kode register OBIS terpisah (misal "32.07", "96.50") */
+} display_spln_frame_t;
+
+void display_render_spln_frame(const display_context_t *ctx, display_spln_frame_t *frame);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* DISPLAY_H */

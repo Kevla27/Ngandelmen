@@ -1,0 +1,5 @@
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/list.c:49:6:vListInitialise	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/list.c:89:6:vListInitialiseItem	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/list.c:105:6:vListInsertEnd	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/list.c:139:6:vListInsert	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/FreeRTOS/list.c:217:13:uxListRemove	24	static

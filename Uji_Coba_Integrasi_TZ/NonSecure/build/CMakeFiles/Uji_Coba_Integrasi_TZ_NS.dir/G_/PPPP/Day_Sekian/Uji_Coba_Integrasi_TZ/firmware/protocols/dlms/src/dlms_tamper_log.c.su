@@ -1,0 +1,4 @@
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_tamper_log.c:5:15:dlms_tamper_log_init	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_tamper_log.c:11:15:dlms_tamper_log_add_event	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_tamper_log.c:33:15:dlms_tamper_log_get_entry	32	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_tamper_log.c:51:8:dlms_tamper_log_encode_axdr	40	static

@@ -1,0 +1,3 @@
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_hdlc.c:40:10:dlms_hdlc_crc16	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_hdlc.c:49:8:dlms_hdlc_encode_frame	584	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_hdlc.c:140:15:dlms_hdlc_decode_frame	584	static

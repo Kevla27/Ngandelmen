@@ -1,0 +1,11 @@
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/NonSecure/Core/Src/main.c:79:13:console_uart_transmit_bsp	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/NonSecure/Core/Src/main.c:83:13:dlms_uart_tx_callback	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/NonSecure/Core/Src/main.c:87:6:HAL_UARTEx_RxEventCallback	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/NonSecure/Core/Src/main.c:100:6:HAL_UART_ErrorCallback	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/NonSecure/Core/Src/main.c:112:5:main	64	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/NonSecure/Core/Src/main.c:186:6:SystemClock_Config	128	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/NonSecure/Core/Src/main.c:222:13:MX_GPDMA1_Init	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/NonSecure/Core/Src/main.c:248:13:MX_I2C1_Init	8	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/NonSecure/Core/Src/main.c:270:13:MX_USART2_UART_Init	8	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/NonSecure/Core/Src/main.c:299:13:MX_GPIO_Init	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/NonSecure/Core/Src/main.c:323:6:Error_Handler	4	static,ignoring_inline_asm

@@ -1,0 +1,6 @@
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/profiling/src/load_profile.c:12:10:load_profile_calc_crc16	40	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/profiling/src/load_profile.c:32:6:load_profile_init	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/profiling/src/load_profile.c:37:6:load_profile_add_entry	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/profiling/src/load_profile.c:55:6:load_profile_get_entry	32	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/profiling/src/load_profile.c:74:8:load_profile_get_count	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/profiling/src/load_profile.c:78:6:load_profile_verify_integrity	24	static

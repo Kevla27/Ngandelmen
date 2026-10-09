@@ -1,0 +1,15 @@
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/Metrology/Metrology.c:7:7:Metrology_CurrentFromAIRMS	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/Metrology/Metrology.c:12:7:Metrology_CurrentFromBIRMS	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/Metrology/Metrology.c:17:7:Metrology_CurrentFromCIRMS	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/Metrology/Metrology.c:22:7:Metrology_CurrentFromNIRMS	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/Metrology/Metrology.c:31:7:Metrology_VoltageFromAVRMS	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/Metrology/Metrology.c:36:7:Metrology_VoltageFromBVRMS	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/Metrology/Metrology.c:41:7:Metrology_VoltageFromCVRMS	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/Metrology/Metrology.c:50:7:Metrology_PowerFromAWATT	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/Metrology/Metrology.c:55:7:Metrology_PowerFromBWATT	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/Metrology/Metrology.c:60:7:Metrology_PowerFromCWATT	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/Metrology/Metrology.c:69:9:Metrology_CombineEnergyRegister	72	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/Metrology/Metrology.c:84:7:Metrology_EnergyFromRaw	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/Metrology/Metrology.c:89:7:Metrology_EnergyKWhFromRaw	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/Metrology/Metrology.c:98:7:Metrology_FrequencyFromPeriod	24	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/E1/Metrology/Metrology.c:114:7:Metrology_THDFromRaw	16	static

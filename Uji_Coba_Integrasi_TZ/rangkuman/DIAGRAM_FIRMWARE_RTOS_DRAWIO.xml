@@ -1,0 +1,148 @@
+<mxfile host="app.diagrams.net" modified="2026-10-06T09:15:00.000Z" agent="Mozilla/5.0" version="21.0.0" type="device">
+  <diagram id="firmware-rtos-simplified" name="Arsitektur Runtime FreeRTOS (Sederhana)">
+    <mxGraphModel dx="1422" dy="890" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="820" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ==================== HEADER BANNER ==================== -->
+        <mxCell id="header_box" value="&lt;b style=&quot;font-size: 16px; color: #0D47A1;&quot;&gt;ARSITEKTUR FIRMWARE FREERTOS — SMART METER 3-FASA (STM32U575)&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #455A64;&quot;&gt;Model Konkurensi 4-Task, Sinkronisasi Bebas Data-Race (Mutex &amp;amp; Queue), dan Integrasi E1 + E2 + E3&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0F4F8;strokeColor=#90CAF9;strokeWidth=1.5;arcSize=6;align=center;" vertex="1" parent="1">
+          <mxGeometry x="40" y="15" width="1320" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== KOLOM 1: AKUISISI & INPUT (PRODUCERS) ==================== -->
+        <mxCell id="lane_producers" value="&lt;b style=&quot;font-size: 13px; color: #2E7D32;&quot;&gt;1. AKUISISI &amp;amp; SENSOR (PRODUCER TASKS)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F9FBE7;strokeColor=#C0CA33;strokeWidth=1.5;verticalAlign=top;align=left;spacingLeft=15;spacingTop=10;arcSize=4;" vertex="1" parent="1">
+          <mxGeometry x="40" y="85" width="370" height="640" as="geometry" />
+        </mxCell>
+
+        <!-- HW: ADE9000 SPI -->
+        <mxCell id="in_ade9000" value="&lt;b style=&quot;color: #1B5E20; font-size: 12px;&quot;&gt;ADE9000 Metrology AFE&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px; color: #2E7D32;&quot;&gt;Bus: SPI1 (1 Hz Polling) | Sinyal Tegangan &amp;amp; Arus 3-Fasa&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#4CAF50;strokeWidth=1.5;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="130" width="330" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Task: Metrology -->
+        <mxCell id="t_metro" value="&lt;b style=&quot;font-size: 12px; color: #1B5E20;&quot;&gt;task_metrology&lt;/b&gt; &lt;span style=&quot;color: #2E7D32;&quot;&gt;[Priority 3 - Medium]&lt;/span&gt;&lt;br&gt;&lt;i style=&quot;font-size: 10px; color: #388E3C;&quot;&gt;[Penanggung Jawab: E1 - Metrology Lead]&lt;/i&gt;&lt;hr style=&quot;margin: 4px 0;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;• Eksekusi pembacaan SPI ADE9000 secara periodik (1s)&lt;br&gt;• Konversi register ke besaran fisik (V, A, W, Var, Hz, kWh)&lt;br&gt;• Publikasikan data terkalibrasi ke &lt;b&gt;xMeasMutex&lt;/b&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C8E6C9;strokeColor=#2E7D32;strokeWidth=2;arcSize=8;align=left;spacing=8;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="60" y="225" width="330" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- HW: Tamper Switch EXTI -->
+        <mxCell id="in_tamper" value="&lt;b style=&quot;color: #B71C1C; font-size: 12px;&quot;&gt;Switch Sabotase / Tamper&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px; color: #C62828;&quot;&gt;Pin: PC13 (EXTI13 Falling IRQ) | Deteksi Buka Tutup Casing&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEBEE;strokeColor=#EF5350;strokeWidth=1.5;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="415" width="330" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Task: Tamper -->
+        <mxCell id="t_tamper" value="&lt;b style=&quot;font-size: 12px; color: #B71C1C;&quot;&gt;task_tamper&lt;/b&gt; &lt;span style=&quot;color: #C62828;&quot;&gt;[Priority 4 - Preemptive High]&lt;/span&gt;&lt;br&gt;&lt;i style=&quot;font-size: 10px; color: #D32F2F;&quot;&gt;[Penanggung Jawab: E3 - Tamper &amp;amp; Security Lead]&lt;/i&gt;&lt;hr style=&quot;margin: 4px 0;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;• Tangkap sinyal interupsi seketika saat tutup meter dibuka&lt;br&gt;• Debounce &amp;amp; verifikasi validitas sabotase fisik (100ms)&lt;br&gt;• Kirim pesan event asinkron ke &lt;b&gt;xTamperQueue&lt;/b&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCDD2;strokeColor=#C62828;strokeWidth=2;arcSize=8;align=left;spacing=8;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="60" y="510" width="330" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== KOLOM 2: FREERTOS IPC HUB ==================== -->
+        <mxCell id="lane_ipc" value="&lt;b style=&quot;font-size: 13px; color: #E65100;&quot;&gt;2. FREERTOS IPC &amp;amp; SHARED DATA BUS (THREAD-SAFE HUB)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFDE7;strokeColor=#FFE082;strokeWidth=1.5;verticalAlign=top;align=left;spacingLeft=15;spacingTop=10;arcSize=4;" vertex="1" parent="1">
+          <mxGeometry x="440" y="85" width="520" height="640" as="geometry" />
+        </mxCell>
+
+        <!-- IPC: Measurement Mutex + OBIS Database -->
+        <mxCell id="ipc_meas_hub" value="&lt;b style=&quot;font-size: 13px; color: #E65100;&quot;&gt;xMeasMutex &amp;amp; Database Pengukuran (Snapshot)&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 11px; color: #BF360C;&quot;&gt;Proteksi Mutex Semaphore + Gate G0 Pemetaan OBIS DLMS&lt;/span&gt;&lt;hr style=&quot;margin: 6px 0;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;&lt;b&gt;Struktur Data:&lt;/b&gt; &lt;code&gt;meter_measurements_t&lt;/code&gt; (V, I, P, Q, f, kWh 3-Fasa)&lt;br&gt;&lt;b&gt;Fungsi Keamanan:&lt;/b&gt; Menjamin pembacaan atomik &amp;amp; mencegah &lt;i&gt;torn-read&lt;/i&gt;&lt;br&gt;&lt;b&gt;Pemetaan Register Standar DLMS PLN (OBIS):&lt;/b&gt;&lt;br&gt;• &lt;b&gt;1.0.32.7.0.255&lt;/b&gt; : Tegangan RMS Fase L1, L2, L3 (V)&lt;br&gt;• &lt;b&gt;1.0.31.7.0.255&lt;/b&gt; : Arus RMS Fase L1, L2, L3, Netral (A)&lt;br&gt;• &lt;b&gt;1.0.1.8.0.255&lt;/b&gt;  : Total Energi Aktif Impor (kWh)&lt;br&gt;&lt;b&gt;Thread-Safe API:&lt;/b&gt; &lt;code&gt;rtos_meter_data_publish()&lt;/code&gt; &amp;amp; &lt;code&gt;get_snapshot()&lt;/code&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F57F17;strokeWidth=2;arcSize=8;align=left;spacing=10;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="465" y="140" width="470" height="215" as="geometry" />
+        </mxCell>
+
+        <!-- IPC: Tamper Message Queue + Emergency State -->
+        <mxCell id="ipc_tamper_hub" value="&lt;b style=&quot;font-size: 13px; color: #880E4F;&quot;&gt;xTamperQueue &amp;amp; Status Alarm Sabotase&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 11px; color: #AD1457;&quot;&gt;FreeRTOS Message Queue (Kapasitas 8 Pesan) + Flag Darurat&lt;/span&gt;&lt;hr style=&quot;margin: 6px 0;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;&lt;b&gt;Struktur Pesan:&lt;/b&gt; &lt;code&gt;tamper_event_msg_t&lt;/code&gt; (Timestamp, Event Type, Tamper State)&lt;br&gt;&lt;b&gt;Mekanisme:&lt;/b&gt; Komunikasi asinkron non-blocking tanpa membebani CPU&lt;br&gt;&lt;b&gt;Fungsi Distribusi:&lt;/b&gt;&lt;br&gt;• Trigger override layar OLED untuk menampilkan banner &lt;b&gt;!ALM&lt;/b&gt;&lt;br&gt;• Kirim log kejadian sabotase saat diminta oleh master DLMS PLN&lt;br&gt;&lt;b&gt;Thread-Safe API:&lt;/b&gt; &lt;code&gt;xQueueSendToBack()&lt;/code&gt; &amp;amp; &lt;code&gt;xQueueReceive()&lt;/code&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4EC;strokeColor=#D81B60;strokeWidth=2;arcSize=8;align=left;spacing=10;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="465" y="425" width="470" height="215" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== KOLOM 3: KONSUMSI & OUTPUT (CONSUMERS) ==================== -->
+        <mxCell id="lane_consumers" value="&lt;b style=&quot;font-size: 13px; color: #4A148C;&quot;&gt;3. KONSUMSI &amp;amp; OUTPUT (CONSUMER TASKS)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#CE93D8;strokeWidth=1.5;verticalAlign=top;align=left;spacingLeft=15;spacingTop=10;arcSize=4;" vertex="1" parent="1">
+          <mxGeometry x="990" y="85" width="370" height="640" as="geometry" />
+        </mxCell>
+
+        <!-- Task: DLMS -->
+        <mxCell id="t_dlms" value="&lt;b style=&quot;font-size: 12px; color: #4A148C;&quot;&gt;task_dlms&lt;/b&gt; &lt;span style=&quot;color: #6A1B9A;&quot;&gt;[Priority 2 - Normal]&lt;/span&gt;&lt;br&gt;&lt;i style=&quot;font-size: 10px; color: #7B1FA2;&quot;&gt;[Penanggung Jawab: E2 - Protocol Lead]&lt;/i&gt;&lt;hr style=&quot;margin: 4px 0;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;• Parsing request DLMS/COSEM (HDLC / APDU)&lt;br&gt;• Baca nilai register OBIS dari &lt;b&gt;xMeasMutex&lt;/b&gt;&lt;br&gt;• Tarik riwayat sabotase dari &lt;b&gt;xTamperQueue&lt;/b&gt;&lt;br&gt;• Format &amp;amp; kirim frame respon ke UART2&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1BEE7;strokeColor=#7B1FA2;strokeWidth=2;arcSize=8;align=left;spacing=8;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="130" width="330" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- HW: UART Optical Port -->
+        <mxCell id="out_uart" value="&lt;b style=&quot;color: #4A148C; font-size: 12px;&quot;&gt;Port Optik / USART2 (115200 bps)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px; color: #6A1B9A;&quot;&gt;Komunikasi DLMS ke Handheld Reader / HES Server PLN&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#AB47BC;strokeWidth=1.5;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="295" width="330" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Task: Display OLED -->
+        <mxCell id="t_display" value="&lt;b style=&quot;font-size: 12px; color: #0D47A1;&quot;&gt;task_oled_display&lt;/b&gt; &lt;span style=&quot;color: #1565C0;&quot;&gt;[Priority 1 - Low/Idle]&lt;/span&gt;&lt;br&gt;&lt;i style=&quot;font-size: 10px; color: #1976D2;&quot;&gt;[Penanggung Jawab: E3 - UI &amp;amp; Display Lead]&lt;/i&gt;&lt;hr style=&quot;margin: 4px 0;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;• Ambil snapshot pengukuran via Mutex (tiap 2s)&lt;br&gt;• Render Layar Standar PLN SPLN D3.006-1 Gambar 4&lt;br&gt;• Tampilkan banner inverted &lt;b&gt;!ALM&lt;/b&gt; saat sabotase aktif&lt;br&gt;• Flush buffer grafis ke OLED via bus I2C1&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BBDEFB;strokeColor=#1976D2;strokeWidth=2;arcSize=8;align=left;spacing=8;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="420" width="330" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- HW: OLED Display Screen -->
+        <mxCell id="out_oled" value="&lt;b style=&quot;color: #0D47A1; font-size: 12px;&quot;&gt;Layar OLED 128x32 (SSD1306 I2C1)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px; color: #1565C0;&quot;&gt;HMI Pengguna: Indikator Konsumsi &amp;amp; Peringatan Alarm PLN&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#42A5F5;strokeWidth=1.5;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="585" width="330" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== FOOTER / LEGEND ==================== -->
+        <mxCell id="footer_legend" value="&lt;b&gt;KETERANGAN WARNA &amp;amp; PERAN:&lt;/b&gt; &amp;nbsp;&amp;nbsp; &lt;span style=&quot;color: #2E7D32;&quot;&gt;&lt;b&gt;[Hijau]: E1 Metrologi Lead&lt;/b&gt; (ADE9000 &amp;amp; Scaling)&lt;/span&gt; &amp;nbsp;|&amp;nbsp; &lt;span style=&quot;color: #C62828;&quot;&gt;&lt;b&gt;[Merah]: E3 Tamper Lead&lt;/b&gt; (Sabotase &amp;amp; IRQ)&lt;/span&gt; &amp;nbsp;|&amp;nbsp; &lt;span style=&quot;color: #E65100;&quot;&gt;&lt;b&gt;[Kuning]: FreeRTOS Kernel&lt;/b&gt; (Thread-Safe IPC)&lt;/span&gt; &amp;nbsp;|&amp;nbsp; &lt;span style=&quot;color: #7B1FA2;&quot;&gt;&lt;b&gt;[Ungu]: E2 DLMS Lead&lt;/b&gt; (Protokol &amp;amp; OBIS)&lt;/span&gt; &amp;nbsp;|&amp;nbsp; &lt;span style=&quot;color: #1976D2;&quot;&gt;&lt;b&gt;[Biru]: E3 Display Lead&lt;/b&gt; (SPLN &amp;amp; OLED)&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECEFF1;strokeColor=#CFD8DC;strokeWidth=1;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="40" y="745" width="1320" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== HUBUNGAN ANTAR-KOLOM (CONNECTIONS) ==================== -->
+
+        <!-- 1. SPI Read: in_ade9000 -> t_metro -->
+        <mxCell id="arr_in_metro" value="SPI Read (1 Hz)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2E7D32;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="in_ade9000" target="t_metro">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 2. EXTI13 IRQ: in_tamper -> t_tamper -->
+        <mxCell id="arr_in_tamper" value="EXTI13 Falling IRQ" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#C62828;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="in_tamper" target="t_tamper">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 3. Metrology Task -> xMeasMutex (Publish Data) -->
+        <mxCell id="arr_metro_mutex" value="rtos_meter_data_publish()" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2E7D32;strokeWidth=2.5;fontSize=10;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.45;exitDx=0;exitDy=0;entryX=0;entryY=0.4;entryDx=0;entryDy=0;" edge="1" parent="1" source="t_metro" target="ipc_meas_hub">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 4. Tamper Task -> xTamperQueue (Send Event) -->
+        <mxCell id="arr_tamper_queue" value="xQueueSendToBack()" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#C62828;strokeWidth=2.5;fontSize=10;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="t_tamper" target="ipc_tamper_hub">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 5. xMeasMutex -> DLMS Task (OBIS Lookup) -->
+        <mxCell id="arr_mutex_dlms" value="Read OBIS Registers" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#7B1FA2;strokeWidth=2.5;fontSize=10;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.35;exitDx=0;exitDy=0;entryX=0;entryY=0.45;entryDx=0;entryDy=0;" edge="1" parent="1" source="ipc_meas_hub" target="t_dlms">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 6. xTamperQueue -> DLMS Task (Tamper Log) -->
+        <mxCell id="arr_queue_dlms" value="Ambil Log Sabotase" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#C62828;strokeWidth=1.5;dashed=1;fontSize=10;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.85;entryDx=0;entryDy=0;" edge="1" parent="1" source="ipc_tamper_hub" target="t_dlms">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="965" y="479" />
+              <mxPoint x="965" y="241" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 7. xMeasMutex -> Display Task (Get Snapshot) -->
+        <mxCell id="arr_mutex_display" value="get_snapshot(&amp;amp;meas)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1976D2;strokeWidth=1.5;dashed=1;fontSize=10;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;" edge="1" parent="1" source="ipc_meas_hub" target="t_display">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="948" y="301" />
+              <mxPoint x="948" y="459" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 8. xTamperQueue -> Display Task (Alarm Flag) -->
+        <mxCell id="arr_queue_display" value="Banner Alarm (!ALM)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D81B60;strokeWidth=2.5;fontSize=10;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.65;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="ipc_tamper_hub" target="t_display">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 9. DLMS Task -> UART Port -->
+        <mxCell id="arr_dlms_uart" value="TX Respon Frame" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#7B1FA2;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="t_dlms" target="out_uart">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 10. Display Task -> OLED Display -->
+        <mxCell id="arr_display_oled" value="Frame Refresh (I2C)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1976D2;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="t_display" target="out_oled">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
