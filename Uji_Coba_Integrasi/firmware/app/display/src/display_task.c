@@ -6,9 +6,17 @@
 #include "display_task.h"
 #include "display.h"
 #include "rtos_tasks.h"
+#if defined(EMBEDDED_HARDWARE_TARGET) || defined(USE_FREERTOS)
 #include "FreeRTOS.h"
 #include "task.h"
+#else
+#ifndef pdMS_TO_TICKS
+#define pdMS_TO_TICKS(ms) (ms)
+#endif
+static inline void vTaskDelay(uint32_t ticks) { (void)ticks; }
+#endif
 #include <string.h>
+
 
 /* Pointer ke driver perangkat keras display aktif (Hardware Abstraction Layer) */
 static const display_driver_interface_t *s_display_driver = NULL;
@@ -66,8 +74,10 @@ void task_oled128x32_carousel(void *pvParameters)
             elapsed_accumulator_ms = 0;
             disp_ctx.alarm_icon_active = s_tamper_alarm_active;
             if (s_tamper_alarm_active) {
+                disp_ctx.active_tamper_mask = TAMPER_VECTOR_CASE_OPEN;
                 disp_ctx.current_page = DISP_PAGE_TAMPER_ALARM;
             } else {
+                disp_ctx.active_tamper_mask = 0;
                 disp_ctx.current_page = DISP_PAGE_IDPEL;
             }
             need_render = true;
@@ -83,6 +93,11 @@ void task_oled128x32_carousel(void *pvParameters)
 
             /* 2. Format frame sesuai Standar Layar Meter PLN (SPLN D3.006-1 Gambar 4) */
             disp_ctx.alarm_icon_active = s_tamper_alarm_active;
+            if (s_tamper_alarm_active && disp_ctx.active_tamper_mask == 0) {
+                disp_ctx.active_tamper_mask = TAMPER_VECTOR_CASE_OPEN;
+            } else if (!s_tamper_alarm_active) {
+                disp_ctx.active_tamper_mask = 0;
+            }
             display_render_spln_frame(&disp_ctx, &spln_frame);
 
             /* 3. Delegasikan render piksel ke driver display aktif secara agnostik */

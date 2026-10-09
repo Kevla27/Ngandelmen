@@ -13,6 +13,7 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include "tamper_manager.h"
 
 typedef enum {
     DISPLAY_MODE_AUTO_CAROUSEL = 0,
@@ -72,6 +73,8 @@ typedef struct {
     meter_measurements_t meas_buffer;
     char             customer_id[16];
     bool             alarm_icon_active;
+    uint32_t         active_tamper_mask;  /* Bitmask tamper_vector_t (SPLN D3.006 Tabel 6) */
+    uint32_t         active_alarm_mask;   /* Bitmask spln_internal_alarm_t (SPLN D3.006 Tabel 4) */
 } display_context_t;
 
 bool display_init(display_context_t *ctx, const char *customer_id, uint32_t carousel_interval_ms);
@@ -82,19 +85,27 @@ void display_handle_button_press(display_context_t *ctx, button_dir_t dir);
 void display_render_frame(const display_context_t *ctx, char *out_line1, char *out_line2, char *out_line3, size_t max_len);
 
 /**
+ * @brief Helper pengaturan dan pembacaan teks / kode error resmi SPLN D3.006:2021
+ */
+void display_set_tamper_status(display_context_t *ctx, uint32_t active_tamper_mask);
+void display_set_internal_alarm(display_context_t *ctx, uint32_t active_alarm_mask);
+void display_get_spln_tamper_info(uint32_t tamper_mask, char *out_text, size_t text_sz, char *out_code, size_t code_sz);
+void display_get_spln_alarm_info(uint32_t alarm_mask, char *out_text, size_t text_sz, char *out_code, size_t code_sz);
+
+/**
  * @brief Struktur Tampilan Standar Layar Meter PLN (SPLN Gambar 4)
  * Baris 1: Simbol (Respon Alarm NNN, Baterai, Arah Arus, Fasa L/I, Komunikasi) dan Kode OBIS
- * Baris 2: Indeks Scroll (zz), Teks Nilai Besar (Font 11x18), dan Satuan (kW, V, A, kWh, E01)
+ * Baris 2: Indeks Scroll (zz), Teks Nilai Besar (Font 11x18), dan Satuan (kW, V, A, kWh, ERRxx)
  */
 typedef struct {
     char header_symbols[32];  /* Baris 1: Simbol & Kode gabungan (Font 6x8) */
     char scroll_index_zz[6];  /* Baris 2 Kiri: zz urutan scrolling (Font 6x8) */
-    char main_value[16];      /* Baris 2 Tengah: Nilai angka utama besar */
-    char unit[10];            /* Baris 2 Kanan: Satuan besaran listrik / kode error */
+    char main_value[16];      /* Baris 2 Tengah: Nilai angka utama besar / Teks status (RUSAK/PERIKSA/REVERSE) */
+    char unit[10];            /* Baris 2 Kanan: Satuan besaran listrik / Kode Error (ERR00..ERR27) */
     bool is_large_font;       /* true jika menggunakan Font 11x18 */
-    bool is_alarm_active;     /* true jika alarm sabotase aktif */
-    char alarm_code[6];       /* Respon alarm NNN ("OK " atau "!ALM" / "E01") */
-    char obis_code[10];       /* Kode register OBIS terpisah (misal "32.07") */
+    bool is_alarm_active;     /* true jika alarm sabotase/hardware aktif */
+    char alarm_code[6];       /* Respon alarm NNN ("OK" atau "!ALM") */
+    char obis_code[10];       /* Kode register OBIS terpisah (misal "32.07", "96.50") */
 } display_spln_frame_t;
 
 void display_render_spln_frame(const display_context_t *ctx, display_spln_frame_t *frame);

@@ -1,0 +1,430 @@
+=== Page 40 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+16
+Teks   dalam bentuk dot matrix super-twisted nematic display    (STN) pada baris kedua
+menampilkan informasi berupa hasil pengukuran atau informasi yang dikirim dari pusat
+data, dengan ketentuan sebagai berikut:
+▪   Ditampilkan sekurang-kurangnya 8 digit dalam satu kesatuan waktu, apabila data
+yang ditampilkan lebih dari 8 digit maka ditampilkan secara berjalan dari kanan ke
+kiri.  
+▪   Menampilkan hasil pengukuran parameter listrik yang dapat bergantian (secara
+scroll down  dan/atau scroll up ) dengan selang waktu yang dapat diatur, minimal 5
+detik;
+▪    Tanggal ditampilkan dalam format tanggal-bulan-tahun dan jam dalam format 00.00
+s.d 23.59;
+Kode dalam bentuk dot matrix super-twisted nematic display   (STN) menunjukkan informasi
+sebagai berikut:
+▪   Informasi register sebanyak 7 karakter (Lampiran E) ;
+▪   Kode respons, jika terdapat beberapa kode respons yang aktif
+bersamaan maka ditampilkan bergantian dengan interval waktu 3
+detik;
+▪   Satuan;  
+6.12 Port  komunikasi
+Modem dilengkapi dengan port  komunikasi untuk dapat berkomunikasi dua arah dengan
+pusat data melalui modem dan dengan komputer lokal.
+6.12.1 Port  komunikasi dua arah
+Port  komunikasi dua arah untuk dihubungkan dengan modem menggunakan port  RS-232
+(dan/atau RS-485 full duplex  sesuai kebutuhan) dengan kecepatan kirim (baud rate)  dapat
+dikonfigurasi dengan setelan awal 19.200 bps, berupa konektor RJ -45 berjenis female  yang
+harus terlindung dari kemungkinan masuknya air, serangga, atau benda padat. Port  
+komunikasi RS-232 ditempatkan di dalam kompartemen modem. Port komunikasi RS-485
+dapat ditempatkan di dalam kompartemen modem sebagai pengganti RS-232 atau pada
+bagian luar bodi meter.
+Konfigurasi pin seperti pada  Tabel 3.  
+
+
+=== Page 41 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+17
+Tabel 3. Konfigurasi pin port komunikasi
+Pin RS-232 RS-485 4W
+Full Duplex PIN RJ-45
+1 NC NC
+8 7 6 5 4 3 2 1
+2 NC RX-
+3 NC NC
+4 RX (in) RX+
+5 TX (out) TX+
+6 GROUND GROUND
+7 NC TX-
+8 NC NC
+Meter dapat dilengkapi port  untuk koneksi komunikasi kopling saluran tegangan rendah 230
+V PLC sehingga dapat mengakomodasi kebutuhan komunikasi menggunakan media
+komunikasi PLC. Port  saluran tegangan rendah PLC menggunakan molex connector  micro-
+fit 3.0 1x3 pin tipe male  dengan konfigurasi pin sesuai Tabel 3B. Port  ditempatkan di dalam
+kompartemen modem.
+Meter yang dilengkapi dengan port  saluran tegangan rendah PLC diperlakukan sebagai
+tipe meter yang berbeda dari meter yang tidak dilengkapi port  tersebut.
+Tabel 3B. Konfigurasi pin pada port  saluran tegangan rendah PLC
+Pin  Fungsi  Molex connector   micro-fit 3.0
+1x3 pin tipe male
+1 Fase (R) 230 V
+13
+ 
+2 Kosong (air gap)  
+3 Netral
+6.12.2 Port  komunikasi lokal
+Port  komunikasi lokal berupa optical probe  dengan kecepatan kirim (baud rate)  9600 bps.
+Optical probe  terpasang pada bagian depan luar dengan sistem ceruk (memiliki pengait
+dan magnet) dan harus terlindung dari kemungkinan masuknya air, benda padat, atau
+tergores. Cover optical probe  terbuat dari bahan transparan bening yang tahan terhadap
+sinar matahari.
+Optical probe   dapat digunakan untuk menghubungkan komputer ke meter dimana
+komputer akan berfungsi sebagai DLMS_client .
+
+
+=== Page 42 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+18
+6.13 Port  konektor catu daya DC
+Meter dilengkapi dengan terminal keluaran konektor catu daya DC untuk catu daya modem
+berbentuk bulat jenis DC connector  standar 5,5 mm / 2,1 mm female . Spesifikasi tegangan
+pengenal 12 VDC ±5% dan daya maksimal 5 W.
+Dengan posisi pin sebagai berikut:
+Gambar 7. Pin DC connector
+Port  konektor catu daya DC  ditempatkan di dalam kompartemen modem.
+7 Persyaratan fitur
+Meter harus mempunyai kemampuan mendeteksi, mengukur, dan menampilkan nilai dari
+energi aktif, energi reaktif, energi semu, daya aktif, daya reaktif, daya semu, faktor daya,
+ THD arus/tegangan, TDD arus, dan besaran lain yang dianggap perlu dalam dimensi empat
+kuadran. Meter juga harus memiliki seluruh model objek yang diperlukan dalam suatu meter
+energi pascabayar fase tiga.
+Meter memiliki pengaturan pemilihan mode pengukuran energi aktif terkait harmonik sesuai
+butir  7.1;  
+Meter memberikan respon informasi pada layar tampilan sesuai butir  7.2;  
+Meter memiliki fitur untuk memberikan respons sebagai berikut:
+a) Respon terhadap kejadian alarm  sesuai butir  7.3;  
+b) Respon terhadap kejadian event  sesuai butir  7.4;  
+c) Respons terhadap ketidaknormalan dan penyalahgunaan (tampering)  sesuai butir  7.5.  
+CATATAN: Pada saat pengujian jenis, pemeriksaan respons meter terhadap alarm/event/tampering  
+dilakukan dengan simulasi, kecuali tidak memungkinkan dapat dibuktikan dengan algoritma yang
+digunakan.  
+Meter harus mempunyai kemampuan mendeteksi dan mengukur nilai total (fundamental +
+harmonik sampai orde ke-15 untuk meter kelas 1; atau sampai orde ke-50 untuk meter
+kelas 0,5S dan 0,2S) dari kWh, kVARh, dan daya listrik, serta dalam kondisi pengawatan
+normal mampu melakukan pengukuran dari dua arah: forward  (dari sumber ke beban) dan
+reverse  (dari beban ke sumber).
+Meter dapat diatur untuk mengaktifkan fitur ekspor-impor.
+Meter memiliki fitur pembatasan daya (power limiter)  yang dapat diatur nilainya sehingga
+menyebabkan relai/kontaktor atau shunt trip  membuka.
+
+
+=== Page 45 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+21
+Tabel 5. Respons meter terhadap event  
+No.
+urut  Jenis kejadian   Respons meter   Keterangan  
+1 Power supply failure   Rekam data Kondisi dimana pasokan listrik dari
+ jaringan terputus
+2 Power supply up Rekam data Kondisi dimana pasokan listrik dari
+ jaringan masuk kembali
+3 Perubahan setting  time-of-use  (ToU) Rekam data
+4 Perubahan setting  (selain ToU)   Rekam data
+5 Stop-measurement Rekam data Deteksi anomali pengukuran atau
+sampling berhenti, dsb.
+7 Perubahan status I/O (termasuk
+trigger test ) 
+Rekam data
+8 Perubahan status relai/kontaktor
+internal
+Rekam data
+9 Meter reset Rekam data
+10 Perubahan tanggal dan waktu   Rekam data
+11 Asymmetric power Rekam data Deviasi maksimum arus ketiga fase /
+rata-rata arus ketiga fase x 100%
+Threshold  dapat diatur dengan setelan
+awal 30%
+12 Meter ready  remote reconnect ▪  Teks tampilan
+menampilkan
+“READY ON” 
+▪  LED kuning
+berkedip
+▪  Rekam data
+Meter belum dapat remote reconnect  
+ jika belum dilakukan action .
+Action  berupa tekan tombol atas dan
+bawah secara bersamaan.  
+7.5 Respons terhadap tampering   
+Meter harus mampu mendeteksi ketidaknormalan dan penyalahgunaan (tampering)  serta
+harus mampu menampilkan, merekam, dan memberikan respons sesuai  Tabel 6.  
+13 Power limiter threshold exceeded    ▪  Rekam data Deteksi saat power limiter   diaktifkan
+dan ambang batas daya over   beserta
+ambang batas daya durasinya
+terlampaui.
+
+
+=== Page 46 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+22
+Tabel 6. Respons meter terhadap tampering   
+CATATAN:
+1) Memperbaiki penyebab gangguan secara fisik.
+2) J ika mode ekspor-impor tidak diaktifkan.
+3) Operasi relai tetap memutus tiga fase secara serempak.
+4) Meter harus tetap mengukur normal dan operasi relai tidak terpengaruh pada induksi medan
+magnetik sampai dengan 500 mT.
+Relai/shunt trip   tidak dapat dimasukkan sebelum dilakukan perintah manual remote- 
+reconnect  melalui pusat data.
+No.
+urut Jenis penyalahgunaan Reaksi meter
+Layar tampilan LED
+kuning
+Cara
+penormalanTeks Kode
+1 Pembukaan tutup meter •  Rekam data
+•  Relai membuka/
+perintah shunt trip
+membuka
+RUSAK - - •  P2TL
+•  Ganti meter
+2 Pembukaan tutup
+terminal
+•  Rekam data
+•  Relai membuka/
+perintah shunt trip
+membuka
+PERIKSA ERR20 Aktif •  P2TL
+•  Perbaikan 1) 
+•  Perintah m anual
+remote-reconnect
+3 Pengawatan tidak
+sesuai urutan fase
+•  Rekam data
+•  Relai membuka/
+perintah shunt trip
+membuka
+PERIKSA ERR21 Aktif •  P2TL
+•  Perbaikan 1) 
+•  Perintah m anual
+remote-reconnect  
+4 Pengawatan arus dan
+tegangan tidak sefase
+•  Rekam data
+•  Relai membuka/
+perintah shunt trip
+membuka
+PERIKSA ERR22 Aktif •  P2TL
+•  Perbaikan 1) 
+•  Perintah manual
+remote-reconnect  
+5 Arus netral hilang akibat
+kawat netral diputus
+baik pada kabel SMP
+maupun IML
+•  Rekam data PERIKSA ERR23 Aktif •  P2TL
+•  Perbaikan 1) 
+6 Hilang tegangan 1 atau
+2 fase
+•  Rekam data
+•  Relai membuka/
+perintah shunt trip  
+membuka 3) 
+PERIKSA ERR24 Aktif •  P2TL
+•  Perbaikan 1) 
+7 Induksi medan magnet
+dari luar (segala arah) 4) 
+Rekam data PERIKSA ERR25 - Perbaikan 1) 
+8 Reverse power 2)  Rekam data REVERSE ERR26 Aktif •  P2TL
+•  Perbaikan 1) 
+9 Pengukuran pada
+kuadran 4 dengan
+threshold  PF <0,85
+Rekam data PERIKSA ERR27 Aktif •  P2TL
+•  Perbaikan 1) 
+
+
+=== Page 56 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+32
+Tabel 17. Batas kesalahan akibat besaran berpengaruh pada kelas 0,2S dan 0,5S
+Jenis besaran berpengaruh Nilai arus Faktor daya
+Koefisien suhu rata-rata [%/K]
+0,2S 0,5S
+Perubahan suhu sekitar 30 ±15K 0,05 I n  - I m   1
+0,5 induktif
+0,01 0,03
+0,1 I n - I m   0,02 0,05
+Batas perubahan prosentase
+kesalahan
+Perubahan
+tegangan 1) 
+•   0,8 Un  ≤ U  ≤ 1,15 Un  
+0,05 I n  - I m  
+0,1 I n  - I m  
+1
+0,5 induktif
+0,1
+0,2
+0,2
+0,4
+•   0,5 Un  ≤ U  <0,8 Un 2) 
+dan
+•   1,15 Un  < U  ≤1,2Un 2) 
+0,3
+0,6
+0,6
+1,2
+Perubahan frekuensi ±2 % 0,05  I n - I m  
+0,1 I n  - I m  
+1
+0,5 induktif
+0,1
+0,1
+0,2
+0,2
+Komponen harmonik pada sirkuit arus dan
+tegangan 0,5 I m   1 0,4 0,5
+Komponen harmonik ke-50 0,5 I m   1 1,0 2,5
+Sub harmonik pada sirkuit arus AC 0,5 I n   1 0,6 1,5
+Induksi magnetik kontinu asal luar I n   1 2,0 2,0
+Induksi magnetik asal luar 0,5 mT I n   1 0,5 1,0
+Medan elektromagnetik frekuensi tinggi I n   1 1,0 2,0
+Operasi aksesoris 0,01  I n   1 0,05 0,1
+Gangguan-gangguan yang diakibatkan
+induksi medan frekuensi radio I n   1 1,0 2,0
+Pecahan transien cepat I n   1 1,0 2,0
+Damped oscillatory waves immunity I n   1 1,0 2,0
+CATATAN:
+1) Perubahan tegangan terjadi pada salah satu fase atau lebih.
+2) Persyaratan ini hanya diberlakukan pada meter pengukuran tanpa PT (tegangan nominal di 230
+V).
+CATATAN: Daftar mata uji dapat dilihat pada  Tabel 22 kolom 4.
+12 Persyaratan fungsional
+Meter harus dapat mengakomodasi besaran-besaran hasil pengukuran yang ditempatkan
+ke dalam alamat memori yang sama untuk semua meter, sehingga memudahkan aplikasi
+atau pusat data dalam mengakses besaran-besaran hasil pengukuran tersebut.
+12.1 Struktur data
+Struktur data dan sistem identifikasi objek (OBIS) harus sesuai dengan SPLN D3.006-2:
+2021.
+
+
+=== Page 57 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+33
+12.2 Protokol komunikasi
+Protokol komunikasi meter harus sesuai dengan SPLN D5.002: 2021.
+12.3 Alarm/event/ tamper log   
+Untuk setiap kejadian alarm , event , dan tamper , meter harus menyimpan catatan data
+kejadian pada log  masing-masing. Log  yang harus disajikan sesuai pada  Tabel 18.  
+Tabel 18. Informasi pada alarm/event/tamper   log
+No. Jenis log Data
+1 Alarm log Flash memory rusak/error
+2 Alarm log RAM rusak/error
+3 Alarm log Clock loss  (kembali ke waktu awal chipset)
+4 Alarm log Low battery (threshold  2,7 V)
+5 Alarm log Mikroprosesor tidak berfungsi normal
+6 Alarm log Kegagalan sampling data pengukuran pada ADC
+7 Alarm log Superkapasitor rusak/tidak terhubung/terlepas
+8 Alarm log Relai/ shunt trip  gagal membuka/menutup
+9 Event log Power supply failure
+10 Event log Power supply up
+11 Event log Perubahan setting  time-of-use  (ToU)
+12 Event log Perubahan setting  (selain ToU)
+13 Event log Stop-measurement  
+14 Event log Perubahan status I/O (termasuk trigger test)  
+15 Event log Perubahan status relai/kontaktor internal
+16 Event log Meter reset
+17 Event log Perubahan tanggal dan waktu
+18 Event log Asymmetric power
+19 Event log Meter ready remote shunt trip ON
+20 Tamper log Pembukaan tutup meter
+21 Tamper log Pembukaan tutup terminal
+22 Tamper log Pengawatan tidak sesuai urutan fase
+23 Tamper log Pengawatan arus dan tegangan tidak sefase
+24 Tamper log Arus netral hilang akibat kawat netral diputus baik pada kabel SMP maupun IML
+25 Tamper log Hilang tegangan 1 atau 2 fase
+26 Tamper log Induksi medan magnet dari luar (segala arah)
+27 Tamper log   Reverse power  
+28 Tamper log Pengukuran pada kuadran 4 dengan threshold  PF < 0,85
+29 Event log Power limiter threshold exceeded
+
+
+=== Page 58 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+34
+Untuk keperluan evaluasi, masing-masing log alarm, event, dan tamper   tersebut
+ditempatkan pada register memori non-volatile  (tak terhapus) dan sekurang-kurangnya
+mampu tersimpan sebanyak 30 rekaman. Seluruh proses menggunakan metode
+penyimpanan FIFO ( First In First Out ) dan tidak dapat di- edit .
+Data log  alarm/event/tamper dapat diambil oleh pusat data berdasarkan indeks ( selective
+access .
+Meter juga harus menyediakan error register  yang berisi data rangkuman berupa bit-string  
+terhadap informasi alarm , event , dan tamper  yang sedang terjadi.
+12.4 Data historikal
+Meter harus dapat merekam data historikal ke dalam memori dan mengirimkannya sebagai
+data end-of-billing (EoB) setiap tanggal 1 setiap bulannya pada pukul 10.00.
+Data historikal dalam memori meter disimpan secara FIFO sebanyak 12 bulan. Data yang
+diperlukan seperti pada  Lampiran F.  
+12.5 Load profile   
+Meter melakukan pengukuran load profile  yang dilakukan secara real time  dengan sampling  
+pengukuran setiap 1 (satu) menit data dan penyimpanan profile  dengan interval tertentu
+secara rerata. Waktu interval penyimpanan profile  harus dapat diatur dengan setelan awal
+15 menit untuk meter tersambung tidak langsung dan 30 menit untuk meter tersambung
+langsung.
+Data sampling  yang gagal diukur akibat power outage  tidak diisi dengan numerik apapun
+(blank ). J ika dalam satu interval didapatkan seluruh data sampling  adalah blank , maka
+meter menyimpan objek load profile  dengan angka nol.
+Meter harus dapat menyimpan data load profile  sebanyak minimal 23 kanal selama 3 bulan.
+Data load profile   dapat diambil oleh pusat data berdasarkan waktu ( selective access  
+dengan data pengambilan data berdasarkan tanggal dengan parameter minimum perhari)
+dan juga dapat diatur sehingga dapat dikirim secara push  (lihat butir  12.7)  ke pusat data.
+Meter juga menyediakan data compressed  load profile . Metode kompresi diatur pada SPLN
+D3.006-2: 2021.
+Urutan kanal load profile  secara berurut mengikuti  Lampiran G.  
+12.6 Instant profile   
+Meter harus bisa mengirimkan instant profile  melalui modem ke pusat data sesuai dengan
+Lampiran H.  
+
+
+=== Page 59 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+35
+12.7 Data push
+Meter dapat diatur untuk melakukan pengiriman data secara push  ke pusat data sesuai
+ Tabel 19.  
+Tabel 19. Data push   oleh meter  
+Push setup Objek data yang dikirim Waktu pengiriman
+Push setup 1 Meter ID dan Alarm
+descriptor 1  
+Setiap ada perubahan bit-string  pada alarm
+register 1 sesuai dengan handling  yang
+ditentukan
+Push setup 2 Meter ID dan Alarm
+descriptor 2  
+Setiap ada perubahan bit-string  pada alarm
+register 2 sesuai dengan handling  yang
+ditentukan
+Push setup 3 Meter ID dan Load profile   Pada waktu end of integration  load profile .
+Push setup 4 Meter ID dan Data
+historikal
+Pada waktu end of integration  data historikal.
+Objek data yang dikirim adalah data end of integration  terakhir dengan waktu pengiriman
+yang dapat dikonfigurasi.
+Pengiriman data secara push  diatur pada SPLN D3.006-2: 2021.
+13 Penandaan
+13.1 Pelat Nama
+Setiap meter harus mencantumkan informasi pada pelat nama seperti pada  Tabel 20.  
+Tabel 20. Pelat nama
+Jenis informasi Contoh penulisan
+Merek dagang
+ Tipe meter
+Nama dan lokasi pabrik (kota)
+No. Standar SPLN D3.006: 2021
+Cara pengawatan Fase 3  – 4 kawat
+ Tersambung … (langsung/tidak langsung)
+ J umlah sensor (S) dan relai (R) Fungsi .. S - .. R
+Barcode  dan/atau Nomor ID meter
+Bulan dan tahun pembuatan mm-yy
+ Tegangan pengenal … V 
+
+

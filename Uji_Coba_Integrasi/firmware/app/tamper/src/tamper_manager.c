@@ -35,7 +35,15 @@ bool tamper_process_signal(tamper_context_t *ctx, tamper_vector_t vector, bool i
         ctx->total_event_count++;
 
         ctx->alarm_led_status = (ctx->active_tamper_mask != 0);
-        if (is_asserted && (vector & (TAMPER_VECTOR_CASE_OPEN | TAMPER_VECTOR_MAGNETIC_FIELD))) {
+        /* Sesuai SPLN D3.006:2021 Tabel 6:
+         * Relai membuka pada: Pembukaan Tutup Meter (1), Tutup Terminal (2),
+         * Urutan Fase Terbalik (3), Arus/Tegangan Tidak Sefase (4), Hilang Tegangan 1/2 Fase (6).
+         * Catatan 4: Operasi relai tidak terpengaruh pada induksi medan magnet sampai 500 mT. */
+        if (is_asserted && (vector & (TAMPER_VECTOR_CASE_OPEN | 
+                                      TAMPER_VECTOR_TERMINAL_OPEN | 
+                                      TAMPER_VECTOR_WRONG_SEQUENCE | 
+                                      TAMPER_VECTOR_CROSS_PHASE | 
+                                      TAMPER_VECTOR_PHASE_LOSS))) {
             ctx->alarm_relay_trigger = true;
         }
 
@@ -74,6 +82,10 @@ dlms_tamper_code_t tamper_vector_to_dlms_code(tamper_vector_t vector) {
     if (vector & TAMPER_VECTOR_MAGNETIC_FIELD) return DLMS_TAMPER_MAGNETIC_INDUCTION;
     if (vector & TAMPER_VECTOR_REVERSE_POWER) return DLMS_TAMPER_REVERSE_CURRENT;
     if (vector & TAMPER_VECTOR_NEUTRAL_BYPASS) return DLMS_TAMPER_MISSING_NEUTRAL;
+    if (vector & TAMPER_VECTOR_WRONG_SEQUENCE) return DLMS_TAMPER_WRONG_PHASE_SEQ;
+    if (vector & TAMPER_VECTOR_CROSS_PHASE) return DLMS_TAMPER_CROSS_PHASE;
+    if (vector & TAMPER_VECTOR_PHASE_LOSS) return DLMS_TAMPER_MISSING_VOLTAGE;
+    if (vector & TAMPER_VECTOR_LOW_PF_QUAD4) return DLMS_TAMPER_LOW_PF_QUAD4;
     return DLMS_TAMPER_NONE;
 }
 
@@ -84,6 +96,10 @@ tamper_vector_t dlms_code_to_tamper_vector(dlms_tamper_code_t code) {
         case DLMS_TAMPER_MAGNETIC_INDUCTION: return TAMPER_VECTOR_MAGNETIC_FIELD;
         case DLMS_TAMPER_REVERSE_CURRENT: return TAMPER_VECTOR_REVERSE_POWER;
         case DLMS_TAMPER_MISSING_NEUTRAL: return TAMPER_VECTOR_NEUTRAL_BYPASS;
+        case DLMS_TAMPER_WRONG_PHASE_SEQ: return TAMPER_VECTOR_WRONG_SEQUENCE;
+        case DLMS_TAMPER_CROSS_PHASE: return TAMPER_VECTOR_CROSS_PHASE;
+        case DLMS_TAMPER_MISSING_VOLTAGE: return TAMPER_VECTOR_PHASE_LOSS;
+        case DLMS_TAMPER_LOW_PF_QUAD4: return TAMPER_VECTOR_LOW_PF_QUAD4;
         default: return (tamper_vector_t)0;
     }
 }

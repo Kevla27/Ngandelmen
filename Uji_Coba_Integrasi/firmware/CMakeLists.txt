@@ -19,6 +19,7 @@ add_library(dlms_core STATIC
     protocols/dlms/src/dlms_nvm.c
     drivers/bsp/src/bsp_lpuart_dma.c
     app/display/src/display.c
+    app/display/src/display_task.c
     app/tamper/src/tamper_manager.c
     app/fsm/src/fsm_statechart.c
     app/fsm/src/rtos_tasks.c

@@ -13,15 +13,20 @@ extern "C" {
 /* Kapasitas Minimal Log Sesuai SPLN D3.006:2021 (30 Rekaman FIFO) */
 #define DLMS_TAMPER_LOG_MAX_ENTRIES 30U
 
-/* Kode Kejadian Tamper Utama (Event Codes) */
+/* Kode Kejadian Tamper Utama Sesuai SPLN D3.006:2021 Tabel 6 */
 typedef enum {
     DLMS_TAMPER_NONE                = 0x00,
-    DLMS_TAMPER_TERMINAL_COVER_OPEN = 0x01,  /* OBIS 0.0.96.20.5.255 */
-    DLMS_TAMPER_METER_COVER_OPEN    = 0x02,  /* OBIS 0.0.96.20.0.255 */
-    DLMS_TAMPER_MAGNETIC_INDUCTION  = 0x03,  /* OBIS 0.0.96.20.26.255 */
-    DLMS_TAMPER_REVERSE_CURRENT     = 0x04,  /* OBIS 0.0.96.20.27.255 */
-    DLMS_TAMPER_MISSING_NEUTRAL     = 0x05   /* OBIS 0.0.96.20.24.255 */
+    DLMS_TAMPER_TERMINAL_COVER_OPEN = 0x01,  /* OBIS 0.0.96.20.5.255  - SPLN ERR20 */
+    DLMS_TAMPER_METER_COVER_OPEN    = 0x02,  /* OBIS 0.0.96.20.1.255  - SPLN RUSAK */
+    DLMS_TAMPER_MAGNETIC_INDUCTION  = 0x03,  /* OBIS 0.0.96.20.26.255 - SPLN ERR25 */
+    DLMS_TAMPER_REVERSE_CURRENT     = 0x04,  /* OBIS 0.0.96.20.27.255 - SPLN ERR26 */
+    DLMS_TAMPER_MISSING_NEUTRAL     = 0x05,  /* OBIS 0.0.96.20.24.255 - SPLN ERR23 */
+    DLMS_TAMPER_WRONG_PHASE_SEQ     = 0x06,  /* SPLN ERR21 */
+    DLMS_TAMPER_CROSS_PHASE         = 0x07,  /* SPLN ERR22 */
+    DLMS_TAMPER_MISSING_VOLTAGE     = 0x08,  /* SPLN ERR24 */
+    DLMS_TAMPER_LOW_PF_QUAD4        = 0x09   /* SPLN ERR27 */
 } dlms_tamper_code_t;
+
 
 /* Struktur Entri Tunggal Rekaman Tamper Log */
 typedef struct {

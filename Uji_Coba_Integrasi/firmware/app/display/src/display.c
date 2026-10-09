@@ -76,6 +76,93 @@ void display_handle_button_press(display_context_t *ctx, button_dir_t dir) {
     }
 }
 
+void display_set_tamper_status(display_context_t *ctx, uint32_t active_tamper_mask) {
+    if (ctx == NULL) return;
+    ctx->active_tamper_mask = active_tamper_mask;
+    ctx->alarm_icon_active = (active_tamper_mask != 0 || ctx->active_alarm_mask != 0);
+}
+
+void display_set_internal_alarm(display_context_t *ctx, uint32_t active_alarm_mask) {
+    if (ctx == NULL) return;
+    ctx->active_alarm_mask = active_alarm_mask;
+    ctx->alarm_icon_active = (ctx->active_tamper_mask != 0 || active_alarm_mask != 0);
+}
+
+void display_get_spln_tamper_info(uint32_t tamper_mask, char *out_text, size_t text_sz, char *out_code, size_t code_sz) {
+    if (out_text == NULL || text_sz == 0 || out_code == NULL || code_sz == 0) return;
+
+    /* Sesuai SPLN D3.006: 2021 Tabel 6 (Respons meter terhadap tampering):
+     * 1. Tutup meter dibuka: Teks = "RUSAK", Kode = "-"
+     * 2. Tutup terminal dibuka: Teks = "PERIKSA", Kode = "ERR20"
+     * 3. Urutan fase terbalik: Teks = "PERIKSA", Kode = "ERR21"
+     * 4. Arus dan tegangan tidak sefase: Teks = "PERIKSA", Kode = "ERR22"
+     * 5. Kawat netral putus: Teks = "PERIKSA", Kode = "ERR23"
+     * 6. Hilang tegangan 1/2 fase: Teks = "PERIKSA", Kode = "ERR24"
+     * 7. Induksi medan magnet: Teks = "PERIKSA", Kode = "ERR25"
+     * 8. Reverse power: Teks = "REVERSE", Kode = "ERR26"
+     * 9. Kuadran 4 / PF < 0.85: Teks = "PERIKSA", Kode = "ERR27"
+     */
+    if (tamper_mask & TAMPER_VECTOR_CASE_OPEN || tamper_mask == 0) {
+        snprintf(out_text, text_sz, "RUSAK");
+        snprintf(out_code, code_sz, "-");
+    } else if (tamper_mask & TAMPER_VECTOR_REVERSE_POWER) {
+        snprintf(out_text, text_sz, "REVERSE");
+        snprintf(out_code, code_sz, "ERR26");
+    } else if (tamper_mask & TAMPER_VECTOR_TERMINAL_OPEN) {
+        snprintf(out_text, text_sz, "PERIKSA");
+        snprintf(out_code, code_sz, "ERR20");
+    } else if (tamper_mask & TAMPER_VECTOR_WRONG_SEQUENCE) {
+        snprintf(out_text, text_sz, "PERIKSA");
+        snprintf(out_code, code_sz, "ERR21");
+    } else if (tamper_mask & TAMPER_VECTOR_CROSS_PHASE) {
+        snprintf(out_text, text_sz, "PERIKSA");
+        snprintf(out_code, code_sz, "ERR22");
+    } else if (tamper_mask & TAMPER_VECTOR_NEUTRAL_BYPASS) {
+        snprintf(out_text, text_sz, "PERIKSA");
+        snprintf(out_code, code_sz, "ERR23");
+    } else if (tamper_mask & TAMPER_VECTOR_PHASE_LOSS) {
+        snprintf(out_text, text_sz, "PERIKSA");
+        snprintf(out_code, code_sz, "ERR24");
+    } else if (tamper_mask & TAMPER_VECTOR_MAGNETIC_FIELD) {
+        snprintf(out_text, text_sz, "PERIKSA");
+        snprintf(out_code, code_sz, "ERR25");
+    } else if (tamper_mask & TAMPER_VECTOR_LOW_PF_QUAD4) {
+        snprintf(out_text, text_sz, "PERIKSA");
+        snprintf(out_code, code_sz, "ERR27");
+    } else {
+        snprintf(out_text, text_sz, "PERIKSA");
+        snprintf(out_code, code_sz, "-");
+    }
+}
+
+void display_get_spln_alarm_info(uint32_t alarm_mask, char *out_text, size_t text_sz, char *out_code, size_t code_sz) {
+    if (out_text == NULL || text_sz == 0 || out_code == NULL || code_sz == 0) return;
+
+    /* Sesuai SPLN D3.006: 2021 Tabel 4 (Respons meter terhadap alarm internal):
+     * Teks pada Tabel 4 adalah "-" dan Kodenya ERR00..ERR07 (berkedip) */
+    snprintf(out_text, text_sz, "-");
+
+    if (alarm_mask & SPLN_ALARM_FLASH_ERROR) {
+        snprintf(out_code, code_sz, "ERR00");
+    } else if (alarm_mask & SPLN_ALARM_RAM_ERROR) {
+        snprintf(out_code, code_sz, "ERR01");
+    } else if (alarm_mask & SPLN_ALARM_RTC_ERROR) {
+        snprintf(out_code, code_sz, "ERR02");
+    } else if (alarm_mask & SPLN_ALARM_LOW_BATTERY) {
+        snprintf(out_code, code_sz, "ERR03");
+    } else if (alarm_mask & SPLN_ALARM_MCU_ERROR) {
+        snprintf(out_code, code_sz, "ERR04");
+    } else if (alarm_mask & SPLN_ALARM_ADC_ERROR) {
+        snprintf(out_code, code_sz, "ERR05");
+    } else if (alarm_mask & SPLN_ALARM_SUPERCAP_FAIL) {
+        snprintf(out_code, code_sz, "ERR06");
+    } else if (alarm_mask & SPLN_ALARM_RELAY_FAIL) {
+        snprintf(out_code, code_sz, "ERR07");
+    } else {
+        snprintf(out_code, code_sz, "-");
+    }
+}
+
 void display_render_frame(const display_context_t *ctx, char *out_line1, char *out_line2, char *out_line3, size_t max_len) {
     if (ctx == NULL || out_line1 == NULL || out_line2 == NULL || out_line3 == NULL) return;
 
@@ -140,10 +227,22 @@ void display_render_frame(const display_context_t *ctx, char *out_line1, char *o
             snprintf(out_line2, max_len, "TOTAL ENERGY");
             snprintf(out_line3, max_len, "%.4f kWh", (double)ctx->meas_buffer.active_energy_wh / 1000.0);
             break;
-        case DISP_PAGE_TAMPER_ALARM:
-            snprintf(out_line2, max_len, "SABOTASE / TAMPER");
-            snprintf(out_line3, max_len, "ERR E01 CASE OPEN");
+        case DISP_PAGE_TAMPER_ALARM: {
+            char spln_text[16] = "RUSAK";
+            char spln_code[10] = "-";
+            if (ctx->active_tamper_mask != 0 || (ctx->active_tamper_mask == 0 && ctx->active_alarm_mask == 0)) {
+                display_get_spln_tamper_info(ctx->active_tamper_mask, spln_text, sizeof(spln_text), spln_code, sizeof(spln_code));
+            } else {
+                display_get_spln_alarm_info(ctx->active_alarm_mask, spln_text, sizeof(spln_text), spln_code, sizeof(spln_code));
+            }
+            snprintf(out_line2, max_len, "STATUS SABOTASE");
+            if (spln_code[0] != '-' && spln_code[0] != '\0') {
+                snprintf(out_line3, max_len, "%s %s", spln_text, spln_code);
+            } else {
+                snprintf(out_line3, max_len, "%s", spln_text);
+            }
             break;
+        }
         default:
             snprintf(out_line2, max_len, "DISPLAY PAGE %d", ctx->current_page);
             snprintf(out_line3, max_len, "---");
@@ -272,13 +371,24 @@ void display_render_spln_frame(const display_context_t *ctx, display_spln_frame_
                      (double)ctx->meas_buffer.active_energy_wh / 1000.0);
             snprintf(frame->unit, sizeof(frame->unit), "kWh");
             break;
-        case DISP_PAGE_TAMPER_ALARM:
+        case DISP_PAGE_TAMPER_ALARM: {
             obis_code = "96.50";
             snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "AL");
-            snprintf(frame->main_value, sizeof(frame->main_value), "SABOTASE");
-            snprintf(frame->unit, sizeof(frame->unit), "E01");
-            frame->is_large_font = false; /* 8 huruf "SABOTASE" menggunakan Font 7x10 */
+            frame->is_large_font = false;
+
+            char spln_text[16] = "RUSAK";
+            char spln_code[10] = "-";
+
+            if (ctx->active_tamper_mask != 0 || (ctx->active_tamper_mask == 0 && ctx->active_alarm_mask == 0)) {
+                display_get_spln_tamper_info(ctx->active_tamper_mask, spln_text, sizeof(spln_text), spln_code, sizeof(spln_code));
+            } else {
+                display_get_spln_alarm_info(ctx->active_alarm_mask, spln_text, sizeof(spln_text), spln_code, sizeof(spln_code));
+            }
+
+            snprintf(frame->main_value, sizeof(frame->main_value), "%s", spln_text);
+            snprintf(frame->unit, sizeof(frame->unit), "%s", spln_code);
             break;
+        }
         default:
             obis_code = "00.00";
             snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "--");
