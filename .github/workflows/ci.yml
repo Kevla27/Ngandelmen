@@ -65,9 +65,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 🧰 Install ARM GNU Toolchain
-        uses: alireza7854/arm-none-eabi-toolchain@v1
+        uses: carlosperate/arm-none-eabi-gcc-action@v1
         with:
-          version: '13.3.rel1'
+          release: '13.3.Rel1'
 
       - name: 🛠️ Install Ninja & CMake
         run: |
