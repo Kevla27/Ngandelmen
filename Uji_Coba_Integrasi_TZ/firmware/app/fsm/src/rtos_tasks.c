@@ -10,6 +10,7 @@
 #include "dlms_task.h"
 #include "dlms_obis.h"
 #include "display_task.h"
+#include "bsp_alarm_buzzer.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -25,7 +26,11 @@ static SemaphoreHandle_t xMeasMutex = NULL;
 #ifndef pdMS_TO_TICKS
 #define pdMS_TO_TICKS(ms) (ms)
 #endif
+#ifndef configTICK_RATE_HZ
+#define configTICK_RATE_HZ 1000
+#endif
 static inline void vTaskDelay(uint32_t ticks) { (void)ticks; }
+static inline uint32_t xTaskGetTickCount(void) { return 0; }
 /* Ring Buffer Simulasi Queue di RAM PC */
 static tamper_event_msg_t simulated_tamper_queue[TAMPER_QUEUE_MAX_ITEMS];
 static size_t q_head = 0;
@@ -46,7 +51,8 @@ static bool s_measurements_valid = false;
 static meter_sample_fn_t s_meter_sample_cb = NULL;
 
 void rtos_system_init(void) {
-    /* 1. Inisialisasi Seluruh Modul Subsystem E3 */
+    /* 1. Inisialisasi Seluruh Modul Subsystem E3 & BSP */
+    bsp_alarm_buzzer_init();
     tamper_init(&g_tamper_ctx);
     load_profile_init(&g_load_profile_buf);
     display_init(&g_display_ctx, "530000000001", 2000);
@@ -196,6 +202,7 @@ void task_tamper_emergency_entry(void *pvParameters) {
                 printf("[TAMPER] *** DARURAT! SABOTASE TERDETEKSI (CASE OPEN) ***\r\n");
             } else {
                 printf("[TAMPER] Sabotase dipulihkan. Sistem kembali normal.\r\n");
+                bsp_alarm_buzzer_set(false);
             }
             tamper_event_msg_t msg = {
                 .timestamp = (uint32_t)(xTaskGetTickCount() / configTICK_RATE_HZ),
@@ -204,7 +211,15 @@ void task_tamper_emergency_entry(void *pvParameters) {
             };
             rtos_queue_send_tamper_event(&msg);
         }
-        vTaskDelay(pdMS_TO_TICKS(100));
+
+        /* Aktuasi Buzzer & LED Alarm PB7 saat alarm aktif (200 ms ON / 200 ms OFF) */
+        if (current_alarm) {
+            bsp_alarm_buzzer_toggle();
+        } else {
+            bsp_alarm_buzzer_set(false);
+        }
+
+        vTaskDelay(pdMS_TO_TICKS(200));
     }
 }
 

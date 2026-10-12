@@ -194,6 +194,11 @@ void GPDMA1_Channel1_IRQHandler(void)
   /* USER CODE END GPDMA1_Channel1_IRQn 1 */
 }
 
+void USART1_IRQHandler(void)
+{
+  HAL_UART_IRQHandler(&huart1);
+}
+
 /**
   * @brief This function handles USART2 global interrupt.
   */

@@ -30,6 +30,7 @@
 #include "tamper_manager.h"
 #include "metrology_adapter.h"
 #include "secure_nsc.h"
+#include "bsp_alarm_buzzer.h"
 #include <stdio.h>
 #include <string.h>
 /* USER CODE END Includes */
@@ -424,7 +425,8 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
-
+  /* Inisialisasi PB7 untuk Buzzer & Indikator Alarm SPLN (LED2 Blue pada Nucleo) */
+  bsp_alarm_buzzer_init();
   /* USER CODE END MX_GPIO_Init_2 */
 }
 

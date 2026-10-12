@@ -82,6 +82,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     firmware/protocols/dlms/src/dlms_nvm.c
     firmware/drivers/bsp/src/bsp_lpuart_dma.c
     firmware/drivers/bsp/src/bsp_display_oled.c
+    firmware/drivers/bsp/src/bsp_alarm_buzzer.c
     Core/Src/ssd1306.c
     Core/Src/ssd1306_fonts.c
 

@@ -58,13 +58,13 @@ void task_oled128x32_carousel(void *pvParameters)
     }
 
     display_context_t disp_ctx;
-    display_init(&disp_ctx, "530000000001", 2000);
+    display_init(&disp_ctx, "530000000001", 5000);
 
     meter_measurements_t meas;
     memset(&meas, 0, sizeof(meas));
 
     display_spln_frame_t spln_frame;
-    uint32_t elapsed_accumulator_ms = 2000; /* Langsung render saat startup */
+    uint32_t elapsed_accumulator_ms = 5000; /* Langsung render saat startup */
 
     for (;;) {
         bool need_render = false;
@@ -82,9 +82,9 @@ void task_oled128x32_carousel(void *pvParameters)
                 disp_ctx.current_page = DISP_PAGE_IDPEL;
             }
             need_render = true;
-        } else if (elapsed_accumulator_ms >= 2000) {
+        } else if (elapsed_accumulator_ms >= 5000) {
             elapsed_accumulator_ms = 0;
-            display_process_tick(&disp_ctx, 2000);
+            display_process_tick(&disp_ctx, 5000);
             need_render = true;
         }
 

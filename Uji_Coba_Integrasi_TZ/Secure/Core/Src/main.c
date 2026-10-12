@@ -329,7 +329,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_ConfigPinAttributes(GPIOA, GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_9|GPIO_PIN_10, GPIO_PIN_NSEC);
 
   /*IO attributes management functions */
-  HAL_GPIO_ConfigPinAttributes(GPIOB, GPIO_PIN_8|GPIO_PIN_9, GPIO_PIN_NSEC);
+  HAL_GPIO_ConfigPinAttributes(GPIOB, GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9, GPIO_PIN_NSEC);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
   /* Pastikan peripheral I2C1, LPUART1, dan USART1 berstatus Non-Secure di GTZC TZSC */

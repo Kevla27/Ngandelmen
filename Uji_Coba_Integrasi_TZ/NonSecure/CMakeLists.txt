@@ -111,6 +111,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/protocols/dlms/src/dlms_nvm.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/drivers/bsp/src/bsp_lpuart_dma.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/drivers/bsp/src/bsp_display_oled.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/drivers/bsp/src/bsp_alarm_buzzer.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Core/Src/ssd1306.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Core/Src/ssd1306_fonts.c
 

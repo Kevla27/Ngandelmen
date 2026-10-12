@@ -52,8 +52,30 @@ int main(void) {
     printf("  > Page 02 (Volt R): OK | zz: %s | Val: %s %s | OBIS: %s [PASS]\n",
            frame.scroll_index_zz, frame.main_value, frame.unit, frame.obis_code);
 
-    /* Cek Carousel Wrap saat Normal: Dari Page 14 (Energy) harus langsung ke Page 01 (IDPEL) */
-    ctx.current_page = DISP_PAGE_ACTIVE_ENERGY;
+    /* Cek Halaman Arus R (3 Desimal sesuai SPLN Tabel E.1) */
+    ctx.current_page = DISP_PAGE_CURRENT_R;
+    ctx.meas_buffer.current_r_mamps = 11946; /* 11.946 A */
+    display_render_spln_frame(&ctx, &frame);
+    assert(strcmp(frame.scroll_index_zz, "05") == 0);
+    assert(strcmp(frame.main_value, "11.946") == 0);
+    assert(strcmp(frame.unit, "A") == 0);
+    assert(strcmp(frame.obis_code, "31.07") == 0);
+    printf("  > Page 05 (Arus R - 3 Desimal): OK | zz: %s | Val: %s %s | OBIS: %s [PASS]\n",
+           frame.scroll_index_zz, frame.main_value, frame.unit, frame.obis_code);
+
+    /* Cek Halaman Jam dan Waktu (DISP_PAGE_TIME) - SPLN Butir 6.11 & Tabel E.2 No 33 */
+    ctx.current_page = DISP_PAGE_TIME;
+    display_render_spln_frame(&ctx, &frame);
+    assert(frame.is_alarm_active == false);
+    assert(strcmp(frame.scroll_index_zz, "15") == 0);
+    assert(strcmp(frame.obis_code, "01.00") == 0);
+    assert(strcmp(frame.unit, "WIB") == 0);
+    assert(frame.is_large_font == false);
+    printf("  > Page 15 (Time): OK | zz: %s | Val: %s %s | OBIS: %s [PASS]\n",
+           frame.scroll_index_zz, frame.main_value, frame.unit, frame.obis_code);
+
+    /* Cek Carousel Wrap saat Normal: Dari Page 15 (Time) harus langsung ke Page 01 (IDPEL) */
+    ctx.current_page = DISP_PAGE_TIME;
     display_process_tick(&ctx, 2000);
     assert(ctx.current_page == DISP_PAGE_IDPEL);
     printf("  > Carousel Skip Test (Normal tidak menampilkan halaman sabotase): [PASS]\n\n");
@@ -84,8 +106,8 @@ int main(void) {
     printf("  > SPLN Tabel 6 No 1 (Case Open): Header: '%s' | zz: '%s' | Teks: '%s' | Kode: '%s' | OBIS: '%s' [PASS]\n",
            frame.alarm_code, frame.scroll_index_zz, frame.main_value, frame.unit, frame.obis_code);
 
-    /* Cek Siklus Carousel saat Alarm: Dari Page 14 (Energy) harus masuk ke DISP_PAGE_TAMPER_ALARM */
-    ctx.current_page = DISP_PAGE_ACTIVE_ENERGY;
+    /* Cek Siklus Carousel saat Alarm: Dari Page 15 (Time) harus masuk ke DISP_PAGE_TAMPER_ALARM */
+    ctx.current_page = DISP_PAGE_TIME;
     display_process_tick(&ctx, 2000);
     assert(ctx.current_page == DISP_PAGE_TAMPER_ALARM);
     printf("  > Carousel Inclusion Test (Halaman sabotase masuk dalam siklus carousel): [PASS]\n");
@@ -257,7 +279,7 @@ int main(void) {
     display_set_tamper_status(&ctx, TAMPER_VECTOR_REVERSE_POWER);
     display_render_frame(&ctx, l1, l2, l3, sizeof(l1));
     assert(strcmp(l3, "REVERSE ERR26") == 0);
-    printf("  > Reverse Power CLI Frame: L3='%s' [PASS]\n\n");
+    printf("  > Reverse Power CLI Frame: L3='%s' [PASS]\n\n", l3);
 
     printf("====================================================================\n");
     printf("  HASIL: 100%% SELURUH KODE ERROR SPLN D3.006 TABEL 4 & 6 LULUS!      \n");

@@ -2,7 +2,7 @@
 /**
   ******************************************************************************
   * @file           : main.c
-  * @brief          : Main program body
+  * @brief          : Main program body (Non-TrustZone Bare-Metal Smart Meter)
   ******************************************************************************
   */
 /* USER CODE END Header */
@@ -16,6 +16,7 @@
 #include "rtos_tasks.h"
 #include "display_task.h"
 #include "bsp_display_oled.h"
+#include "bsp_alarm_buzzer.h"
 #include "console_io.h"
 #include "tamper_manager.h"
 #include "metrology_adapter.h"
@@ -27,26 +28,62 @@
 #define UART_RX_BUF_SIZE 256
 
 /* Private variables ---------------------------------------------------------*/
+UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 I2C_HandleTypeDef hi2c1;
 
 /* USER CODE BEGIN PV */
 DMA_HandleTypeDef handle_GPDMA1_Channel1;
 static uint8_t g_uart_rx_dma_buf[UART_RX_BUF_SIZE];
+static uint8_t s_usart1_rx_char = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_USART2_UART_Init(void);
 static void MX_GPDMA1_Init(void);
+static void MX_USART2_UART_Init(void);
+static void MX_USART1_UART_Init(void);
 static void MX_I2C1_Init(void);
+static void MX_ICACHE_Init(void);
 
 /* USER CODE BEGIN 0 */
+static void MX_ICACHE_Init(void)
+{
+  if (HAL_ICACHE_Enable() != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
 static void MX_I2C1_Init(void)
 {
+  /* I2C Bus Recovery: SCL toggle 9x jika slave (OLED) menahan SDA LOW saat reset */
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+  GPIO_InitTypeDef GPIO_Recovery = {0};
+  GPIO_Recovery.Pin = GPIO_PIN_8 | GPIO_PIN_9;
+  GPIO_Recovery.Mode = GPIO_MODE_OUTPUT_OD;
+  GPIO_Recovery.Pull = GPIO_PULLUP;
+  GPIO_Recovery.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(GPIOB, &GPIO_Recovery);
+
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8 | GPIO_PIN_9, GPIO_PIN_SET);
+  for (int i = 0; i < 9; i++) {
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_RESET);
+    for (volatile int d = 0; d < 200; d++);
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_SET);
+    for (volatile int d = 0; d < 200; d++);
+  }
+  /* Generate STOP condition: SDA LOW, SCL HIGH, SDA HIGH */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_RESET);
+  for (volatile int d = 0; d < 200; d++);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_SET);
+  for (volatile int d = 0; d < 200; d++);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_SET);
+  for (volatile int d = 0; d < 200; d++);
+
   hi2c1.Instance = I2C1;
-  hi2c1.Init.Timing = 0x00C0EAFF; // Standard 100kHz untuk 160MHz SYSCLK
+  hi2c1.Init.Timing = 0x3042C7C7; /* True 100 kHz Standard Mode untuk 160 MHz PCLK1 */
   hi2c1.Init.OwnAddress1 = 0;
   hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
@@ -58,73 +95,99 @@ static void MX_I2C1_Init(void)
   {
     Error_Handler();
   }
+
+  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c1, 0) != HAL_OK)
+  {
+    Error_Handler();
+  }
 }
 
 static void MX_GPDMA1_Init(void) {
-    __HAL_RCC_GPDMA1_CLK_ENABLE();
+  __HAL_RCC_GPDMA1_CLK_ENABLE();
 
-    handle_GPDMA1_Channel1.Instance = GPDMA1_Channel1;
-    handle_GPDMA1_Channel1.Init.Request = GPDMA1_REQUEST_USART2_RX;
-    handle_GPDMA1_Channel1.Init.Direction = DMA_PERIPH_TO_MEMORY;
-    handle_GPDMA1_Channel1.Init.SrcInc = DMA_SINC_FIXED;
-    handle_GPDMA1_Channel1.Init.DestInc = DMA_DINC_INCREMENTED;
-    handle_GPDMA1_Channel1.Init.SrcDataWidth = DMA_SRC_DATAWIDTH_BYTE;
-    handle_GPDMA1_Channel1.Init.DestDataWidth = DMA_DEST_DATAWIDTH_BYTE;
-    handle_GPDMA1_Channel1.Init.Priority = DMA_HIGH_PRIORITY;
+  handle_GPDMA1_Channel1.Instance = GPDMA1_Channel1;
+  handle_GPDMA1_Channel1.Init.Request = GPDMA1_REQUEST_USART2_RX;
+  handle_GPDMA1_Channel1.Init.Direction = DMA_PERIPH_TO_MEMORY;
+  handle_GPDMA1_Channel1.Init.SrcInc = DMA_SINC_FIXED;
+  handle_GPDMA1_Channel1.Init.DestInc = DMA_DINC_INCREMENTED;
+  handle_GPDMA1_Channel1.Init.SrcDataWidth = DMA_SRC_DATAWIDTH_BYTE;
+  handle_GPDMA1_Channel1.Init.DestDataWidth = DMA_DEST_DATAWIDTH_BYTE;
+  handle_GPDMA1_Channel1.Init.Priority = DMA_HIGH_PRIORITY;
 
-    HAL_DMA_Init(&handle_GPDMA1_Channel1);
+  HAL_DMA_Init(&handle_GPDMA1_Channel1);
 
-    __HAL_LINKDMA(&huart2, hdmarx, handle_GPDMA1_Channel1);
+  __HAL_LINKDMA(&huart2, hdmarx, handle_GPDMA1_Channel1);
 
-    HAL_NVIC_SetPriority(GPDMA1_Channel1_IRQn, 5, 0);
-    HAL_NVIC_EnableIRQ(GPDMA1_Channel1_IRQn);
+  HAL_NVIC_SetPriority(GPDMA1_Channel1_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(GPDMA1_Channel1_IRQn);
 }
 
 /* Callback Adapter Hardware Transmisi Konsol Universal E3 (Agnostik) */
 static void console_uart_transmit_bsp(const uint8_t *data, size_t len) {
-    HAL_UART_Transmit(&huart2, (uint8_t *)data, (uint16_t)len, 100);
+  HAL_UART_Transmit(&huart2, (uint8_t *)data, (uint16_t)len, 100);
+  if (huart1.Instance != NULL) {
+    HAL_UART_Transmit(&huart1, (uint8_t *)data, (uint16_t)len, 100);
+  }
 }
 
 static void dlms_uart_tx_callback(const uint8_t *data, size_t len) {
-    HAL_UART_Transmit(&huart2, (uint8_t *)data, (uint16_t)len, 1000);
+  HAL_UART_Transmit(&huart2, (uint8_t *)data, (uint16_t)len, 1000);
 }
 
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
-    if (huart->Instance == USART2) {
-        BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-        if (Size > 0 && xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED) {
-            rtos_dlms_task_notify_rx(g_uart_rx_dma_buf, Size);
-        }
-        HAL_UARTEx_ReceiveToIdle_DMA(&huart2, g_uart_rx_dma_buf, UART_RX_BUF_SIZE);
-        if (xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED) {
-            portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-        }
+  if (huart->Instance == USART2) {
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    if (Size > 0 && xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED) {
+      rtos_dlms_task_notify_rx(g_uart_rx_dma_buf, Size);
     }
+    HAL_UARTEx_ReceiveToIdle_DMA(&huart2, g_uart_rx_dma_buf, UART_RX_BUF_SIZE);
+    if (xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED) {
+      portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    }
+  }
 }
 
 void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
-    if (huart->Instance == USART2) {
-        __HAL_UART_CLEAR_FLAG(huart, UART_CLEAR_OREF | UART_CLEAR_NEF | UART_CLEAR_PEF | UART_CLEAR_FEF);
-        HAL_UARTEx_ReceiveToIdle_DMA(&huart2, g_uart_rx_dma_buf, UART_RX_BUF_SIZE);
-    }
+  if (huart->Instance == USART2) {
+    __HAL_UART_CLEAR_FLAG(huart, UART_CLEAR_OREF | UART_CLEAR_NEF | UART_CLEAR_PEF | UART_CLEAR_FEF);
+    HAL_UARTEx_ReceiveToIdle_DMA(&huart2, g_uart_rx_dma_buf, UART_RX_BUF_SIZE);
+  }
 }
 
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+  if (huart->Instance == USART1) {
+    if (s_usart1_rx_char == 't' || s_usart1_rx_char == 'T' ||
+        s_usart1_rx_char == 's' || s_usart1_rx_char == 'S' ||
+        s_usart1_rx_char == ' ' || s_usart1_rx_char == '\r' || s_usart1_rx_char == '\n') {
+      printf("\r\n[SIMULASI] Perintah sabotase PC13 (Case Open) diterima via konsol UART!\r\n");
+      tamper_handle_button_press_isr(HAL_GetTick());
+    }
+    HAL_UART_Receive_IT(&huart1, &s_usart1_rx_char, 1);
+  }
+}
 /* USER CODE END 0 */
 
 int main(void)
 {
   HAL_Init();
   SystemClock_Config();
+  MX_ICACHE_Init();
 
   MX_GPIO_Init();
   MX_GPDMA1_Init();
   MX_USART2_UART_Init();
+  MX_USART1_UART_Init();
   MX_I2C1_Init();
 
   /* USER CODE BEGIN 2 */
   /* 1. Inisialisasi Konsol Universal E3 & Cetak Banner Hardware Bring-Up */
   console_io_init(console_uart_transmit_bsp);
-  console_io_print_boot_banner("STM32U575VGT6 HARDWARE BRING-UP INITIALIZED", "USART2 (PA2/PA3 @ 115200 bps)", 160);
+  console_io_print_boot_banner("STM32U575 SMART METER INITIALIZED (NON-TZ)", "USART2 (PA2/PA3) & USART1 VCP @ 115200", 160);
 
   /* 2. Inisialisasi Layar Display (Dependency Injection Driver OLED 128x32) */
   display_task_set_driver(bsp_display_oled_get_driver());
@@ -143,7 +206,7 @@ int main(void)
 
   /* 4. Luncurkan Seluruh Task FreeRTOS (Tamper, Profiling, DLMS, OLED) */
   if (!rtos_start_all_tasks()) {
-      printf("[ERROR] Gagal membuat sebagian FreeRTOS task!\r\n");
+    printf("[ERROR] Gagal membuat sebagian FreeRTOS task!\r\n");
   }
 
   printf("[RTOS] Memulai FreeRTOS Scheduler...\r\n");
@@ -215,6 +278,30 @@ static void MX_USART2_UART_Init(void)
   HAL_UARTEx_ReceiveToIdle_DMA(&huart2, g_uart_rx_dma_buf, UART_RX_BUF_SIZE);
 }
 
+static void MX_USART1_UART_Init(void)
+{
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 115200;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart1.Init.ClockPrescaler = UART_PRESCALER_DIV1;
+  huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+
+  if (HAL_UART_Init(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  HAL_NVIC_SetPriority(USART1_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(USART1_IRQn);
+  HAL_UART_Receive_IT(&huart1, &s_usart1_rx_char, 1);
+}
+
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -222,15 +309,9 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
-  __HAL_RCC_I2C1_CLK_ENABLE();
 
-  /* I2C1 GPIO Configuration: PB8 -> SCL, PB9 -> SDA */
-  GPIO_InitStruct.Pin = GPIO_PIN_8 | GPIO_PIN_9;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  /* Inisialisasi PB7 untuk Buzzer & Indikator Alarm SPLN */
+  bsp_alarm_buzzer_init();
 
   /* User Button / Tamper Button: PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13;

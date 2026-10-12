@@ -15,6 +15,7 @@ bool display_init(display_context_t *ctx, const char *customer_id, uint32_t caro
     ctx->current_page = DISP_PAGE_IDPEL;
     ctx->carousel_interval_ms = (carousel_interval_ms > 0) ? carousel_interval_ms : 5000;
     ctx->manual_timeout_ms = 10000; // Timeout manual scroll 10 detik
+    ctx->current_time_epoch = 1791794500; // Basis waktu default (12-10-2026 08:41:40)
 
     if (customer_id != NULL) {
         strncpy(ctx->customer_id, customer_id, sizeof(ctx->customer_id) - 1);
@@ -23,6 +24,12 @@ bool display_init(display_context_t *ctx, const char *customer_id, uint32_t caro
     }
     ctx->customer_id[sizeof(ctx->customer_id)-1]='\0';
     return true;
+}
+
+void display_set_time(display_context_t *ctx, uint32_t epoch_sec) {
+    if (ctx != NULL) {
+        ctx->current_time_epoch = epoch_sec;
+    }
 }
 
 void display_update_measurements(display_context_t *ctx, const meter_measurements_t *meas) {
@@ -35,6 +42,7 @@ void display_process_tick(display_context_t *ctx, uint32_t elapsed_ms) {
     if (ctx == NULL) return;
 
     ctx->timer_accumulator_ms += elapsed_ms;
+    ctx->current_time_epoch += (elapsed_ms / 1000);
 
     if (ctx->mode == DISPLAY_MODE_AUTO_CAROUSEL) {
         if (ctx->timer_accumulator_ms >= ctx->carousel_interval_ms) {
@@ -70,7 +78,7 @@ void display_handle_button_press(display_context_t *ctx, button_dir_t dir) {
         display_page_id_t prev_page = (ctx->current_page == 0) ? (display_page_id_t)(DISP_PAGE_COUNT - 1) 
                                                                : (display_page_id_t)(ctx->current_page - 1);
         if (!ctx->alarm_icon_active && prev_page == DISP_PAGE_TAMPER_ALARM) {
-            prev_page = DISP_PAGE_ACTIVE_ENERGY;
+            prev_page = DISP_PAGE_TIME;
         }
         ctx->current_page = prev_page;
     }
@@ -233,6 +241,16 @@ void display_render_frame(const display_context_t *ctx, char *out_line1, char *o
             snprintf(out_line2, max_len, "TOTAL ENERGY");
             snprintf(out_line3, max_len, "%lu.%02lu kWh", (unsigned long)(ctx->meas_buffer.active_energy_wh / 1000), (unsigned long)((ctx->meas_buffer.active_energy_wh % 1000) / 10));
             break;
+        case DISP_PAGE_TIME: {
+            uint32_t t = ctx->current_time_epoch;
+            uint32_t sec = t % 60;
+            uint32_t min = (t / 60) % 60;
+            uint32_t hr  = (t / 3600) % 24;
+            snprintf(out_line2, max_len, "TIME & DATE (01.00)");
+            snprintf(out_line3, max_len, "%02lu:%02lu:%02lu WIB",
+                     (unsigned long)hr, (unsigned long)min, (unsigned long)sec);
+            break;
+        }
         case DISP_PAGE_TAMPER_ALARM: {
             char spln_text[16] = "RUSAK";
             char spln_code[10] = "-";
@@ -305,33 +323,33 @@ void display_render_spln_frame(const display_context_t *ctx, display_spln_frame_
         case DISP_PAGE_CURRENT_R:
             obis_code = "31.07";
             snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "05");
-            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%02lu",
+            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%03lu",
                      (unsigned long)(ctx->meas_buffer.current_r_mamps / 1000),
-                     (unsigned long)((ctx->meas_buffer.current_r_mamps % 1000) / 10));
+                     (unsigned long)(ctx->meas_buffer.current_r_mamps % 1000));
             snprintf(frame->unit, sizeof(frame->unit), "A");
             break;
         case DISP_PAGE_CURRENT_S:
             obis_code = "51.07";
             snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "06");
-            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%02lu",
+            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%03lu",
                      (unsigned long)(ctx->meas_buffer.current_s_mamps / 1000),
-                     (unsigned long)((ctx->meas_buffer.current_s_mamps % 1000) / 10));
+                     (unsigned long)(ctx->meas_buffer.current_s_mamps % 1000));
             snprintf(frame->unit, sizeof(frame->unit), "A");
             break;
         case DISP_PAGE_CURRENT_T:
             obis_code = "71.07";
             snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "07");
-            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%02lu",
+            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%03lu",
                      (unsigned long)(ctx->meas_buffer.current_t_mamps / 1000),
-                     (unsigned long)((ctx->meas_buffer.current_t_mamps % 1000) / 10));
+                     (unsigned long)(ctx->meas_buffer.current_t_mamps % 1000));
             snprintf(frame->unit, sizeof(frame->unit), "A");
             break;
         case DISP_PAGE_CURRENT_N:
             obis_code = "91.07";
             snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "08");
-            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%02lu",
+            snprintf(frame->main_value, sizeof(frame->main_value), "%lu.%03lu",
                      (unsigned long)(ctx->meas_buffer.current_n_mamps / 1000),
-                     (unsigned long)((ctx->meas_buffer.current_n_mamps % 1000) / 10));
+                     (unsigned long)(ctx->meas_buffer.current_n_mamps % 1000));
             snprintf(frame->unit, sizeof(frame->unit), "A");
             break;
         case DISP_PAGE_ACTIVE_POWER: {
@@ -390,6 +408,22 @@ void display_render_spln_frame(const display_context_t *ctx, display_spln_frame_
                      (unsigned long)((ctx->meas_buffer.active_energy_wh % 1000) / 10));
             snprintf(frame->unit, sizeof(frame->unit), "kWh");
             break;
+        case DISP_PAGE_TIME: {
+            obis_code = "01.00";
+            snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "15");
+            frame->is_large_font = false; /* Font 7x10 */
+
+            uint32_t t = ctx->current_time_epoch;
+            uint32_t sec = t % 60;
+            uint32_t min = (t / 60) % 60;
+            uint32_t hr  = (t / 3600) % 24;
+
+            /* Sesuai SPLN Butir 6.11: Jam dalam format 00.00 s.d 23.59 (atau hh:mm:ss) */
+            snprintf(frame->main_value, sizeof(frame->main_value), "%02lu:%02lu:%02lu",
+                     (unsigned long)hr, (unsigned long)min, (unsigned long)sec);
+            snprintf(frame->unit, sizeof(frame->unit), "WIB");
+            break;
+        }
         case DISP_PAGE_TAMPER_ALARM: {
             obis_code = "96.50";
             snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "AL");
