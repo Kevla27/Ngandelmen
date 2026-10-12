@@ -142,3 +142,5 @@
 49	324	8134932514896634	CMakeFiles/Uji_Coba_Integrasi_TZ_NS.dir/G_/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c.obj	e0174d755d19d9a7
 21	524	8134932514617305	CMakeFiles/Uji_Coba_Integrasi_TZ_NS.dir/Core/Src/main.c.obj	3931137586bcda0d
 524	1023	8134932519646168	Uji_Coba_Integrasi_TZ_NS.elf	32fc4a92b410a605
+8	510	8135001152522033	CMakeFiles/Uji_Coba_Integrasi_TZ_NS.dir/G_/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_obis.c.obj	3298af2774df08f8
+510	1327	8135001157547756	Uji_Coba_Integrasi_TZ_NS.elf	32fc4a92b410a605

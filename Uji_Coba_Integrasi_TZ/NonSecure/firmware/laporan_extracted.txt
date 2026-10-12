@@ -1,0 +1,290 @@
+=== PAGE 1 ===
+1
+BUKU INDUK MASTER REKAYASA SISTEM LENGKAP (FASE 1 S/D 3)
+Buku Induk Rekayasa Lengkap Smart Meter
+AMI 3-Fasa
+Kompilasi Menyeluruh Fase 1, Fase 2, dan Fase 3 Berdasarkan Design for ECE
+Proyek Rekayasa Smart Meter AMI 3-Fasa (Polyphase System)
+Klasifikasi Standar IEC 62053-22 Class 0.5S/0.2S, SPLN D3.006: 2021, IEEE Std 1233-
+1998
+Komponen AFE Terpilih Analog Devices ADE9078 (40-Lead LFCSP, 10.000:1 Dynamic
+Range)
+Host Processing Unit STMicroelectronics STM32U575 (ARM Cortex-M33, TrustZone)
+Status Verifikasi Rekayasa TERVERIFIKASI & LULUS 100%  (Simulasi PoC)
+Tanggal Rilis Dokumen September 2026
+Versi Dokumen Rev. 2.0 (Official Release)
+Diterbitkan oleh Tim Rekayasa Sistem Instrumentasi, Semikonduktor & Metrologi Listrik
+Mengacu pada standar buku teks: Design for Electrical and Computer Engineers (Ralph M. Ford & Chris S. Coulston)
+
+=== PAGE 2 ===
+2
+Rekayasa Sistem Smart Meter AMI 3-Fasa: Gap Analysis, Constraints, &
+SMART Objectives
+Dokumen ini merupakan pembaruan resmi (official engineering revision) untuk dokumen spesifikasi awal Phase 1: Define Problem &
+Scope, yang disusun secara ketat berdasarkan buku teks acuan rekayasa "Design for Electrical and Computer Engineers" (Ralph M.
+Ford & Chris S. Coulston, Bab 2 & Bab 3), standar IEEE Std 1233-1998, standar internasional IEC 62053-22 Class 0.5S/0.2S, serta
+regulasi SPLN D3.006: 2021 PT PLN (Persero).
+Dokumen ini menyambung dan melengkapi fondasi empiris dari Dokumen Rekayasa 5W+1H (Problem Definition & Need
+Analysis).
+1. Quantitative Gap Analysis (Analisis Kesenjangan Kuantitatif)
+Sesuai Bab 2 Design for ECE, Gap Analysis mengidentifikasi perbedaan spesifik antara Kondisi Eksisting (Current State) dan Kondisi
+Masa Depan yang Diinginkan (Desired Future State) melalui metrik kinerja terukur:
+KONDISI TARGET MASA DEPAN (DESIRED STATE)
+Load Profile Otomatis Interval 15 Menit (DLMS/COSEM) Pengukuran 4-Kanal Simultan (VA, VB, VC, IA, IB, IC, IN) Akurasi Kelas 0.5S / 0.2S (Dynamic Range >= 5000:1) Peringatan Alarm Otomatis Seketika (Latensi < 5 Detik) Biaya Operasional Transmisi Seluler/RF < Rp 1.500 / bulan
+CELAH KAPABILITAS TEKNIS (THE GAP)
+Ketiadaan Telemetri Jaringan Dua Arah Ketiadaan Kanal Penginderaan Netral (IN) Ketiadaan Mesin Hardware DSP Metrologi Multi-Fasa Ketiadaan Catu Daya Cadangan Last-Gasp
+KONDISI EKSISTING (CURRENT REALITY)
+Pencatatan Fisik: 30 Hari Sekali (720 Jam Latensi) Pengukuran: Agregat Total 1-Kanal (Buta Fasa A, B, C, N) Akurasi: Kelas 1.0 - 2.0 (Dynamic Range < 1000:1) Deteksi Gangguan: Reaktif via Keluhan Telepon (1 - 4 Jam) Biaya Operasional: Rp 8.000 - 15.000 / meter / bulan
+Matriks Perbandingan Metrik Kinerja Eksisting vs Target:
+Parameter Rekayasa Kondisi Saat Ini (Current State) Kondisi Target (Desired Future State) Gap Kuantitatif (The Engineering Gap)
+1. Interval Waktu
+Pengambilan Data
+30 Hari sekali (1 bulan) secara
+manual oleh petugas Cater fisik.
+Setiap 15 Menit secara otomatis via
+jaringan seluler/RF ke HES/MDMS.
+Peningkatan resolusi waktu 
+lebih rapat (dari 720 jam menjadi 0,25
+jam).
+2. Resolusi
+Penginderaan Fasa
+1 Nilai agregat total (tanpa
+pemisahan Fasa A, B, C, dan
+Netral).
+Pemantauan 4-Kanal Tegangan &
+Arus simultan (  dan
+).
+Eliminasi blind spot fasa netral; deteksi
+ketidakseimbangan beban secara
+kontinu.
+3. Kelas Akurasi
+Metrologi Aktif
+IEC Class 1.0 / Class 2.0 (galat
+).
+IEC 62053-22 Class 0.5S / Class
+0.2S (galat  s/d ).
+Peningkatan presisi hingga 
+lebih ketat pada rentang dinamik
+.
+4. Latensi Pelaporan
+Gangguan / Tamper
+Reaktif: 1 – 4 jam pasca kejadian
+(menunggu laporan telepon
+konsumen).
+ Detik sejak anomali fasa atau
+pemutusan kawat terjadi.
+Respon alarm  lebih
+cepat, mencegah kerusakan
+mesin/trafo.
+5. Visibilitas Kualitas
+Daya (PQ)
+Nol (tidak ada data THD, sudut
+fasa, sag, swell, atau frekuensi).
+Pengukuran THD per fasa s/d
+harmonik ke-32, sudut fasa, dan
+sub-cycle sag/swell.
+Memberikan transparansi kualitas daya
+standar IEEE Std 519 bagi industri.
+6. Biaya Operasional
+(OPEX) Pembacaan
+Rp 8.000 – Rp 15.000 / meter /
+bulan (gaji petugas,
+transportasi, cetak).
+ / meter / bulan (biaya
+paket data M2M / IoT sim card).
+Efisiensi OPEX sebesar  (menghemat
+miliaran rupiah per tahun).
+7. Resiliensi Saat
+Padam (Outage)
+Mati total seketika; tidak dapat
+mengirim sinyal status padam.
+Sistem cadangan (Last-Gasp) aktif
+ pasca blackout.
+Memastikan transmisi sinyal darurat
+pemadaman sukses 100% ke server
+pusat.
+2.880×
+VA,VB,VC
+IA,IB,IC,IN
+±1.0 ≤ ±0.5 ±0.2
+2 × −5×
+5000 : 1
+< 5 720 × −2.880×
+< Rp 1.500 80
+≥ 30 detik
+
+=== PAGE 3 ===
+3
+ 
+2. Identifying Constraints (Batasan Rekayasa & Kriteria ABET)
+Mengacu pada Bab 3 Design for ECE dan kriteria akreditasi rekayasa global (ABET Criteria 3 & IEEE Std 1233-1998), batasan sistem
+didefinisikan sebagai "tebing pemandu" yang mengarahkan perancangan agar menghasilkan solusi yang aman, realistis, dan layak
+secara ekonomi.
+                            ┌──────────────────────────────────────────────┐
+                            │     TAKSONOMI BATASAN REKAYASA (CONSTRAINTS)  │
+                            └──────────────────────────────────────────────┘
+                                                    │
+                 ┌──────────────────────────────────┴──────────────────────────────────┐
+                 ▼                                                                     ▼
+      [ TECHNICAL CONSTRAINTS ]                                             [ NON-TECHNICAL CONSTRAINTS ]
+      • Grid: 100V - 415V AC, 50 Hz ± 5%                                    • Economic: Target BOM <= $45 total (AFE <=
+      • Isolation: Impuls 4 kV, Creepage >= 6.3 mm                          • Environmental: Suhu -10°C s/d +70°C, Prot
+      • Meter Burden: Daya internal <= 2.0 W                                • Health & Safety: Material UL94-V0, Protek
+      • Memory: Retensi data non-volatile >= 10 thn                         • Legal & Regulatory: SPLN D3.006: 2021, DL
+2.1. Technical Constraints (Batasan Teknis Sistem)
+1. Batasan Tegangan Jaringan Listrik (Voltage Boundary):
+Perangkat wajib beroperasi stabil pada rentang tegangan masukan  (Line-to-Line) atau
+ (Line-to-Neutral) dengan frekuensi nominal .
+Sistem catu daya internal (Auxiliary Power Supply) wajib tetap menyuplai daya DC teregulasi (3.3V) ke sistem kontrol
+meskipun terjadi pemadaman pada salah satu atau dua fasa (single/two-phase loss resilience).
+2. Batasan Isolasi & Ketahanan Lonjakan (Dielectric & Surge Boundary - ER-08):
+Rangkaian wajib menahan tegangan impuls gelombang petir standar ( ) hingga  dan tegangan
+ketahanan isolasi AC  selama 1 menit sesuai standar IEC 62052-11.
+Jarak rayap (creepage distance) dan celah bebas udara (clearance distance) pada jalur tegangan tinggi AC di PCB minimal
+.
+3. Batasan Konsumsi Daya Internal (Meter Burden - ER-10):
+Total daya internal yang diserap oleh sirkuit smart meter (MCU, AFE, LCD, dan Modem komunikasi) tidak boleh melebihi
+ atau  per fasa saat kondisi operasional aktif 24/7.
+4. Batasan Integritas & Retensi Memori Data (Data Retention Boundary):
+Data akumulasi kWh dan log transaksi penagihan wajib disimpan pada memori non-volatile (Flash/EEPROM) dengan masa
+simpan data (data retention)  tanpa memerlukan daya baterai eksternal.
+5. Batasan Cadangan Daya Darurat (Last-Gasp Energy Storage - ER-05):
+Sirkuit cadangan daya darurat (superkapasitor) wajib mampu menjaga Host MCU dan modul transmisi seluler tetap
+beroperasi selama minimal  setelah terjadi pemadaman listrik total (total blackout) untuk mengirim paket
+pesan peringatan terakhir.
+2.2. Non-Technical Constraints (Batasan Non-Teknis & Standar Terkait)
+1. Batasan Ekonomi (Economic Constraint):
+Target Bill of Materials (BOM Cost): Total biaya komponen elektronik per unit smart meter 3-fasa ditargetkan 35 -
+ pada volume pengadaan  unit, dengan plafon biaya modul metrologi AFE 5{,}50\text{ USD}$.
+Desain harus meminimalkan penggunaan komponen khusus yang mahal dan memprioritaskan komponen standar industri
+(Commercial Off-The-Shelf / COTS) yang diproduksi massal.
+2. Batasan Lingkungan & Keberlanjutan (Environmental & Sustainability Constraint):
+100 V − 415 V AC
+57 V − 240 V AC 50 Hz ± 5
+1.2/50 μs ≥ 4 kV
+2 kV
+6,3 mm
+≤ 2,0 W < 10 VA
+≥ 10 tahun
+≥ 30 detik
+≤
+45 USD ≥ 10.000 ≤
+
+=== PAGE 4 ===
+4
+Kondisi Iklim Tropis: Perangkat wajib beroperasi pada rentang suhu ambien  hingga  dengan
+kelembapan relatif hingga  non-kondensasi.
+Indeks Proteksi Selungkup: Casing pelindung wajib memenuhi standar ketahanan debu dan semburan air minimal IP54
+sesuai SPLN D3.006: 2021.
+Umur Pakai & Limbah Elektronik (E-Waste): Dirancang untuk masa operasi lapangan minimal  (deploy-
+and-forget) guna menekan laju limbah elektronik.
+3. Batasan Kesehatan & Keselamatan (Health & Safety Constraint):
+Material casing selungkup luar wajib menggunakan polikarbonat tahan api dengan standar UL94-V0 (flame-retardant).
+Dilengkapi proteksi pelepas lonjakan tegangan transien (Metal Oxide Varistor / MOV) pada setiap saluran fasa untuk
+mencegah kebakaran panel akibat induksi sambaran petir.
+4. Batasan Legal, Kebijakan, & Standar Industri (Legal & Standards Compliance):
+Standar Metrologi Legal: Wajib lolos sertifikasi tipe IEC 62053-22 Class 0.5S (Energi Aktif) dan IEC 62053-23 (Energi
+Reaktif) dari Balai Pengujian Ketenagalistrikan (BPPK / LMK PLN).
+Standar Interoperabilitas Data: Protokol transmisi data wajib menerapkan arsitektur standar IEC 62056 (DLMS/COSEM)
+dengan lapisan keamanan kriptografi AES-128 HLS.
+Standar Nasional PLN: Memenuhi seluruh klausul spesifikasi teknis SPLN D3.006: 2021 (Meter Statik 3-Fasa) dan SPLN
+D3.022-1 (Smart Meter AMI).
+Regulasi Domestik: Mematuhi ketentuan Tingkat Komponen Dalam Negeri (TKDN) Kementerian Perindustrian minimal
+.
+3. Formulasi Pernyataan Rekayasa Formal
+Sesuai panduan Bab 2 Design for ECE dan IEEE Std 1233-1998:
+3.1. Formulasi Problem Statement Resmi (Diagnosa Masalah Murni)
+"Penyedia utilitas tenaga listrik nasional (PT PLN Persero) dan konsumen sektor bisnis dan industri (yang mengonsumsi
+48,50% atau 154,09 TWh dari total energi nasional) mengalami kerugian finansial akibat susut non-teknis (NTL) yang
+diperkirakan melebihi Rp 2 Triliun per tahun, kerusakan mesin motor industri akibat hilang fasa (< 5 menit burnout), serta
+percepatan penuaan transformator distribusi hingga 50% akibat ketidakseimbangan beban fasa yang tidak terpantau pada
+titik masuk panel pelanggan 3-fasa. Kondisi ini bersumber dari penggunaan meteran pasif konvensional yang tidak memiliki
+visibilitas saluran netral terpisah, tidak memiliki telemetri dua arah seketika, dan mengandalkan pencatatan manual
+bulanan dengan latensi keterlambatan data hingga 720 jam."
+3.2. Formulasi Needs Statement Resmi (Pernyataan Kebutuhan Solusi)
+"Seluruh titik transaksi listrik 3-fasa komersial dan industri idealnya terpantau secara transparan, seimbang, dan terhubung
+dua arah secara real-time ke pusat kontrol. Namun, penggunaan meteran pasif dan siklus pencatatan bulanan membatasi
+visibilitas parameter per fasa dan menghambat pencegahan kecurangan maupun penanganan gangguan jaringan.
+Akibatnya, terdapat kebutuhan mendesak akan sistem smart meter AMI 3-fasa mandiri yang terotomasi, berpresisi
+tinggi (Class 0.5S/0.2S), hemat daya (< 2.0 W), dan dilengkapi telemetri dua arah, guna menyediakan
+pemantauan profil beban 15-menitan, pelaporan alarm anomali seketika (< 5 detik), serta penghentian kebocoran
+pendapatan non-teknis secara efektif."
+4. SMART Project Objectives (Sasaran Proyek Terukur)
+Mengacu pada prinsip rekayasa Design for ECE, tujuan proyek dirumuskan menggunakan kriteria SMART (Specific, Measurable,
+Achievable, Relevant, Time-bound) yang menjadi tolok ukur kriteria lulus/gagal (pass/fail criteria) pada tahap pengujian:
+−10∘C +70∘C
+95
+10 − 15 tahun
+40
+
+=== PAGE 5 ===
+5
+SMART PROJECT OBJECTIVES
+O1: Akurasi & Otomasi Metrologi
+• Error <= ±0.5% (Class 0.5S)
+• Dynamic Range 5000:1
+• Success Rate >= 99.9%
+O2: Telemetri & Alarm Seketika
+• Interval Rutin: 15 Menit ± 1s
+• Latensi Alarm: < 5 Detik
+• Backup Last-Gasp: >= 30 Detik
+O3: Mitigasi NTL & Anti-Tamper
+• Deteksi Bypass Netral 4-Kawat
+• Deteksi Pembalikan Arus CT
+• Target NTL Wilayah < 1.0%
+O4: Efisiensi Biaya & Beban Daya
+• Total BOM Cost <= $45 (AFE <= $5.50)
+• Meter Burden <= 2.0 W (24/7)
+• Umur Desain >= 10 Tahun
+O1. Presisi & Akurasi Metrologi Polyphase 4-Kawat (Traceable to ER-01 & ER-02)
+Pernyataan Sasaran: Mengukur, menghitung, dan merekam parameter kelistrikan fasa tunggal dan total (
+) secara simultan dengan margin galat pengukuran energi aktif  pada rentang
+dinamik arus minimal  (memenuhi IEC 62053-22 Class 0.5S), serta mencapai tingkat keberhasilan pembacaan data
+transaksi .
+Analisis SMART:
+Specific: Mengukur 4 saluran tegangan & arus independen (  dan ).
+Measurable: Galat , Dynamic Range , Success Rate .
+Achievable: Dapat direalisasikan menggunakan IC AFE terdedikasi 24-bit  (Microchip ATM90E36A).
+Relevant: Memenuhi standar legal metrologi komersial SPLN D3.006: 2021.
+Time-bound: Selesai divalidasi pada pengujian bangku kalibrasi (Bench Calibrator) di Tahap Phase 2.
+O2. Telemetri Dua Arah & Respons Peringatan Seketika (Traceable to ER-03, ER-04, & ER-05)
+Pernyataan Sasaran: Mentransmisikan paket data profil beban (load profile) 3-fasa terenkripsi ke server HES/MDMS secara
+otomatis setiap interval , serta mengirimkan sinyal notifikasi darurat (tamper, phase loss, overvoltage) dengan
+latensi  sejak gangguan terjadi, didukung cadangan daya superkapasitor selama .
+Analisis SMART:
+Specific: Transmisi data rutin 15 menit dan mekanisme interupsi alarm instan.
+Measurable: Interval transmisi 15 menit ( ), latensi alarm , durasi Last-Gasp .
+Achievable: Menggunakan modem seluler/IoT M2M berdaya rendah dengan protokol DLMS/COSEM.
+Relevant: Mengeliminasi latensi pencatatan manual 720 jam menjadi pemantauan near-real-time.
+Time-bound: Terverifikasi melalui uji injeksi gangguan (Fault Injection Test) di Tahap Integrasi Sistem.
+O3. Mitigasi Susut Non-Teknis & Deteksi Kecurangan (Traceable to ER-03 & Problem Statement)
+Pernyataan Sasaran: Menekan potensi susut energi non-teknis (NTL) akibat pencurian dan manipulasi kawat fasa tunggal
+hingga  pada area penggelaran meter, melalui deteksi otomatis kebocoran arus kawat netral, pembalikan polaritas CT, dan
+anomali urutan fasa.
+Analisis SMART:
+Specific: Mendeteksi 4 modus manipulasi fisik (bypass CT, decoupling netral, pembalikan fasa, dan magnet).
+Measurable: Menurunkan NTL hingga di bawah ambang ; mencatat 100% kejadian manipulasi dalam event log.
+Achievable: Memanfaatkan saluran ADC ke-4 khusus netral ( ) pada chip metrologi.
+Relevant: Menyelamatkan potensi pendapatan utilitas miliaran rupiah per tahun.
+Time-bound: Dibuktikan pada pengujian pilot project lapangan selama 3 bulan pertama operasi.
+O4. Efisiensi Biaya Manufaktur & Konsumsi Daya Internal (Traceable to ER-10 & Constraints)
+Pernyataan Sasaran: Membatasi total konsumsi daya internal perangkat (meter burden) tidak melebihi  (atau 
+per fasa), serta menjaga total biaya komponen elektronik (BOM Cost) 45\text{ USD}$ per unit untuk memastikan kelayakan
+komersial tender utilitas nasional.
+Analisis SMART:
+Specific: Pengendalian konsumsi daya perangkat 24/7 dan optimasi arsitektur BOM hardware.
+VRMS,IRMS,P ,Q,S,PF , Freq, THD ≤ ±0,5
+5000 : 1
+≥ 99,9
+VA,VB,VC IA,IB,IC,IN
+≤ ±0,5 5000 : 1 ≥ 99,9
+ΣΔ
+15 menit ± 1 detik
+< 5 detik ≥ 30 detik
+±1 s < 5 s ≥ 30 s
+< 1,0
+1,0
+IN
+≤ 2,0 W < 10 VA
+≤
+
