@@ -36,6 +36,7 @@ jobs:
             PROJECT_DIR="."
           fi
           echo "PROJECT_DIR=$PROJECT_DIR" >> $GITHUB_ENV
+          rm -rf host_build "$PROJECT_DIR/firmware/build" "$PROJECT_DIR/NonSecure/firmware/build"
           cmake -B host_build -S "$PROJECT_DIR/firmware" -GNinja -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON
 
       - name: 🔨 Compile Test Executables
@@ -87,6 +88,7 @@ jobs:
           fi
           echo "TARGET_DIR=$TARGET_DIR" >> $GITHUB_ENV
           cd "$TARGET_DIR"
+          rm -rf build Secure/build NonSecure/build
           cmake -B build/Debug -S . -GNinja \
             -DCMAKE_TOOLCHAIN_FILE="$(pwd)/gcc-arm-none-eabi.cmake" \
             -DCMAKE_BUILD_TYPE=Debug

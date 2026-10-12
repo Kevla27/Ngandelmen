@@ -1,4 +1,0 @@
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/drivers/bsp/src/bsp_alarm_buzzer.c:15:6:bsp_alarm_buzzer_init	32	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/drivers/bsp/src/bsp_alarm_buzzer.c:28:6:bsp_alarm_buzzer_set	16	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/drivers/bsp/src/bsp_alarm_buzzer.c:32:6:bsp_alarm_buzzer_toggle	8	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/drivers/bsp/src/bsp_alarm_buzzer.c:36:6:bsp_alarm_buzzer_get	8	static

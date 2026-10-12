@@ -1,5 +1,0 @@
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/NonSecure/Core/Src/stm32u5xx_hal_msp.c:69:6:HAL_MspInit	16	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/NonSecure/Core/Src/stm32u5xx_hal_msp.c:91:6:HAL_I2C_MspInit	240	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/NonSecure/Core/Src/stm32u5xx_hal_msp.c:133:6:HAL_I2C_MspDeInit	16	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/NonSecure/Core/Src/stm32u5xx_hal_msp.c:164:6:HAL_UART_MspInit	248	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/NonSecure/Core/Src/stm32u5xx_hal_msp.c:225:6:HAL_UART_MspDeInit	16	static

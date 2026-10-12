@@ -1,6 +1,0 @@
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_obis.c:115:6:dlms_obis_match	16	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_obis.c:125:15:dlms_obis_lookup	32	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_obis.c:150:6:dlms_obis_update_from_meter	24	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_obis.c:199:6:dlms_obis_increment_tamper_counter	24	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_obis.c:251:6:dlms_obis_set_tamper_counter	24	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/protocols/dlms/src/dlms_obis.c:284:10:dlms_obis_get_tamper_counter	32	static
