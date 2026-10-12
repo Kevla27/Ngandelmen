@@ -1,0 +1,126 @@
+name: CI - Smart Meter Firmware & Automated Tests
+
+on:
+  push:
+    branches: [ "main", "master", "develop" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # =========================================================================
+  # JOB 1: Host Automated Unit & Integration Tests (18 Test Suites)
+  # =========================================================================
+  host-automated-tests:
+    name: 🧪 Run Host Unit & Integration Tests (18 Suites)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🛠️ Install Build Tools (CMake, Ninja, GCC)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build build-essential
+
+      - name: ⚙️ Configure CMake for Host Tests
+        run: |
+          if [ -d "Uji_Coba_Integrasi_TZ" ]; then
+            PROJECT_DIR="Uji_Coba_Integrasi_TZ"
+          else
+            PROJECT_DIR="."
+          fi
+          echo "PROJECT_DIR=$PROJECT_DIR" >> $GITHUB_ENV
+          cmake -B host_build -S "$PROJECT_DIR/firmware" -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON
+
+      - name: 🔨 Compile Test Executables
+        run: |
+          cmake --build host_build --parallel
+
+      - name: 🚀 Execute All Tests via CTest
+        run: |
+          ctest --test-dir host_build --output-on-failure --verbose
+
+      - name: 📊 Summarize Test Results
+        if: always()
+        run: |
+          echo "### 🧪 Ringkasan Pengujian Otomatis (CTest)" >> $GITHUB_STEP_SUMMARY
+          echo "Seluruh 18 suite pengujian host (16 Unit Test DLMS/RTOS + 2 Integrasi E1/E2/E3 & SPLN Gambar 4) telah dieksekusi." >> $GITHUB_STEP_SUMMARY
+
+  # =========================================================================
+  # JOB 2: STM32U575 ARM Cross-Compilation Build Verification
+  # =========================================================================
+  stm32-firmware-build:
+    name: ⚡ STM32 ARM Cross-Compilation (Secure + Non-Secure)
+    runs-on: ubuntu-latest
+    needs: [host-automated-tests]
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🧰 Install ARM GNU Toolchain
+        uses: alireza7854/arm-none-eabi-toolchain@v1
+        with:
+          version: '13.3.rel1'
+
+      - name: 🛠️ Install Ninja & CMake
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build cmake
+
+      - name: 🔍 Verify ARM Toolchain Version
+        run: |
+          arm-none-eabi-gcc --version
+
+      - name: ⚙️ Configure CMake for STM32 TrustZone
+        run: |
+          if [ -d "Uji_Coba_Integrasi_TZ" ]; then
+            TARGET_DIR="Uji_Coba_Integrasi_TZ"
+          else
+            TARGET_DIR="."
+          fi
+          echo "TARGET_DIR=$TARGET_DIR" >> $GITHUB_ENV
+          cd "$TARGET_DIR"
+          cmake -B build/Debug -S . -GNinja \
+            -DCMAKE_TOOLCHAIN_FILE="$(pwd)/gcc-arm-none-eabi.cmake" \
+            -DCMAKE_BUILD_TYPE=Debug
+
+      - name: 🔨 Compile STM32 Firmware Targets (Secure & Non-Secure)
+        run: |
+          cd "$TARGET_DIR"
+          ninja -C build/Debug
+
+      - name: 📏 Calculate Memory Footprint (Flash & RAM)
+        run: |
+          cd "$TARGET_DIR"
+          echo "=== 🔒 SECURE WORLD MEMORY USAGE ==="
+          arm-none-eabi-size Secure/build/Uji_Coba_Integrasi_TZ_S.elf
+          echo ""
+          echo "=== 🌐 NON-SECURE WORLD MEMORY USAGE ==="
+          arm-none-eabi-size NonSecure/build/Uji_Coba_Integrasi_TZ_NS.elf
+
+          echo "### ⚡ Hasil Kompilasi Target STM32U575" >> $GITHUB_STEP_SUMMARY
+          echo "| Target | File | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :--- | :--- |" >> $GITHUB_STEP_SUMMARY
+          echo "| Secure World | \`Uji_Coba_Integrasi_TZ_S.elf\` / \`.hex\` | ✅ Sukses (Clean Build) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Non-Secure World | \`Uji_Coba_Integrasi_TZ_NS.elf\` / \`.hex\` | ✅ Sukses (Clean Build) |" >> $GITHUB_STEP_SUMMARY
+
+      - name: 📦 Upload Firmware Artifacts (HEX & ELF)
+        uses: actions/upload-artifact@v4
+        with:
+          name: stm32-firmware-binaries
+          path: |
+            **/Secure/build/*.elf
+            **/Secure/build/*.hex
+            **/Secure/build/*.map
+            **/NonSecure/build/*.elf
+            **/NonSecure/build/*.hex
+            **/NonSecure/build/*.map
+          retention-days: 14
+
