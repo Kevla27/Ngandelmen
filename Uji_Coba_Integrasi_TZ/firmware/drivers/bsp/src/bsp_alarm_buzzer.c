@@ -1,7 +1,7 @@
 /**
  * @file bsp_alarm_buzzer.c
  * @brief Implementasi Driver Hardware Aktuasi Buzzer & LED Alarm (PB7)
- *        Memenuhi Standar SPLN D3.006: 2021 Butir 6.14 (Indikator Alarm Audio & Visual)
+ *        Memenuhi Standar SPLN D3.006: 2021 Butir 6.9 huruf c (Indikator LED Kuning & Audio Alarm)
  */
 
 #include "bsp_alarm_buzzer.h"

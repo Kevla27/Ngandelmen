@@ -16,12 +16,22 @@ extern "C" {
 #include "load_profile.h"
 #include "tamper_manager.h"
 
-/* Alokasi Alamat Memori Flash STM32U575 Bank 2 (Akhir Bank 2: 0x081F0000) */
+/* Alokasi Alamat Memori Non-Volatile Flash / EEPROM (Default: STM32U575 Bank 2) */
+#ifndef NVRAM_CALIBRATION_START_ADDR
 #define NVRAM_CALIBRATION_START_ADDR  0x081F0000U
-#define NVRAM_TAMPER_LOG_START_ADDR   0x081F2000U
-#define NVRAM_LOAD_PROFILE_START_ADDR 0x081F4000U
+#endif
 
-#define FLASH_PAGE_SIZE_BYTES          8192U  /* 8 KB per Page pada STM32U575 */
+#ifndef NVRAM_TAMPER_LOG_START_ADDR
+#define NVRAM_TAMPER_LOG_START_ADDR   0x081F2000U
+#endif
+
+#ifndef NVRAM_LOAD_PROFILE_START_ADDR
+#define NVRAM_LOAD_PROFILE_START_ADDR 0x081F4000U
+#endif
+
+#ifndef FLASH_PAGE_SIZE_BYTES
+#define FLASH_PAGE_SIZE_BYTES          8192U  /* Default: 8 KB per Page */
+#endif
 
 /**
  * @brief Menyimpan 1 entri Load Profile terbaru ke dalam Flash Non-Volatile

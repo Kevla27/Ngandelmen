@@ -18,12 +18,19 @@ Dokumen ini mendokumentasikan secara rinci seluruh penambahan, perbaikan (*bugfi
 | **8** | [`firmware/app/display/src/display.c`](file:///g:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c) | E3 Display HMI | **Prioritas 1 SPLN** | Memperbaiki format arus menjadi 3 desimal (`X.XXX A`) dan mengimplementasikan render halaman jam/waktu resmi SPLN (`01.00`). |
 | **9** | [`firmware/app/display/src/display_task.c`](file:///g:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display_task.c) | E3 Display Task | **Prioritas 1 SPLN** | Menyetel interval carousel otomatis menjadi minimal 5 detik (`5000 ms`) sesuai Pasal 6.11 SPLN D3.006. |
 | **10** | [`tests/test_spln_display_tamper.c`](file:///g:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/tests/test_spln_display_tamper.c) | Test Suite | **Penyempurnaan** | Memperluas pengujian unit host untuk memvalidasi presisi arus 3 desimal, halaman jam ke-15, dan wrap siklus carousel. |
-| **11** | [`firmware/drivers/bsp/inc/bsp_alarm_buzzer.h`](file:///g:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/drivers/bsp/inc/bsp_alarm_buzzer.h) | BSP Driver Layer | **Prioritas 2 SPLN** | Definisi interface hardware aktuasi Buzzer dan Indikator Alarm SPLN Butir 6.14. |
+| **11** | [`firmware/drivers/bsp/inc/bsp_alarm_buzzer.h`](file:///g:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/drivers/bsp/inc/bsp_alarm_buzzer.h) | BSP Driver Layer | **Prioritas 2 SPLN** | Definisi interface hardware aktuasi Buzzer dan Indikator LED Alarm SPLN Butir 6.9 c. |
 | **12** | [`firmware/drivers/bsp/src/bsp_alarm_buzzer.c`](file:///g:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/drivers/bsp/src/bsp_alarm_buzzer.c) | BSP Driver Layer | **Prioritas 2 SPLN** | Implementasi GPIO PB7 (Push-Pull Output) untuk target STM32 dan mock state untuk PC runner. |
 | **13** | [`Secure/Core/Src/main.c`](file:///g:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/Secure/Core/Src/main.c) | TrustZone Secure | **Prioritas 2 SPLN** | Mendelegasikan atribut pin `PB7` sebagai Non-Secure (`HAL_GPIO_ConfigPinAttributes`). |
 | **14** | [`NonSecure/Core/Src/main.c`](file:///g:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/NonSecure/Core/Src/main.c) | Non-Secure Core | **Prioritas 2 SPLN** | Memanggil `bsp_alarm_buzzer_init()` pada `MX_GPIO_Init()`. |
 | **15** | [`firmware/app/fsm/src/rtos_tasks.c`](file:///g:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/rtos_tasks.c) | E3 RTOS Tasks | **Prioritas 2 SPLN** | Menambahkan aktuasi pola beeping 200 ms ON / 200 ms OFF saat alarm aktif dan auto-reset saat normal. |
 | **16** | [`firmware/tests/app/test_rtos_tasks.c`](file:///g:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/tests/app/test_rtos_tasks.c) | Test Suite | **Prioritas 2 SPLN** | Menambahkan pengujian unit aktuasi pin PB7 (init OFF, set, toggle, reset). |
+| **17** | [`firmware/app/fsm/inc/power_relay_manager.h`](file:///g:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/inc/power_relay_manager.h) | E3 FSM Layer | **Prioritas 3 SPLN** | Definisi FSM Relai, Deteksi Beban Asimetris (Tabel 5 No 11), Pembatas Daya (No 13), dan State "READY ON" (No 12). |
+| **18** | [`firmware/app/fsm/src/power_relay_manager.c`](file:///g:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/fsm/src/power_relay_manager.c) | E3 FSM Layer | **Prioritas 3 SPLN** | Implementasi kalkulasi deviasi arus $\Delta I_{\max}/I_{\text{avg}} > 30\%$, power limiter timer 5 detik, dan transisi FSM relai. |
+| **19** | [`firmware/app/display/inc/display.h`](file:///g:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/inc/display.h) | E3 Display HMI | **Prioritas 3 SPLN** | Penambahan halaman khusus relai `DISP_PAGE_RELAY_READY_ON` (Page "on", OBIS `00.00`, teks `"READY ON"`, unit `"RECONNECT"`). |
+| **20** | [`firmware/app/display/src/display.c`](file:///g:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display.c) | E3 Display HMI | **Prioritas 3 SPLN** | Rendering frame layar `"READY ON"`, propagasi flag asimetri ke status alarm (`!ALM`), dan penanganan navigasi tombol. |
+| **21** | [`firmware/app/display/src/display_task.c`](file:///g:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/display/src/display_task.c) | E3 Display Task | **Prioritas 3 SPLN** | Sinkronisasi status relai `READY_ON` ke LCD dan pemicu *instant display refresh* saat memasuki kondisi menunggu konfirmasi lokal. |
+| **22** | [`NonSecure/Core/Src/main.c`](file:///g:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/NonSecure/Core/Src/main.c) | Non-Secure Core | **Prioritas 3 SPLN** | Penambahan kendali interaktif serial USART1 VCP: `'p'` (trip daya), `'r'` (remote reconnect), `'c'` (konfirmasi tombol lokal). |
+| **23** | [`firmware/tests/app/test_power_relay.c`](file:///g:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/tests/app/test_power_relay.c) | Test Suite | **Prioritas 3 SPLN** | Unit test komprehensif untuk deteksi asimetri, durasi trip pembatas daya 5 detik, FSM "READY ON", dan integrasi display. |
 
 ---
 
@@ -363,8 +370,8 @@ Hanya memverifikasi Page 01 (IDPEL) dan Page 02 (Volt R), serta langsung menguji
 
 ---
 
-### G. Prioritas 2: Aktuasi Buzzer & Indikator Alarm SPLN (Pin PB7)
-*Kepatuhan terhadap Standar SPLN D3.006: 2021 Butir 6.14 (Indikator Alarm Audio & Visual)*
+### G. Prioritas 2: Aktuasi Buzzer & Indikator LED Alarm SPLN (Pin PB7)
+*Kepatuhan terhadap Standar SPLN D3.006: 2021 Butir 6.9 huruf c (Indikator LED Kuning Alarm/Tamper) dan Aktuasi Buzzer Audio*
 
 #### 🔴 Kondisi Sebelum Diubah:
 1. Tidak ada driver aktuasi fisik untuk buzzer maupun LED alarm. Saat terjadi sabotase (misalnya tombol PC13 ditekan atau simulasi `'t'`), indikasi hanya muncul berupa teks di konsol UART dan ikon `!ALM` di layar OLED.
@@ -449,25 +456,177 @@ Hanya memverifikasi Page 01 (IDPEL) dan Page 02 (Volt R), serta langsung menguji
 
 ---
 
+### H. Prioritas 3: Pengelola Daya & FSM Relai SPLN (Asimetri Beban, Pembatas Daya, & State "READY ON")
+*Kepatuhan terhadap Standar SPLN D3.006: 2021 Tabel 5 No. 11, 12, dan 13*
+
+#### 🔴 Kondisi Sebelum Diubah:
+1. **Tidak Ada Deteksi Asimetri Beban (Tabel 5 No 11):** Beban tidak seimbang antar fasa R, S, T belum dihitung, sehingga ketidakseimbangan arus melebihi 30% tidak memunculkan indikasi peringatan pada LCD.
+2. **Tidak Ada Timer Durasi Pembatas Daya (Tabel 5 No 13):** Kelebihan daya aktif di atas batas langganan (misal 6600 W) belum diakumulasikan durasinya (toleransi 5 detik) dan belum memutus relai pemutus beban secara otomatis.
+3. **Penyambungan Relai Berbahaya (Tanpa "READY ON" Tabel 5 No 12):** Perintah remote reconnect dari AMI/HES berisiko langsung menutup kontak relai saat beban pelanggan masih menyala, melanggar klausul keselamatan SPLN yang mewajibkan konfirmasi tindakan lokal oleh pelanggan.
+4. **Tidak Ada Halaman Khusus Layar untuk Relai:** Layar LCD belum memiliki halaman dengan kode indeks `on` dan teks `"READY ON"`.
+
+#### 🟢 Kode Setelah Diubah:
+1. **Modul Pengelola Relai & Daya (`firmware/app/fsm/inc/power_relay_manager.h` & `power_relay_manager.c`)**:
+   Mengimplementasikan FSM relai tiga status (`CONNECTED`, `DISCONNECTED`, `READY_ON`):
+   ```c
+   typedef enum {
+       RELAY_STATE_CONNECTED = 0,    /**< Relai tersambung (Normal) */
+       RELAY_STATE_DISCONNECTED,     /**< Relai terputus (Trip / Remote Open) */
+       RELAY_STATE_READY_ON          /**< Reconnect diterima, menunggu konfirmasi lokal (Tabel 5 No 12) */
+   } relay_state_t;
+   ```
+   Formula evaluasi asimetri arus 3-fase ($> 30\%$ deviasi terhadap arus rata-rata):
+   ```c
+   bool power_relay_check_asymmetry(power_relay_context_t *ctx, uint32_t i_r_ma, uint32_t i_s_ma, uint32_t i_t_ma) {
+       uint32_t i_avg = (i_r_ma + i_s_ma + i_t_ma) / 3;
+       if (i_avg < 500) { /* Guard arus rendah < 500mA untuk cegah false alarm standby */
+           ctx->is_asymmetry_active = false;
+           return false;
+       }
+       uint32_t dev_r = (i_r_ma > i_avg) ? (i_r_ma - i_avg) : (i_avg - i_r_ma);
+       uint32_t dev_s = (i_s_ma > i_avg) ? (i_s_ma - i_avg) : (i_avg - i_s_ma);
+       uint32_t dev_t = (i_t_ma > i_avg) ? (i_t_ma - i_avg) : (i_avg - i_t_ma);
+       uint32_t max_dev = dev_r;
+       if (dev_s > max_dev) max_dev = dev_s;
+       if (dev_t > max_dev) max_dev = dev_t;
+       uint32_t dev_pct = (max_dev * 100) / i_avg;
+       ctx->current_deviation_pct = dev_pct;
+       ctx->is_asymmetry_active = (dev_pct >= ctx->asymmetry_threshold_pct);
+       return ctx->is_asymmetry_active;
+   }
+   ```
+   Evaluasi pembatas daya kontinu 5 detik (SPLN Tabel 5 No 13):
+   ```c
+   bool power_relay_process_power(power_relay_context_t *ctx, int32_t active_power_w, uint32_t timestamp) {
+       if (active_power_w > (int32_t)ctx->power_limit_w) {
+           ctx->over_power_timer_sec++;
+           if (ctx->over_power_timer_sec >= ctx->over_power_duration_sec) {
+               power_relay_disconnect(ctx, RELAY_REASON_POWER_LIMITER, timestamp);
+               ctx->is_limiter_tripped = true;
+               return true;
+           }
+       } else {
+           ctx->over_power_timer_sec = 0;
+       }
+       return false;
+   }
+   ```
+   Transisi Reconnect Dua Langkah (Two-Step Reconnect SPLN Tabel 5 No 12):
+   ```c
+   void power_relay_request_reconnect(power_relay_context_t *ctx, uint32_t timestamp) {
+       if (ctx->relay_state == RELAY_STATE_DISCONNECTED) {
+           ctx->relay_state = RELAY_STATE_READY_ON;
+           ctx->last_reason = RELAY_REASON_REMOTE_RECONNECT;
+       }
+   }
+
+   bool power_relay_confirm_reconnect(power_relay_context_t *ctx, uint32_t timestamp) {
+       if (ctx->relay_state == RELAY_STATE_READY_ON) {
+           ctx->relay_state = RELAY_STATE_CONNECTED;
+           ctx->last_reason = RELAY_REASON_LOCAL_CONFIRM;
+           ctx->is_limiter_tripped = false;
+           return true;
+       }
+       return false;
+   }
+   ```
+
+2. **Integrasi Layar HMI (`firmware/app/display/src/display.c` & `display_task.c`)**:
+   - Menambahkan halaman `DISP_PAGE_RELAY_READY_ON` dengan layout resmi:
+     - Indeks scroll `zz = "on"`.
+     - Teks nilai utama `"READY ON"`.
+     - Keterangan satuan `"RECONNECT"`.
+     - Kode OBIS `00.00`.
+   - Propagasi otomatis flag asimetri (`asymmetry_warning`) ke banner header `!ALM` pada halaman pengukuran.
+   - Pemicuan *instant refresh* ke halaman `READY ON` ketika remote reconnect diterima.
+
+3. **Sinkronisasi Periodik FreeRTOS (`firmware/app/fsm/src/rtos_tasks.c`)**:
+   - `task_metrology_profiling_entry` (1 Hz): Mengevaluasi asimetri arus 3-fase dan memeriksa batas daya 6600 W. Jika terlampaui selama 5 detik berturut-turut, relai seketika diputus (`DISCONNECTED`).
+   - `task_tamper_emergency_entry`: Mengatur kedipan lambat indikator LED/Buzzer PB7 (400 ms) saat dalam status `READY ON`.
+
+4. **Kendali Konsol Serial Interaktif (`NonSecure/Core/Src/main.c`)**:
+   - Menekan `'p'` / `'P'`: Menyimulasikan kelebihan daya untuk memicu trip relai seketika.
+   - Menekan `'r'` / `'R'`: Menyimulasikan perintah remote reconnect dari HES $\rightarrow$ layar beralih ke `"READY ON"`.
+   - Menekan `'c'` / `'C'`: Menyimulasikan konfirmasi penekanan tombol lokal di meter $\rightarrow$ relai tersambung kembali (`CONNECTED`).
+
+5. **Pengujian Unit Otomatis (`firmware/tests/app/test_power_relay.c`)**:
+   Memverifikasi 100% fungsionalitas asimetri, tripping power limiter 5s, dan transisi FSM relai.
+
+---
+
 ## 3. Hasil Audit Kompilasi & Pengujian
 
 ### A. Uji CTest Host (`ctest --test-dir firmware/build`)
 ```text
-100% tests passed, 0 tests failed out of 15
-Total Test time (real) = 0.27 sec
+Test project G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/build
+      Start  1: test_dlms_association
+ 1/16 Test  #1: test_dlms_association ............   Passed    0.08 sec
+      Start  2: test_dlms_apdu
+ 2/16 Test  #2: test_dlms_apdu ...................   Passed    0.08 sec
+      Start  3: test_dlms_integration
+ 3/16 Test  #3: test_dlms_integration ............   Passed    0.08 sec
+      Start  4: test_dlms_tamper_log
+ 4/16 Test  #4: test_dlms_tamper_log .............   Passed    0.09 sec
+      Start  5: test_dlms_hdlc
+ 5/16 Test  #5: test_dlms_hdlc ...................   Passed    0.08 sec
+      Start  6: test_dlms_server
+ 6/16 Test  #6: test_dlms_server .................   Passed    0.07 sec
+      Start  7: test_dlms_task
+ 7/16 Test  #7: test_dlms_task ...................   Passed    0.08 sec
+      Start  8: test_dlms_nvm
+ 8/16 Test  #8: test_dlms_nvm ....................   Passed    0.07 sec
+      Start  9: test_bsp_lpuart
+ 9/16 Test  #9: test_bsp_lpuart ..................   Passed    0.08 sec
+      Start 10: test_e3_app
+10/16 Test #10: test_e3_app ......................   Passed    0.08 sec
+      Start 11: test_fsm_statechart
+11/16 Test #11: test_fsm_statechart ..............   Passed    0.08 sec
+      Start 12: test_load_profile
+12/16 Test #12: test_load_profile ................   Passed    0.08 sec
+      Start 13: test_load_profile_dlms_adapter
+13/16 Test #13: test_load_profile_dlms_adapter ...   Passed    0.08 sec
+      Start 14: test_nvram_storage
+14/16 Test #14: test_nvram_storage ...............   Passed    0.08 sec
+      Start 15: test_rtos_tasks
+15/16 Test #15: test_rtos_tasks ..................   Passed    0.08 sec
+      Start 16: test_power_relay
+16/16 Test #16: test_power_relay .................   Passed    0.07 sec
+
+100% tests passed, 0 tests failed out of 16
+Total Test time (real) = 1.30 sec
 ```
-* **Hasil Khusus `test_rtos_tasks.exe`:**
+
+* **Hasil Eksekusi Unit Test Prioritas 3 (`test_power_relay.exe`):**
   ```text
-  [RTOS] All E3 Firmware Subsystems, Queues, Mutexes & NVRAM Initialized Successfully!
-  [TEST] Task Tamper (Producer) Send Event to Queue: SUCCESS
-  [TEST] Task DLMS (Consumer) Receive Event from Queue: SUCCESS (Code: 0x01)
-  [TEST] Verify Queue Empty State: SUCCESS
-  [DLMS] Tamper Event dicatat! Code: 0x01, Status: 1, Time: 1700000000 s (Total Log: 1)
-  [TEST] Verify DLMS Tamper Log FIFO Record: SUCCESS
-  [TEST] Verify OBIS Counter (0.0.96.20.5.255) Incremented: SUCCESS
-  [TEST] Verify E3 Tamper Active Mask: SUCCESS
-  [TEST] Verify SPLN Buzzer & Alarm Indicator (PB7) Actuation: SUCCESS
-  >>> ALL RTOS TASKS, QUEUE, BUZZER & DLMS CONSUMER TESTS PASSED 100%! <<<
+  ====================================================================
+    TEST VERIFIKASI PRIORITAS 3: POWER & RELAY FSM (SPLN D3.006)       
+  ====================================================================
+
+  [TEST] Testing Asymmetry Power Detection (SPLN Tabel 5 No 11)...
+     10A/10A/10A -> Asymmetry = 0%, Active = 0 [PASS]
+     300mA/100mA/200mA -> Low current guard active, Active = 0 [PASS]
+     10A/9A/8A -> Asymmetry = 11% (< 30%), Active = 0 [PASS]
+     10A/5A/5A -> Asymmetry = 50% (>= 30%), Active = 1 [PASS]
+     Pulih normal -> Asymmetry = 0%, Active = 0 [PASS]
+
+  [TEST] Testing Power Limiter Duration Tripping (SPLN Tabel 5 No 13)...
+     5000 W selama 10s -> Tidak Trip [PASS]
+     7500 W selama 4s -> Akumulasi timer 4 detik, belum trip [PASS]
+     Detik ke-5 -> RELAY TRIP! State = DISCONNECTED, Reason = 2 [PASS]
+
+  [TEST] Testing Relay FSM & READY ON State (SPLN Tabel 5 No 12)...
+     Relay diputus -> State = DISCONNECTED [PASS]
+     Remote Reconnect Request -> State = READY ON (Tabel 5 No 12) [PASS]
+     Konfirmasi Tombol Lokal -> State = CONNECTED [PASS]
+     Konfirmasi ulang saat CONNECTED ditolak dengan aman [PASS]
+
+  [TEST] Testing Display Integration for READY ON & Asymmetry...
+     Page 'on': zz='on' | Val='READY ON' | Unit='RECONNECT' | OBIS='00.00' [PASS]
+     Asymmetry Warning -> Banner Alarm '!ALM' aktif di halaman pengukuran [PASS]
+
+  ====================================================================
+    ALL PRIORITAS 3 TESTS PASSED SUCCESSFULLY! (100%)                 
+  ====================================================================
   ```
 
 ### B. Uji Standar Layar SPLN Gambar 4 (`tests/test_spln_display_tamper.exe`)
@@ -508,8 +667,8 @@ Total Test time (real) = 0.27 sec
 
 ### D. Kompilasi Target STM32U575 (ARM GCC)
 * **Non-Secure Target (`Uji_Coba_Integrasi_TZ_NS.hex`):**
-  * `ROM`: 84.496 Bytes / 1.024 KB (**8,06%**)
-  * `RAM`: 81.064 Bytes / 512 KB (**15,46%**)
+  * `ROM`: 86.952 Bytes / 1.024 KB (**8,29%**)
+  * `RAM`: 81.104 Bytes / 512 KB (**15,47%**)
   * Status: **0 Error, 0 Warning** (Clean Build).
 * **Secure Target (`Uji_Coba_Integrasi_TZ_S.hex`):**
   * `ROM`: 19.008 Bytes / 504 KB (**3,68%**)
@@ -520,9 +679,11 @@ Total Test time (real) = 0.27 sec
 
 ## 4. Kesimpulan Kesiapan Sistem
 
-Dengan diselesaikannya implementasi **Prioritas 1** dan **Prioritas 2**:
+Dengan diselesaikannya implementasi **Prioritas 1**, **Prioritas 2**, dan **Prioritas 3**:
 1. **Perilaku Hardware Stabil:** Masalah tampilan OLED dan UART mati telah terselesaikan secara tuntas melalui pembagian memori flash Bank 2 yang tepat (`0x08100000`).
 2. **Kepatuhan HMI SPLN (Prioritas 1):** Parameter arus berpresisi 3 desimal (`X.XXX A`), halaman waktu `01.00` tampil pada urutan ke-15, dan interval pergeseran layar memenuhi batas minimal 5 detik.
 3. **Aktuasi Alarm SPLN (Prioritas 2):** Pin `PB7` telah didelegasikan secara aman melalui TrustZone, dikendalikan oleh modul BSP khusus, dan digerakkan dengan pola beeping 200 ms ON / 200 ms OFF di dalam task darurat FreeRTOS saat alarm sabotase aktif.
-4. **Firmware Siap Diuji Hardware & Dilanjutkan:** Kedua citra biner (`Secure` dan `NonSecure`) terkompilasi bersih tanpa *warning*, seluruh pengujian host lulus 100%, dan siap untuk di-*flash* ke hardware atau dilanjutkan ke **Prioritas 3 (Load Profiling 15-Menit & Snapshot Freeze)**.
+4. **FSM Relai & Pengelola Daya SPLN (Prioritas 3):** Deteksi beban asimetris $> 30\%$ telah aktif, pembatas daya 6600 W dengan toleransi 5 detik memutus relai secara otomatis, dan transisi penyambungan kembali relai memenuhi standar keselamatan "READY ON" dua langkah dengan konfirmasi tombol lokal.
+5. **Firmware Siap Diuji Hardware:** Kedua citra biner (`Secure` dan `NonSecure`) terkompilasi bersih tanpa *warning*, seluruh 16 pengujian unit CTest serta uji integrasi end-to-end lulus 100%.
+
 

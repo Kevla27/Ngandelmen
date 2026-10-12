@@ -44,6 +44,7 @@ static load_profile_ctx_t g_load_profile_buf;
 static display_context_t g_display_ctx;
 static dlms_task_ctx_t s_dlms_task_ctx;
 static dlms_uart_tx_fn_t s_dlms_uart_tx_cb = NULL;
+static power_relay_context_t g_power_relay_ctx;
 
 /* Thread-safe Measurement Buffer & Callback */
 static meter_measurements_t s_latest_measurements;
@@ -51,11 +52,12 @@ static bool s_measurements_valid = false;
 static meter_sample_fn_t s_meter_sample_cb = NULL;
 
 void rtos_system_init(void) {
-    /* 1. Inisialisasi Seluruh Modul Subsystem E3 & BSP */
+    /* 1. Inisialisasi Seluruh Modul Subsystem E3, BSP & Power Relay */
     bsp_alarm_buzzer_init();
     tamper_init(&g_tamper_ctx);
     load_profile_init(&g_load_profile_buf);
-    display_init(&g_display_ctx, "530000000001", 2000);
+    display_init(&g_display_ctx, "530000000001", 5000);
+    power_relay_init(&g_power_relay_ctx, 6600, 5, 30);
 
     /* 2. Inisialisasi Queue & Mutex FreeRTOS / Simulasi */
 #if defined(EMBEDDED_HARDWARE_TARGET) || defined(USE_FREERTOS)
@@ -198,23 +200,32 @@ void task_tamper_emergency_entry(void *pvParameters) {
         bool current_alarm = display_task_is_alarm_active();
         if (current_alarm != last_alarm_state) {
             last_alarm_state = current_alarm;
+            uint32_t now_sec = (uint32_t)(xTaskGetTickCount() / configTICK_RATE_HZ);
             if (current_alarm) {
                 printf("[TAMPER] *** DARURAT! SABOTASE TERDETEKSI (CASE OPEN) ***\r\n");
+                power_relay_disconnect(&g_power_relay_ctx, RELAY_REASON_MANUAL, now_sec);
             } else {
                 printf("[TAMPER] Sabotase dipulihkan. Sistem kembali normal.\r\n");
                 bsp_alarm_buzzer_set(false);
             }
             tamper_event_msg_t msg = {
-                .timestamp = (uint32_t)(xTaskGetTickCount() / configTICK_RATE_HZ),
+                .timestamp = now_sec,
                 .tamper_code = (uint8_t)DLMS_TAMPER_METER_COVER_OPEN,
                 .is_active = current_alarm
             };
             rtos_queue_send_tamper_event(&msg);
         }
 
-        /* Aktuasi Buzzer & LED Alarm PB7 saat alarm aktif (200 ms ON / 200 ms OFF) */
+        /* Aktuasi Buzzer & LED Alarm PB7 saat alarm aktif atau relai READY ON */
         if (current_alarm) {
-            bsp_alarm_buzzer_toggle();
+            bsp_alarm_buzzer_toggle(); /* 200 ms cadence untuk tamper alarm */
+        } else if (power_relay_is_ready_on(&g_power_relay_ctx)) {
+            static uint8_t s_ready_blink = 0;
+            s_ready_blink++;
+            if (s_ready_blink >= 2) { /* 400 ms cadence untuk peringatan READY ON (SPLN Tabel 5 No 12) */
+                s_ready_blink = 0;
+                bsp_alarm_buzzer_toggle();
+            }
         } else {
             bsp_alarm_buzzer_set(false);
         }
@@ -239,7 +250,23 @@ void task_metrology_profiling_entry(void *pvParameters) {
             rtos_meter_data_publish(&meas);
         }
 
-        /* 2. Penghitung interval pembekuan Profil Beban 15-Menit (900 detik) */
+        /* 2. Evaluasi Asimetri Arus 3-Fase (SPLN Tabel 5 No 11) */
+        bool asym = power_relay_check_asymmetry(&g_power_relay_ctx, meas.current_r_mamps, meas.current_s_mamps, meas.current_t_mamps);
+        if (asym) {
+            printf("[ASYMMETRIC] Peringatan Asimetri Beban! Deviasi: %lu%% (Threshold: %lu%%)\r\n",
+                   (unsigned long)g_power_relay_ctx.current_deviation_pct,
+                   (unsigned long)g_power_relay_ctx.asymmetry_threshold_pct);
+        }
+
+        /* 3. Evaluasi Pembatas Daya (Power Limiter - SPLN Tabel 5 No 13) */
+        uint32_t now_sec = (uint32_t)(xTaskGetTickCount() / configTICK_RATE_HZ);
+        bool tripped = power_relay_process_power(&g_power_relay_ctx, meas.active_power_w, now_sec);
+        if (tripped) {
+            printf("[LIMITER] *** DARURAT! Daya aktif (%ld W) melebihi batas (%lu W). Relai TRIP/PUTUS! ***\r\n",
+                   (long)meas.active_power_w, (unsigned long)g_power_relay_ctx.power_limit_w);
+        }
+
+        /* 4. Penghitung interval pembekuan Profil Beban 15-Menit (900 detik) */
         profile_interval_sec++;
         if (profile_interval_sec >= 900) {
             profile_interval_sec = 0;
@@ -364,4 +391,90 @@ bool rtos_start_all_tasks(void) {
     return true;
 #endif
 }
+
+power_relay_context_t* rtos_power_relay_get_ctx(void) {
+    return &g_power_relay_ctx;
+}
+
+void rtos_power_relay_simulate_power_trip(void) {
+    power_relay_disconnect(&g_power_relay_ctx, RELAY_REASON_POWER_LIMITER, (uint32_t)(xTaskGetTickCount() / configTICK_RATE_HZ));
+    printf("[SIMULASI] Power Limiter tripped via konsol! Relai terbuka (DISCONNECTED).\r\n");
+}
+
+void rtos_power_relay_request_reconnect(void) {
+    power_relay_request_reconnect(&g_power_relay_ctx, (uint32_t)(xTaskGetTickCount() / configTICK_RATE_HZ));
+    printf("[SIMULASI] Perintah Remote Reconnect DLMS diterima! Status Relai: READY ON (Menunggu Aksi Lokal).\r\n");
+}
+
+bool rtos_power_relay_confirm_reconnect(void) {
+    bool ok = power_relay_confirm_reconnect(&g_power_relay_ctx, (uint32_t)(xTaskGetTickCount() / configTICK_RATE_HZ));
+    if (ok) {
+        printf("[RELAY] Konfirmasi lokal berhasil! Relai tersambung kembali (CONNECTED).\r\n");
+    } else {
+        printf("[RELAY] Relai tidak dalam status READY ON (Status saat ini: %s).\r\n",
+               power_relay_state_to_string(g_power_relay_ctx.relay_state));
+    }
+    return ok;
+}
+
+void rtos_tamper_dump_log(void) {
+    dlms_tamper_log_t *log = &s_dlms_task_ctx.server.tamper_log;
+    printf("\r\n======================================================================\r\n");
+    printf("              TAMPER EVENT LOG (DLMS PROFILE GENERIC CLASS 7)         \r\n");
+    printf("                 OBIS: 0.0.99.98.0.255 | Standar SPLN D3.006          \r\n");
+    printf("======================================================================\r\n");
+    printf(" Total Akumulasi Kejadian: %lu | Rekaman Aktif: %zu / %u (FIFO)\r\n",
+           (unsigned long)log->total_events, log->entries_in_use, (unsigned int)DLMS_TAMPER_LOG_MAX_ENTRIES);
+    printf(" Active Tamper Mask: 0x%08lX\r\n", (unsigned long)g_tamper_ctx.active_tamper_mask);
+    printf("----------------------------------------------------------------------\r\n");
+    printf(" No | Epoch (s)  | Kode | Deskripsi Tamper SPLN           | Status\r\n");
+    printf("----+------------+------+---------------------------------+-----------\r\n");
+
+    if (log->entries_in_use == 0) {
+        printf("    (Belum ada kejadian sabotase yang tercatat di dalam log)\r\n");
+    } else {
+        for (size_t i = 0; i < log->entries_in_use; i++) {
+            dlms_tamper_record_t rec;
+            if (dlms_tamper_log_get_entry(log, i, &rec) == DLMS_OK) {
+                const char *desc;
+                switch ((dlms_tamper_code_t)rec.event_code) {
+                    case DLMS_TAMPER_TERMINAL_COVER_OPEN: desc = "Tutup Terminal Buka (ERR20)"; break;
+                    case DLMS_TAMPER_METER_COVER_OPEN:    desc = "Tutup Meter Buka (RUSAK)";    break;
+                    case DLMS_TAMPER_MAGNETIC_INDUCTION:  desc = "Medan Magnet >500mT (ERR25)"; break;
+                    case DLMS_TAMPER_REVERSE_CURRENT:     desc = "Arus Balik / Reverse (ERR26)"; break;
+                    case DLMS_TAMPER_MISSING_NEUTRAL:     desc = "Kawat Netral Putus (ERR23)";  break;
+                    case DLMS_TAMPER_WRONG_PHASE_SEQ:     desc = "Urutan Fase Balik (ERR21)";   break;
+                    case DLMS_TAMPER_CROSS_PHASE:         desc = "Tegangan/Arus Silang (ERR22)";break;
+                    case DLMS_TAMPER_MISSING_VOLTAGE:     desc = "Hilang Tegangan Fase (ERR24)";break;
+                    case DLMS_TAMPER_LOW_PF_QUAD4:        desc = "Faktor Daya < 0.85 (ERR27)";  break;
+                    default:                              desc = "Event Tidak Dikenal";        break;
+                }
+                printf(" %2zu | %10lu | 0x%02X | %-31s | %s\r\n",
+                       i + 1,
+                       (unsigned long)rec.timestamp_epoch,
+                       rec.event_code,
+                       desc,
+                       rec.status ? "TERDETEKSI" : "PULIH / NORMAL");
+            }
+        }
+    }
+    printf("======================================================================\r\n\r\n");
+}
+
+void rtos_tamper_record_event(dlms_tamper_code_t code, bool is_active) {
+    uint32_t now_sec;
+#if defined(EMBEDDED_HARDWARE_TARGET) || defined(USE_FREERTOS)
+    now_sec = (uint32_t)(xTaskGetTickCount() / configTICK_RATE_HZ);
+#else
+    now_sec = 1700000000;
+#endif
+
+    tamper_event_msg_t msg = {
+        .timestamp = now_sec,
+        .tamper_code = (uint8_t)code,
+        .is_active = is_active
+    };
+    rtos_queue_send_tamper_event(&msg);
+}
+
 

@@ -5,4 +5,4 @@ G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/tamper/src/tamper_manager.
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/tamper/src/tamper_manager.c:75:6:tamper_is_alarm_pending	16	static
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/tamper/src/tamper_manager.c:79:20:tamper_vector_to_dlms_code	16	static
 G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/tamper/src/tamper_manager.c:92:17:dlms_code_to_tamper_vector	16	static
-G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/tamper/src/tamper_manager.c:110:6:tamper_handle_button_press_isr	16	static
+G:/PPPP/Day_Sekian/Uji_Coba_Integrasi_TZ/firmware/app/tamper/src/tamper_manager.c:110:6:tamper_handle_button_press_isr	24	static

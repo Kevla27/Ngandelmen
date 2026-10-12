@@ -76,8 +76,8 @@ dlms_tamper_code_t tamper_vector_to_dlms_code(tamper_vector_t vector);
 tamper_vector_t dlms_code_to_tamper_vector(dlms_tamper_code_t code);
 
 /**
- * @brief Handler interupsi hardware penekanan tombol sabotase PC13 (Debounced & RTOS Queue)
- * @param timestamp_ms Waktu tick saat interupsi terjadi (HAL_GetTick)
+ * @brief Handler interupsi pendeteksian sabotase / sakelar sensor tamper (Debounced & RTOS Queue)
+ * @param timestamp_ms Waktu tick saat interupsi terjadi (misal HAL_GetTick, RTC UNIX epoch, atau sistem tick)
  */
 void tamper_handle_button_press_isr(uint32_t timestamp_ms);
 

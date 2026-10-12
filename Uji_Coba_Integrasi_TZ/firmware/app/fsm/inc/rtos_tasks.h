@@ -13,6 +13,7 @@ extern "C" {
 #include "display.h"
 #include "tamper_manager.h"
 #include "dlms_task.h"
+#include "power_relay_manager.h"
 
 /* Prioritas Task FreeRTOS */
 #define PRIORITY_TASK_TAMPER 4
@@ -134,6 +135,38 @@ dlms_task_ctx_t* rtos_dlms_get_task_ctx(void);
 * @brief Mengambil pointer konteks Tamper aktif
 */
 tamper_context_t* rtos_tamper_get_ctx(void);
+
+/**
+ * @brief Mengambil pointer konteks Power & Relay Manager aktif
+ */
+power_relay_context_t* rtos_power_relay_get_ctx(void);
+
+/**
+ * @brief Memicu simulasi trip pemutusan relai akibat kelebihan daya
+ */
+void rtos_power_relay_simulate_power_trip(void);
+
+/**
+ * @brief Mengirim perintah remote reconnect via DLMS (transisi ke state READY ON)
+ */
+void rtos_power_relay_request_reconnect(void);
+
+/**
+ * @brief Konfirmasi lokal pengguna untuk menyambungkan relai kembali ke normal
+ */
+bool rtos_power_relay_confirm_reconnect(void);
+
+/**
+ * @brief Menampilkan seluruh riwayat rekaman Tamper Log ke konsol UART (DLMS Class 7 Profile Generic)
+ */
+void rtos_tamper_dump_log(void);
+
+/**
+ * @brief Memasukkan simulasi kejadian sabotase ke antrean FreeRTOS untuk dicatat ke log
+ * @param code Jenis kode sabotase DLMS (dlms_tamper_code_t)
+ * @param is_active true = terdeteksi (1), false = pulih (0)
+ */
+void rtos_tamper_record_event(dlms_tamper_code_t code, bool is_active);
 
 #ifdef __cplusplus
 }

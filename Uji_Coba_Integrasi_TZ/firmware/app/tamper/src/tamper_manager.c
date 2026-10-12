@@ -111,10 +111,10 @@ void tamper_handle_button_press_isr(uint32_t timestamp_ms) {
     static uint32_t s_last_btn_tick = 0;
     if (timestamp_ms - s_last_btn_tick > 250) {
         s_last_btn_tick = timestamp_ms;
-        static bool s_alarm_active = false;
-        s_alarm_active = !s_alarm_active;
+        bool current = display_task_is_alarm_active();
+        bool new_state = !current;
 
         /* Pemicu instant refresh layar OLED ke status !ALM / RUSAK */
-        display_task_trigger_instant_refresh(s_alarm_active);
+        display_task_trigger_instant_refresh(new_state);
     }
 }

@@ -69,6 +69,14 @@ void task_oled128x32_carousel(void *pvParameters)
     for (;;) {
         bool need_render = false;
 
+        /* Sinkronisasi status Relai READY ON & Asimetri Beban (SPLN Tabel 5 No 11 & 12) */
+        power_relay_context_t *pr_ctx = rtos_power_relay_get_ctx();
+        bool ready_on = (pr_ctx != NULL && power_relay_is_ready_on(pr_ctx));
+        disp_ctx.relay_ready_on = ready_on;
+        if (pr_ctx != NULL) {
+            disp_ctx.asymmetry_warning = pr_ctx->is_asymmetry_active;
+        }
+
         /* Tangani event tombol darurat sabotase PC13 */
         if (s_tamper_trigger_instant) {
             s_tamper_trigger_instant = false;
@@ -77,15 +85,22 @@ void task_oled128x32_carousel(void *pvParameters)
             if (s_tamper_alarm_active) {
                 disp_ctx.active_tamper_mask = TAMPER_VECTOR_CASE_OPEN;
                 disp_ctx.current_page = DISP_PAGE_TAMPER_ALARM;
+            } else if (ready_on) {
+                disp_ctx.current_page = DISP_PAGE_RELAY_READY_ON;
             } else {
                 disp_ctx.active_tamper_mask = 0;
                 disp_ctx.current_page = DISP_PAGE_IDPEL;
             }
             need_render = true;
+        } else if (ready_on && disp_ctx.current_page != DISP_PAGE_RELAY_READY_ON && !s_tamper_alarm_active) {
+            disp_ctx.current_page = DISP_PAGE_RELAY_READY_ON;
+            need_render = true;
         } else if (elapsed_accumulator_ms >= 5000) {
             elapsed_accumulator_ms = 0;
-            display_process_tick(&disp_ctx, 5000);
-            need_render = true;
+            if (!s_tamper_alarm_active) {
+                display_process_tick(&disp_ctx, 5000);
+                need_render = true;
+            }
         }
 
         if (need_render) {

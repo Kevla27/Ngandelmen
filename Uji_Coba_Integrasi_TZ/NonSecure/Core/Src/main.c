@@ -103,23 +103,70 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *hlpuart, uint16_t Size) {
     }
 }
 
-void HAL_UART_ErrorCallback(UART_HandleTypeDef *hlpuart) {
-    if (hlpuart->Instance == LPUART1) {
-        __HAL_UART_CLEAR_FLAG(hlpuart, UART_CLEAR_OREF | UART_CLEAR_NEF | UART_CLEAR_PEF | UART_CLEAR_FEF);
+static uint8_t s_usart1_rx_char = 0;
+
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
+    if (huart->Instance == LPUART1) {
+        __HAL_UART_CLEAR_FLAG(huart, UART_CLEAR_OREF | UART_CLEAR_NEF | UART_CLEAR_PEF | UART_CLEAR_FEF);
         HAL_UARTEx_ReceiveToIdle_DMA(&hlpuart1, g_uart_rx_dma_buf, UART_RX_BUF_SIZE);
+    } else if (huart->Instance == USART1) {
+        __HAL_UART_CLEAR_FLAG(huart, UART_CLEAR_OREF | UART_CLEAR_NEF | UART_CLEAR_PEF | UART_CLEAR_FEF);
+        HAL_UART_Receive_IT(&huart1, &s_usart1_rx_char, 1);
     }
 }
 
-static uint8_t s_usart1_rx_char = 0;
-
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
     if (huart->Instance == USART1) {
-        /* Bila menerima karakter dari terminal serial ST-LINK VCP (misal 't', 'T', 's', 'S', atau Spasi) */
+        /* Bila menerima karakter dari terminal serial ST-LINK VCP */
         if (s_usart1_rx_char == 't' || s_usart1_rx_char == 'T' ||
-            s_usart1_rx_char == 's' || s_usart1_rx_char == 'S' ||
-            s_usart1_rx_char == ' ' || s_usart1_rx_char == '\r' || s_usart1_rx_char == '\n') {
-            printf("\r\n[SIMULASI] Perintah sabotase PC13 (Case Open) diterima via konsol UART!\r\n");
+            s_usart1_rx_char == 's' || s_usart1_rx_char == 'S') {
+            printf("\r\n[SIMULASI] Toggle Sabotase PC13 (Case Open RUSAK) via konsol UART!\r\n");
             tamper_handle_button_press_isr(HAL_GetTick());
+        } else if (s_usart1_rx_char == 'l' || s_usart1_rx_char == 'L') {
+            rtos_tamper_dump_log();
+        } else if (s_usart1_rx_char == '1') {
+            printf("\r\n[SIMULASI] Sabotase Tutup Terminal Terbuka (ERR20) via konsol UART!\r\n");
+            rtos_tamper_record_event(DLMS_TAMPER_TERMINAL_COVER_OPEN, true);
+        } else if (s_usart1_rx_char == '2') {
+            printf("\r\n[SIMULASI] Sabotase Induksi Medan Magnet (ERR25) via konsol UART!\r\n");
+            rtos_tamper_record_event(DLMS_TAMPER_MAGNETIC_INDUCTION, true);
+        } else if (s_usart1_rx_char == '3') {
+            printf("\r\n[SIMULASI] Sabotase Arus Balik / Reverse Power (ERR26) via konsol UART!\r\n");
+            rtos_tamper_record_event(DLMS_TAMPER_REVERSE_CURRENT, true);
+        } else if (s_usart1_rx_char == '4') {
+            printf("\r\n[SIMULASI] Sabotase Kawat Netral Hilang (ERR23) via konsol UART!\r\n");
+            rtos_tamper_record_event(DLMS_TAMPER_MISSING_NEUTRAL, true);
+        } else if (s_usart1_rx_char == '0') {
+            printf("\r\n[SIMULASI] Pulihkan Status Sabotase ke Normal via konsol UART!\r\n");
+            rtos_tamper_record_event(DLMS_TAMPER_TERMINAL_COVER_OPEN, false);
+            rtos_tamper_record_event(DLMS_TAMPER_MAGNETIC_INDUCTION, false);
+            rtos_tamper_record_event(DLMS_TAMPER_REVERSE_CURRENT, false);
+            rtos_tamper_record_event(DLMS_TAMPER_MISSING_NEUTRAL, false);
+        } else if (s_usart1_rx_char == 'p' || s_usart1_rx_char == 'P') {
+            printf("\r\n[SIMULASI] Injeksi Beban Berlebih (Power Limiter Trip) via konsol UART!\r\n");
+            rtos_power_relay_simulate_power_trip();
+        } else if (s_usart1_rx_char == 'r' || s_usart1_rx_char == 'R') {
+            printf("\r\n[SIMULASI] Perintah Remote Reconnect DLMS diterima via konsol UART!\r\n");
+            rtos_power_relay_request_reconnect();
+        } else if (s_usart1_rx_char == 'c' || s_usart1_rx_char == 'C') {
+            printf("\r\n[SIMULASI] Aksi Tombol Lokal Konfirmasi Reconnect via konsol UART!\r\n");
+            rtos_power_relay_confirm_reconnect();
+        } else if (s_usart1_rx_char == 'h' || s_usart1_rx_char == 'H' || s_usart1_rx_char == '?') {
+            printf("\r\n======================================================\r\n");
+            printf("             KONSOL PERINTAH UJI COBA UART            \r\n");
+            printf("======================================================\r\n");
+            printf(" [t/s] : Toggle Sabotase Tutup Meter (RUSAK / PC13)   \r\n");
+            printf(" [1]   : Trigger Tutup Terminal Dibuka (ERR20)        \r\n");
+            printf(" [2]   : Trigger Induksi Medan Magnet >500mT (ERR25)  \r\n");
+            printf(" [3]   : Trigger Arus Balik / Reverse Power (ERR26)   \r\n");
+            printf(" [4]   : Trigger Kawat Netral Hilang / Putus (ERR23)  \r\n");
+            printf(" [0]   : Pulihkan Sabotase ke Normal (Status: Pulih)  \r\n");
+            printf(" [l]   : Tampilkan Daftar Rekaman Tamper Log (Dump)   \r\n");
+            printf(" [p]   : Simulasi Beban Berlebih (Power Limiter Trip) \r\n");
+            printf(" [r]   : Remote Reconnect DLMS (Menuju READY ON)      \r\n");
+            printf(" [c]   : Konfirmasi Tombol Lokal Reconnect Relai      \r\n");
+            printf(" [h/?] : Tampilkan Menu Bantuan Ini                   \r\n");
+            printf("======================================================\r\n\r\n");
         }
         HAL_UART_Receive_IT(&huart1, &s_usart1_rx_char, 1);
     }
@@ -173,6 +220,7 @@ int main(void)
   /* 1. Inisialisasi Konsol Universal E3 & Cetak Banner Hardware Bring-Up */
   console_io_init(console_uart_transmit_bsp);
   console_io_print_boot_banner("STM32U575 TRUSTZONE SMART METER INITIALIZED", "ST-LINK VCP USART1 & LPUART1 @ 115200", 160);
+  printf("Ketik 'h' atau '?' pada terminal serial untuk melihat menu uji coba interaktif (Tamper & Log).\r\n");
 
   /* 2. Inisialisasi Layar Display (Dependency Injection Driver OLED 128x32) */
   display_task_set_driver(bsp_display_oled_get_driver());

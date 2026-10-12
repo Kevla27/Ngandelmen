@@ -113,17 +113,47 @@ Memenuhi **SPLN D3.006: 2021 Tabel 4 (Alarm Internal Hardware)** dan **Tabel 6 (
 ---
 
 ### E. Fitur Aktuasi Buzzer & Indikator Alarm SPLN (Pin PB7)
-Memenuhi **SPLN D3.006: 2021 Butir 6.14 (Indikator Alarm Audio & Visual)**:
-1. **Abstraksi Driver Hardware BSP (`bsp_alarm_buzzer`)**:
+Memenuhi **SPLN D3.006: 2021 Butir 6.9 huruf c (Indikator LED Alarm/Tamper)** serta fitur aktuasi audio buzzer:
+1. **Dasar Acuan Normatif**:
+   - Berdasarkan **SPLN D3.006: 2021 Butir 6.9 huruf c**, meter wajib dilengkapi lampu LED indikator warna **kuning** untuk penandaan penyalahgunaan (*tamper*), ketidaknormalan, atau *alarm*.
+   - Aktuasi **Buzzer Audio (Piezo Beeper)** ditambahkan sebagai sinyal peringatan suara yang digerakkan bersama LED melalui jalur pin PB7.
+2. **Abstraksi Driver Hardware BSP (`bsp_alarm_buzzer`)**:
    - Mengendalikan pin GPIO **PB7** (terhubung ke User LED2 Blue board Nucleo dan jalur driver piezo buzzer eksternal).
    - Menyediakan simulasi state mock otomatis saat dikompilasi pada host PC (tanpa dependensi HAL).
-2. **Irama Peringatan Beeper (Beep Cadence)**:
+3. **Irama Peringatan Beeper (Beep Cadence)**:
    - Saat alarm aktif: Pin PB7 berkedip/berbunyi dengan irama **200 ms ON / 200 ms OFF**.
    - Saat alarm pulih: Pin PB7 otomatis direset ke kondisi **LOW / Mati**.
 
 ---
 
-### F. Fitur Protokol Komunikasi DLMS/COSEM (Subsystem E2 - Communication)
+### F. Fitur Pengelola Daya & FSM Relai SPLN (Subsystem E3 - Power & Relay Management)
+Memenuhi **SPLN D3.006: 2021 Tabel 5 No. 11, 12, dan 13**:
+1. **Deteksi Daya & Beban Asimetris (Tabel 5 No 11)**:
+   - Kalkulasi deviasi arus 3-fase terhadap arus rata-rata:
+     $$\Delta I_{\max} = \max(|I_R - I_{\text{avg}}|, |I_S - I_{\text{avg}}|, |I_T - I_{\text{avg}}|)$$
+     $$\% \text{Deviasi} = \frac{\Delta I_{\max}}{I_{\text{avg}}} \times 100\%$$
+   - Ambang batas deviasi default **30%**: Jika melebihi batas, mengaktifkan flag `is_asymmetry_active` dan memicu banner alarm `!ALM` pada layar LCD.
+   - Filter proteksi arus rendah (*low current guard* $< 500\text{ mA}$) untuk mencegah *false alarm* pada kondisi meter *standby* tanpa beban.
+2. **Pembatas Daya / Power Limiter Kontinu 5 Detik (Tabel 5 No 13)**:
+   - Ambang batas daya aktif total default: **6600 W**.
+   - Toleransi durasi kelebihan daya: **5 detik**.
+   - Jika $P_{\text{total}} > 6600\text{ W}$ berlangsung kontinu selama $\ge 5\text{ detik}$, relai pemutus beban (*contactor/breaker*) secara otomatis trip ke status `DISCONNECTED` dengan alasan `RELAY_REASON_POWER_LIMITER`.
+3. **FSM Relai & State "READY ON" Dua Tahap (Tabel 5 No 12)**:
+   - Standar keselamatan pelanggan: Perintah penyambungan kembali (*reconnect*) dari remote AMI/HES **tidak boleh langsung** menghubungkan relai.
+   - Perintah remote menempatkan meter pada status `READY_ON`.
+   - Transisi ke status normal `CONNECTED` hanya dapat terjadi setelah adanya **konfirmasi penekanan tombol lokal di meter** oleh pengguna.
+4. **Halaman Khusus Layar Relai (`DISP_PAGE_RELAY_READY_ON`)**:
+   - Indeks urutan scroll `zz = "on"`.
+   - Teks nilai utama `"READY ON"`.
+   - Keterangan satuan `"RECONNECT"`.
+   - Kode OBIS `00.00`.
+   - Transisi *instant display refresh* seketika begitu meter menerima perintah *reconnect*.
+5. **Indikasi Audio/Visual "READY ON"**:
+   - Pin PB7 berkedip/berbunyi dengan ritme 400 ms ON / 400 ms OFF saat dalam status `READY ON` untuk memberi isyarat kepada pelanggan agar menekan tombol meter.
+
+---
+
+### G. Fitur Protokol Komunikasi DLMS/COSEM (Subsystem E2 - Communication)
 1. **Lapisan Fisik & Data Link HDLC (IEC 62056-46)**:
    - Transmisi serial non-blocking melalui LPUART1 dengan DMA Circular Buffer.
    - Handshake koneksi: Frame SNRM (Set Normal Response Mode), UA (Unnumbered Acknowledge), dan DISC (Disconnect).
@@ -142,7 +172,7 @@ Memenuhi **SPLN D3.006: 2021 Butir 6.14 (Indikator Alarm Audio & Visual)**:
 
 ---
 
-### G. Fitur Profil Beban & Penyimpanan Persisten (Subsystem E3 - Load Profile & NVRAM)
+### H. Fitur Profil Beban & Penyimpanan Persisten (Subsystem E3 - Load Profile & NVRAM)
 1. **Load Profile Generic 15-Menit**:
    - Penjadwalan pembekuan snapshot data kelistrikan tiap 900 detik (15 menit) sesuai standar grid profil beban.
    - Parameter snapshot mencakup seluruh tegangan, arus, daya, energi, dan frekuensi sesaat.
@@ -151,24 +181,29 @@ Memenuhi **SPLN D3.006: 2021 Butir 6.14 (Indikator Alarm Audio & Visual)**:
 
 ---
 
-### H. Fitur Multitasking & Manajemen Tugas (FreeRTOS Lead)
+### I. Fitur Multitasking & Manajemen Tugas (FreeRTOS Lead)
 Empat task independen yang diatur secara preemptive berbasis prioritas:
 
 | Nama Task | Prioritas | Frekuensi / Interval | Deskripsi Tanggung Jawab |
 |---|:---:|:---:|---|
-| **`task_tamper_emergency`** | **4 (Tinggi)** | 200 ms | Memantau pemicu sabotase, mengirim event ke antrean, menggerakkan irama beeper/LED PB7 (200ms ON/OFF). |
-| **`task_metrology_profiling`**| **3 (Sedang)** | 1000 ms / 15 menit | Menjalankan sampling metrologi 1 Hz, sinkronisasi mutex, dan membekukan snapshot profil beban 15 menit. |
+| **`task_tamper_emergency`** | **4 (Tinggi)** | 200 ms | Memantau pemicu sabotase, mengirim event ke antrean, menggerakkan irama beeper/LED PB7 (200ms ON/OFF saat alarm, 400ms saat READY ON). |
+| **`task_metrology_profiling`**| **3 (Sedang)** | 1000 ms / 15 menit | Menjalankan sampling metrologi 1 Hz, evaluasi asimetri arus 3-fase & trip power limiter 5 detik, serta membekukan snapshot beban 15 menit. |
 | **`task_dlms_server`** | **2 (Normal)** | Event-Driven | Memproses paket data link HDLC dan APDU DLMS/COSEM yang diterima dari LPUART DMA. |
-| **`task_oled_carousel`** | **1 (Rendah)** | 100 ms loop (5s cycle) | Mengatur transisi 15 halaman layar standar SPLN Gambar 4 dan merender tampilan grafis OLED. |
+| **`task_oled_carousel`** | **1 (Rendah)** | 100 ms loop (5s cycle) | Mengatur transisi 15 halaman layar standar SPLN Gambar 4 + halaman READY ON dan merender tampilan grafis OLED. |
 
 ---
 
-### I. Fitur Konsol Universal & Pengujian Otomatis
+### J. Fitur Konsol Universal & Pengujian Otomatis
 1. **Konsol Serial Universal**:
    - Menampilkan boot banner informatif hardware clock (160 MHz), peripheral map, dan status inisialisasi FreeRTOS saat startup.
-   - Memberikan laporan debug waktu-nyata untuk setiap perubahan halaman OLED, sampling metrologi, dan pencatatan event DLMS.
+   - Memberikan laporan debug waktu-nyata untuk setiap perubahan halaman OLED, sampling metrologi, status relai, dan pencatatan event DLMS.
+   - **Tombol Uji Interaktif Konsol VCP**:
+     - `'t'` / `'s'` / spasi: Simulasi pemicu sabotase PC13 (Case Open).
+     - `'p'`: Simulasi beban berlebih untuk memicu trip pembatas daya (*Power Limiter Trip*).
+     - `'r'`: Simulasi perintah *remote reconnect* dari HES/AMI $\rightarrow$ masuk ke state `READY ON`.
+     - `'c'`: Simulasi konfirmasi penekanan tombol lokal di meter $\rightarrow$ kembali tersambung (`CONNECTED`).
 2. **Infrastruktur Pengujian Otomatis (Host & Target)**:
-   - **15 Test Suite CTest**: Verifikasi unit terotomatisasi mencakup HDLC, APDU, Tamper Log, OBIS Dictionary, FSM Statechart, Load Profile, dan FreeRTOS Tasks.
+   - **16 Test Suite CTest**: Verifikasi unit terotomatisasi mencakup HDLC, APDU, Tamper Log, OBIS Dictionary, FSM Statechart, Load Profile, FreeRTOS Tasks, dan Power & Relay FSM (`test_power_relay`).
    - **Uji Integrasi End-to-End (`test_e1_to_e2_integration.exe`)**: Pengujian alur utuh dari modul Metrologi E1 $\rightarrow$ Aplikasi E3 $\rightarrow$ Transaksi Paket DLMS E2.
    - **Uji Kepatuhan Tampilan SPLN (`test_spln_display_tamper.exe`)**: Verifikasi otomatis terhadap 9 kode sabotase Tabel 6 dan 8 kode alarm hardware Tabel 4 SPLN D3.006.
 
@@ -180,11 +215,15 @@ Empat task independen yang diatur secara preemptive berbasis prioritas:
 |:--:|---|---|:---:|
 | 1 | **SPLN D3.006: 2021** | Butir 6.11 (Format Waktu RTC `00.00` s.d `23.59`) | **100% Sesuai** (Page 15 OBIS `01.00`) |
 | 2 | **SPLN D3.006: 2021** | Butir 6.11 (Interval Carousel Otomatis $\ge$ 5 detik) | **100% Sesuai** (Interval 5000 ms) |
-| 3 | **SPLN D3.006: 2021** | Butir 6.14 (Indikator Alarm Audio Buzzer & Visual LED) | **100% Sesuai** (Aktuasi PB7 200ms ON/OFF) |
+| 3 | **SPLN D3.006: 2021** | Butir 6.9 huruf c (Indikator LED Kuning Alarm/Tamper & Aktuasi PB7) | **100% Sesuai** (Aktuasi PB7 200ms ON/OFF) |
 | 4 | **SPLN D3.006: 2021** | Tabel 4 (Alarm Internal Hardware ERR00..ERR07) | **100% Sesuai** (Dukungan 8 kode alarm) |
-| 5 | **SPLN D3.006: 2021** | Tabel 6 (Tamper & Ketidaknormalan ERR20..ERR27, RUSAK, REVERSE) | **100% Sesuai** (Dukungan 9 vektor sabotase) |
-| 6 | **SPLN D3.006: 2021** | Lampiran E Tabel E.1 (Arus Fasa & Netral 3 Desimal) | **100% Sesuai** (Format `X.XXX A`) |
-| 7 | **SPLN D3.006-1: 2017** | Gambar 4 (Tata Letak Layar 3-Baris: Status/zz/Nilai/OBIS) | **100% Sesuai** (Header, Font Besar, Baris OBIS) |
-| 8 | **IEC 62056 / DLMS UA** | Blue Book & Green Book (HDLC, APDU, Association, OBIS Profile) | **100% Sesuai** (Terverifikasi End-to-End) |
-| 9 | **Arm TrustZone-M** | Isolasi Keamanan Perangkat Keras Dual-World Cortex-M33 | **100% Sesuai** (SAU, GTZC, Bank 2 Flash Jump) |
+| 5 | **SPLN D3.006: 2021** | Tabel 5 No. 11 (Pengukuran Daya Asimetris $> 30\%$) | **100% Sesuai** (Formula $\Delta I_{\max}/I_{\text{avg}}$, Alarm `!ALM`) |
+| 6 | **SPLN D3.006: 2021** | Tabel 5 No. 12 (Meter Siap Disambung Kembali / "READY ON") | **100% Sesuai** (Teks `"READY ON"`, Reconnect Dua Langkah) |
+| 7 | **SPLN D3.006: 2021** | Tabel 5 No. 13 (Pembatas Daya / Power Limiter 5 Detik) | **100% Sesuai** (Akumulator 5s, Auto-trip ke `DISCONNECTED`) |
+| 8 | **SPLN D3.006: 2021** | Tabel 6 (Tamper & Ketidaknormalan ERR20..ERR27, RUSAK, REVERSE) | **100% Sesuai** (Dukungan 9 vektor sabotase) |
+| 9 | **SPLN D3.006: 2021** | Lampiran E Tabel E.1 (Arus Fasa & Netral 3 Desimal) | **100% Sesuai** (Format `X.XXX A`) |
+| 10 | **SPLN D3.006-1: 2017** | Gambar 4 (Tata Letak Layar 3-Baris: Status/zz/Nilai/OBIS) | **100% Sesuai** (Header, Font Besar, Baris OBIS) |
+| 11 | **IEC 62056 / DLMS UA** | Blue Book & Green Book (HDLC, APDU, Association, OBIS Profile) | **100% Sesuai** (Terverifikasi End-to-End) |
+| 12 | **Arm TrustZone-M** | Isolasi Keamanan Perangkat Keras Dual-World Cortex-M33 | **100% Sesuai** (SAU, GTZC, Bank 2 Flash Jump) |
+
 

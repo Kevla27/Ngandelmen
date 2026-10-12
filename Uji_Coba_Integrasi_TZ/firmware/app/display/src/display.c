@@ -32,6 +32,18 @@ void display_set_time(display_context_t *ctx, uint32_t epoch_sec) {
     }
 }
 
+void display_set_relay_ready_on(display_context_t *ctx, bool ready_on) {
+    if (ctx != NULL) {
+        ctx->relay_ready_on = ready_on;
+    }
+}
+
+void display_set_asymmetry_warning(display_context_t *ctx, bool warning) {
+    if (ctx != NULL) {
+        ctx->asymmetry_warning = warning;
+    }
+}
+
 void display_update_measurements(display_context_t *ctx, const meter_measurements_t *meas) {
     if (ctx != NULL && meas != NULL) {
         memcpy(&ctx->meas_buffer, meas, sizeof(meter_measurements_t));
@@ -49,6 +61,8 @@ void display_process_tick(display_context_t *ctx, uint32_t elapsed_ms) {
             ctx->timer_accumulator_ms = 0;
             display_page_id_t next_page = (display_page_id_t)((ctx->current_page + 1) % DISP_PAGE_COUNT);
             if (!ctx->alarm_icon_active && next_page == DISP_PAGE_TAMPER_ALARM) {
+                next_page = (ctx->relay_ready_on) ? DISP_PAGE_RELAY_READY_ON : DISP_PAGE_IDPEL;
+            } else if (!ctx->relay_ready_on && next_page == DISP_PAGE_RELAY_READY_ON) {
                 next_page = DISP_PAGE_IDPEL;
             }
             ctx->current_page = next_page;
@@ -71,12 +85,17 @@ void display_handle_button_press(display_context_t *ctx, button_dir_t dir) {
     if (dir == BUTTON_DIR_DOWN) {
         display_page_id_t next_page = (display_page_id_t)((ctx->current_page + 1) % DISP_PAGE_COUNT);
         if (!ctx->alarm_icon_active && next_page == DISP_PAGE_TAMPER_ALARM) {
+            next_page = (ctx->relay_ready_on) ? DISP_PAGE_RELAY_READY_ON : DISP_PAGE_IDPEL;
+        } else if (!ctx->relay_ready_on && next_page == DISP_PAGE_RELAY_READY_ON) {
             next_page = DISP_PAGE_IDPEL;
         }
         ctx->current_page = next_page;
     } else if (dir == BUTTON_DIR_UP) {
         display_page_id_t prev_page = (ctx->current_page == 0) ? (display_page_id_t)(DISP_PAGE_COUNT - 1) 
                                                                : (display_page_id_t)(ctx->current_page - 1);
+        if (!ctx->relay_ready_on && prev_page == DISP_PAGE_RELAY_READY_ON) {
+            prev_page = (ctx->alarm_icon_active) ? DISP_PAGE_TAMPER_ALARM : DISP_PAGE_TIME;
+        }
         if (!ctx->alarm_icon_active && prev_page == DISP_PAGE_TAMPER_ALARM) {
             prev_page = DISP_PAGE_TIME;
         }
@@ -174,9 +193,10 @@ void display_get_spln_alarm_info(uint32_t alarm_mask, char *out_text, size_t tex
 void display_render_frame(const display_context_t *ctx, char *out_line1, char *out_line2, char *out_line3, size_t max_len) {
     if (ctx == NULL || out_line1 == NULL || out_line2 == NULL || out_line3 == NULL) return;
 
+    bool alarm_on = (ctx->alarm_icon_active || ctx->asymmetry_warning);
     snprintf(out_line1, max_len, "[%s] %s", 
              (ctx->mode == DISPLAY_MODE_AUTO_CAROUSEL) ? "AUTO" : "MANUAL",
-             ctx->alarm_icon_active ? "(!)" : " OK ");
+             alarm_on ? "(!)" : " OK ");
 
     switch (ctx->current_page) {
         case DISP_PAGE_IDPEL:
@@ -267,6 +287,10 @@ void display_render_frame(const display_context_t *ctx, char *out_line1, char *o
             }
             break;
         }
+        case DISP_PAGE_RELAY_READY_ON:
+            snprintf(out_line2, max_len, "RELAY STATUS (00.00)");
+            snprintf(out_line3, max_len, "READY ON");
+            break;
         default:
             snprintf(out_line2, max_len, "DISPLAY PAGE %d", ctx->current_page);
             snprintf(out_line3, max_len, "---");
@@ -280,9 +304,9 @@ void display_render_spln_frame(const display_context_t *ctx, display_spln_frame_
 
     const char *obis_code = "00.00";
     frame->is_large_font = true;
-    frame->is_alarm_active = ctx->alarm_icon_active;
+    frame->is_alarm_active = (ctx->alarm_icon_active || ctx->asymmetry_warning);
 
-    if (ctx->alarm_icon_active) {
+    if (frame->is_alarm_active) {
         snprintf(frame->alarm_code, sizeof(frame->alarm_code), "!ALM");
     } else {
         snprintf(frame->alarm_code, sizeof(frame->alarm_code), "OK");
@@ -440,6 +464,14 @@ void display_render_spln_frame(const display_context_t *ctx, display_spln_frame_
 
             snprintf(frame->main_value, sizeof(frame->main_value), "%s", spln_text);
             snprintf(frame->unit, sizeof(frame->unit), "%s", spln_code);
+            break;
+        }
+        case DISP_PAGE_RELAY_READY_ON: {
+            obis_code = "00.00";
+            snprintf(frame->scroll_index_zz, sizeof(frame->scroll_index_zz), "on");
+            frame->is_large_font = false;
+            snprintf(frame->main_value, sizeof(frame->main_value), "READY ON");
+            snprintf(frame->unit, sizeof(frame->unit), "RECONNECT");
             break;
         }
         default:

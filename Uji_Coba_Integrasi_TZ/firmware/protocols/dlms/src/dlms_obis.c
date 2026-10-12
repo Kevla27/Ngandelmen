@@ -90,6 +90,14 @@ static obis_entry_t g_obis_db[] = {
     {1, {0, 0, 96, 20, 26, 255}, 2, DLMS_DATA_TYPE_LONG_UNSIGNED, 1},
     /* Akumulasi Arus Terbalik / Reverse Current (0.0.96.20.27.255) -> 1 Kali */
     {1, {0, 0, 96, 20, 27, 255}, 2, DLMS_DATA_TYPE_LONG_UNSIGNED, 1},
+    /* Akumulasi Urutan Fase Terbalik / Wrong Phase Sequence (0.0.96.20.6.255) -> 0 Kali */
+    {1, {0, 0, 96, 20, 6, 255}, 2, DLMS_DATA_TYPE_LONG_UNSIGNED, 0},
+    /* Akumulasi Pengawatan Arus/Tegangan Silang / Cross Phase (0.0.96.20.7.255) -> 0 Kali */
+    {1, {0, 0, 96, 20, 7, 255}, 2, DLMS_DATA_TYPE_LONG_UNSIGNED, 0},
+    /* Akumulasi Hilang Tegangan 1/2 Fase / Missing Voltage (0.0.96.20.8.255) -> 0 Kali */
+    {1, {0, 0, 96, 20, 8, 255}, 2, DLMS_DATA_TYPE_LONG_UNSIGNED, 0},
+    /* Akumulasi Kuadran 4 / PF < 0.85 / Low PF (0.0.96.20.9.255) -> 0 Kali */
+    {1, {0, 0, 96, 20, 9, 255}, 2, DLMS_DATA_TYPE_LONG_UNSIGNED, 0},
 
     /* ----------------------------------------------------------------------------------- */
     /* 6. PROFIL LOG KEJADIAN & PROFIL BEBAN (CLASS ID 7 - PROFILE GENERIC)               */
@@ -219,6 +227,22 @@ void dlms_obis_increment_tamper_counter(dlms_tamper_code_t code) {
             else if (code == DLMS_TAMPER_MISSING_NEUTRAL && entry->obis.e == 24) {
                 entry->value_u32++;
             }
+            /* Wrong Phase Sequence (0.0.96.20.6.255) */
+            else if (code == DLMS_TAMPER_WRONG_PHASE_SEQ && entry->obis.e == 6) {
+                entry->value_u32++;
+            }
+            /* Cross Phase (0.0.96.20.7.255) */
+            else if (code == DLMS_TAMPER_CROSS_PHASE && entry->obis.e == 7) {
+                entry->value_u32++;
+            }
+            /* Missing Voltage (0.0.96.20.8.255) */
+            else if (code == DLMS_TAMPER_MISSING_VOLTAGE && entry->obis.e == 8) {
+                entry->value_u32++;
+            }
+            /* Low PF Quad 4 (0.0.96.20.9.255) */
+            else if (code == DLMS_TAMPER_LOW_PF_QUAD4 && entry->obis.e == 9) {
+                entry->value_u32++;
+            }
         }
     }
     rtos_meter_data_unlock();
@@ -242,6 +266,14 @@ void dlms_obis_set_tamper_counter(dlms_tamper_code_t code, uint32_t count) {
             } else if (code == DLMS_TAMPER_REVERSE_CURRENT && entry->obis.e == 27) {
                 entry->value_u32 = count;
             } else if (code == DLMS_TAMPER_MISSING_NEUTRAL && entry->obis.e == 24) {
+                entry->value_u32 = count;
+            } else if (code == DLMS_TAMPER_WRONG_PHASE_SEQ && entry->obis.e == 6) {
+                entry->value_u32 = count;
+            } else if (code == DLMS_TAMPER_CROSS_PHASE && entry->obis.e == 7) {
+                entry->value_u32 = count;
+            } else if (code == DLMS_TAMPER_MISSING_VOLTAGE && entry->obis.e == 8) {
+                entry->value_u32 = count;
+            } else if (code == DLMS_TAMPER_LOW_PF_QUAD4 && entry->obis.e == 9) {
                 entry->value_u32 = count;
             }
         }
@@ -273,6 +305,18 @@ uint32_t dlms_obis_get_tamper_counter(dlms_tamper_code_t code) {
                 val = entry->value_u32;
                 break;
             } else if (code == DLMS_TAMPER_MISSING_NEUTRAL && entry->obis.e == 24) {
+                val = entry->value_u32;
+                break;
+            } else if (code == DLMS_TAMPER_WRONG_PHASE_SEQ && entry->obis.e == 6) {
+                val = entry->value_u32;
+                break;
+            } else if (code == DLMS_TAMPER_CROSS_PHASE && entry->obis.e == 7) {
+                val = entry->value_u32;
+                break;
+            } else if (code == DLMS_TAMPER_MISSING_VOLTAGE && entry->obis.e == 8) {
+                val = entry->value_u32;
+                break;
+            } else if (code == DLMS_TAMPER_LOW_PF_QUAD4 && entry->obis.e == 9) {
                 val = entry->value_u32;
                 break;
             }

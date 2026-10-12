@@ -93,6 +93,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/app/display/src/display_task.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/app/tamper/src/tamper_manager.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/app/fsm/src/fsm_statechart.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/app/fsm/src/power_relay_manager.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/app/fsm/src/rtos_tasks.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/app/profiling/src/load_profile.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/app/profiling/src/load_profile_dlms_adapter.c

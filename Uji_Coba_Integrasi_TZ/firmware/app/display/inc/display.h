@@ -42,6 +42,7 @@ typedef enum {
     DISP_PAGE_ACTIVE_ENERGY,
     DISP_PAGE_TIME,
     DISP_PAGE_TAMPER_ALARM,
+    DISP_PAGE_RELAY_READY_ON,
     DISP_PAGE_COUNT
 } display_page_id_t;
 
@@ -77,6 +78,8 @@ typedef struct {
     uint32_t         active_tamper_mask;  /* Bitmask tamper_vector_t (SPLN D3.006 Tabel 6) */
     uint32_t         active_alarm_mask;   /* Bitmask spln_internal_alarm_t (SPLN D3.006 Tabel 4) */
     uint32_t         current_time_epoch;  /* Timestamp Epoch UNIX / waktu RTC sesaat */
+    bool             relay_ready_on;      /* Flag state relai READY ON (SPLN Tabel 5 No 12) */
+    bool             asymmetry_warning;   /* Flag peringatan asimetri beban (SPLN Tabel 5 No 11) */
 } display_context_t;
 
 bool display_init(display_context_t *ctx, const char *customer_id, uint32_t carousel_interval_ms);
@@ -86,6 +89,8 @@ void display_process_tick(display_context_t *ctx, uint32_t elapsed_ms);
 void display_handle_button_press(display_context_t *ctx, button_dir_t dir);
 void display_render_frame(const display_context_t *ctx, char *out_line1, char *out_line2, char *out_line3, size_t max_len);
 void display_set_time(display_context_t *ctx, uint32_t epoch_sec);
+void display_set_relay_ready_on(display_context_t *ctx, bool ready_on);
+void display_set_asymmetry_warning(display_context_t *ctx, bool warning);
 
 /**
  * @brief Helper pengaturan dan pembacaan teks / kode error resmi SPLN D3.006:2021

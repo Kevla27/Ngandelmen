@@ -23,6 +23,7 @@ add_library(dlms_core STATIC
     app/display/src/display_task.c
     app/tamper/src/tamper_manager.c
     app/fsm/src/fsm_statechart.c
+    app/fsm/src/power_relay_manager.c
     app/fsm/src/rtos_tasks.c
     app/profiling/src/load_profile.c
     app/profiling/src/load_profile_dlms_adapter.c
@@ -59,7 +60,7 @@ if(BUILD_TESTS)
         test_load_profile_dlms_adapter
         test_nvram_storage
         test_rtos_tasks
-
+        test_power_relay
     )
 
     set(TEST_SOURCES
@@ -78,7 +79,7 @@ if(BUILD_TESTS)
         tests/app/test_load_profile_dlms_adapter.c
         tests/app/test_nvram_storage.c
         tests/app/test_rtos_tasks.c
-
+        tests/app/test_power_relay.c
     )
 
     # Memasangkan nama target dan source file secara aman menggunakan ZIP_LISTS

@@ -6,9 +6,11 @@
 #include "nvram_storage.h" /* 1. HARUS DI BARIS PALING ATAS */
 #include <string.h>
 
+#if !defined(EMBEDDED_HARDWARE_TARGET)
 /* Buffer Simulasi NVRAM Flash di RAM PC untuk Unit Test CTest */
 static load_profile_entry_t simulated_load_profile_flash[LOAD_PROFILE_MAX_ENTRIES];
 static tamper_context_t simulated_tamper_log_flash;
+#endif
 
 bool nvram_write_load_profile_entry(uint32_t entry_index, const load_profile_entry_t *entry) {
     if (entry == NULL || entry_index >= LOAD_PROFILE_MAX_ENTRIES) return false;
