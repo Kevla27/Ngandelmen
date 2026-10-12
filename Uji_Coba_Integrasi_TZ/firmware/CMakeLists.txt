@@ -6,6 +6,11 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 option(BUILD_TESTS "Build Host Unit Tests" ON)
 
+# Pastikan assert() selalu aktif pada seluruh pengujian host bahkan jika Release dipilih
+string(REPLACE "-DNDEBUG" "" CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
+string(REPLACE "-DNDEBUG" "" CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO}")
+add_compile_options(-UNDEBUG)
+
 # Modern CMake Target: dlms_core
 add_library(dlms_core STATIC
     protocols/dlms/src/dlms_association.c

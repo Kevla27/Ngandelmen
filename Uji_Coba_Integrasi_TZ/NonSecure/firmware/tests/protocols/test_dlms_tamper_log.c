@@ -9,12 +9,13 @@
 #include "tamper_manager.h"
 
 int main(void) {
+    setvbuf(stdout, NULL, _IONBF, 0);
     printf("[TEST RUNNER] Running test_dlms_tamper_log...\n");
 
     /* ========================================================================= */
     /* TEST 1: INISIALISASI TAMPER LOG BUFFER                                     */
     /* ========================================================================= */
-    dlms_tamper_log_t log;
+    dlms_tamper_log_t log = {0};
     assert(dlms_tamper_log_init(&log) == DLMS_OK);
     assert(log.entries_in_use == 0);
     assert(log.total_events == 0);
@@ -76,7 +77,7 @@ int main(void) {
     /* ========================================================================= */
     /* TEST 7: TRANSAKSI HDLC SERVER MEMBACA BUFFER PROFILE GENERIC 0.0.99.98.0.255 */
     /* ========================================================================= */
-    dlms_server_t server;
+    dlms_server_t server = {0};
     assert(dlms_server_init(&server) == DLMS_OK);
 
     /* A. Setup koneksi HDLC (SNRM -> UA) */
