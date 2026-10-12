@@ -197,6 +197,12 @@ void task_tamper_emergency_entry(void *pvParameters) {
             } else {
                 printf("[TAMPER] Sabotase dipulihkan. Sistem kembali normal.\r\n");
             }
+            tamper_event_msg_t msg = {
+                .timestamp = (uint32_t)(xTaskGetTickCount() / configTICK_RATE_HZ),
+                .tamper_code = (uint8_t)DLMS_TAMPER_METER_COVER_OPEN,
+                .is_active = current_alarm
+            };
+            rtos_queue_send_tamper_event(&msg);
         }
         vTaskDelay(pdMS_TO_TICKS(100));
     }

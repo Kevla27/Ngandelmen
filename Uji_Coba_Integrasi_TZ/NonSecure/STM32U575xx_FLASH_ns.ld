@@ -41,7 +41,7 @@ ENTRY(Reset_Handler)
 MEMORY
 {
   RAM	(xrw)	: ORIGIN = 0x20040000,	LENGTH = 512K     /* Non-Secure SRAM */
-  ROM	(rx)	: ORIGIN = 0x08100000,	LENGTH = 1024K    /* Bank 2 Non-Secure Flash (1024K) */
+  ROM	(rx)	: ORIGIN = 0x08100000,	LENGTH = 1024K    /* Bank 2 Non-Secure Flash (1024K for 2MB MCU) */
   SRAM4	(xrw)   : ORIGIN = 0x28000000,  LENGTH = 16K      /* Non-Secure SRAM4 */
 }
 /* Highest address of the user mode stack */

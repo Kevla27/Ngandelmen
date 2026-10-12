@@ -114,13 +114,7 @@ void tamper_handle_button_press_isr(uint32_t timestamp_ms) {
         static bool s_alarm_active = false;
         s_alarm_active = !s_alarm_active;
 
+        /* Pemicu instant refresh layar OLED ke status !ALM / RUSAK */
         display_task_trigger_instant_refresh(s_alarm_active);
-
-        tamper_event_msg_t msg = {
-            .timestamp = timestamp_ms / 1000,
-            .tamper_code = (uint8_t)DLMS_TAMPER_METER_COVER_OPEN,
-            .is_active = s_alarm_active
-        };
-        rtos_queue_send_tamper_event_from_isr(&msg);
     }
 }

@@ -193,4 +193,14 @@ void LPUART1_IRQHandler(void)
 
   /* USER CODE END LPUART1_IRQn 1 */
 }
+
+extern UART_HandleTypeDef huart1;
+
+/**
+  * @brief This function handles USART1 global interrupt (ST-LINK VCP).
+  */
+void USART1_IRQHandler(void)
+{
+  HAL_UART_IRQHandler(&huart1);
+}
 /* USER CODE END 1 */

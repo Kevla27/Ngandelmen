@@ -52,6 +52,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 static void NonSecure_Init(void);
+static void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_GTZC_S_Init(void);
 static void MX_ICACHE_Init(void);
@@ -82,9 +83,8 @@ int main(void)
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
 
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
+  /* Inisialisasi Clock 160MHz (MSI -> PLL) & VOS1 di sisi Secure World */
+  SystemClock_Config();
 
   /* GTZC initialisation */
   MX_GTZC_S_Init();
@@ -96,6 +96,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_ICACHE_Init();
+  HAL_ICACHE_Enable();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -137,6 +138,50 @@ static void NonSecure_Init(void)
 
   /* Start non-secure state software application */
   NonSecure_ResetHandler();
+}
+
+static void SystemClock_Config(void)
+{
+  HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
+
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+  RCC_OscInitStruct.MSICalibrationValue = RCC_MSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_4;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
+  RCC_OscInitStruct.PLL.PLLM = 1;
+  RCC_OscInitStruct.PLL.PLLN = 80;
+  RCC_OscInitStruct.PLL.PLLR = 2; /* 4MHz * 80 / 2 = 160 MHz */
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
+                              |RCC_CLOCKTYPE_PCLK3;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB3CLKDivider = RCC_HCLK_DIV1;
+
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /* Konfigurasi Peripheral Clock di sisi Secure World */
+  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_I2C1 | RCC_PERIPHCLK_LPUART1 | RCC_PERIPHCLK_USART1;
+  PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_PCLK1;
+  PeriphClkInit.Lpuart1ClockSelection = RCC_LPUART1CLKSOURCE_PCLK3;
+  PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
+  HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit);
 }
 
 /**
@@ -305,10 +350,12 @@ static void MX_GPIO_Init(void)
   NVIC_SetTargetState(GPDMA1_Channel0_IRQn);
   NVIC_SetTargetState(GPDMA1_Channel1_IRQn);
 
-  /* Reconfigure PC13 for Tamper Case Open with Pull-up & Both Edges for responsive detection */
+  /* Reconfigure PC13 for Tamper Case Open:
+   * Pada board NUCLEO-U575ZI-Q, tombol B1 menghubungkan PC13 ke VDD (Active HIGH)
+   * dan memiliki rangkaian pull-down eksternal ke GND. Gunakan GPIO_NOPULL. */
   GPIO_InitStruct.Pin = GPIO_PIN_13;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /* Enable Interrupt EXTI13 pada NVIC (Prioritas 6 di bawah FreeRTOS max syscall priority 5) */

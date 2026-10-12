@@ -109,8 +109,24 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *hlpuart) {
     }
 }
 
+static uint8_t s_usart1_rx_char = 0;
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+    if (huart->Instance == USART1) {
+        /* Bila menerima karakter dari terminal serial ST-LINK VCP (misal 't', 'T', 's', 'S', atau Spasi) */
+        if (s_usart1_rx_char == 't' || s_usart1_rx_char == 'T' ||
+            s_usart1_rx_char == 's' || s_usart1_rx_char == 'S' ||
+            s_usart1_rx_char == ' ' || s_usart1_rx_char == '\r' || s_usart1_rx_char == '\n') {
+            printf("\r\n[SIMULASI] Perintah sabotase PC13 (Case Open) diterima via konsol UART!\r\n");
+            tamper_handle_button_press_isr(HAL_GetTick());
+        }
+        HAL_UART_Receive_IT(&huart1, &s_usart1_rx_char, 1);
+    }
+}
+
 /* Callback interupsi Secure World saat terjadi sabotase fisik PC13 (Case Open) */
 static void NonSecure_Tamper_Callback(void) {
+    printf("[TAMPER ISR] Interupsi PC13 Secure World diteruskan ke Non-Secure!\r\n");
     tamper_handle_button_press_isr(HAL_GetTick());
 }
 /* USER CODE END 0 */
@@ -150,6 +166,7 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   /* 0. Registrasi Callback Sabotase Fisik PC13 (Case Open) ke Secure World via NSC */
+  HAL_NVIC_SetPriority(EXTI13_IRQn, 6, 0);
   SECURE_RegisterCallback(SECURE_TAMPER_CB_ID, (void *)NonSecure_Tamper_Callback);
 
   /* 1. Inisialisasi Konsol Universal E3 & Cetak Banner Hardware Bring-Up */
@@ -199,47 +216,9 @@ int main(void)
   */
 void SystemClock_Config(void)
 {
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-
-  /** Configure the main internal regulator output voltage
-  */
-  if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSICalibrationValue = RCC_MSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_4;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
-  RCC_OscInitStruct.PLL.PLLM = 1;
-  RCC_OscInitStruct.PLL.PLLN = 80;
-  RCC_OscInitStruct.PLL.PLLR = 2; /* 4MHz * 80 / 2 = 160 MHz */
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
-                              |RCC_CLOCKTYPE_PCLK3;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB3CLKDivider = RCC_HCLK_DIV1;
-
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
-  {
-    Error_Handler();
-  }
+  /* Jam sistem dan pengatur tegangan (VOS1 160MHz) sudah dikonfigurasi penuh oleh Secure world.
+     Di Non-Secure cukup update SystemCoreClock untuk kalkulasi SysTick, peripheral, dan RTOS. */
+  SystemCoreClockUpdate();
 }
 
 /**
@@ -424,6 +403,9 @@ static void MX_USART1_UART_Init(void)
   {
     Error_Handler();
   }
+  HAL_NVIC_SetPriority(USART1_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(USART1_IRQn);
+  HAL_UART_Receive_IT(&huart1, &s_usart1_rx_char, 1);
 }
 
 /**
