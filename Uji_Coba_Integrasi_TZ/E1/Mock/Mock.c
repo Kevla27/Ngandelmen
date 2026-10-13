@@ -188,6 +188,17 @@ uint32_t ADE9000_Mock_ReadRegister(uint16_t address)
 		case ADE9000_RUN:
 			return device.RUN;
 
+		case ADE9000_STATUS0:
+			return device.STATUS0;
+
+		case ADE9000_STATUS1:
+			return device.STATUS1;
+
+		case ADE9000_MASK0:
+			return device.MASK0;
+
+		case ADE9000_MASK1:
+			return device.MASK1;
 
 		default:
 			printf("Mock: unknown register 0x%03X\n", address);
@@ -206,6 +217,24 @@ void ADE9000_Mock_WriteRegister(uint16_t address,
 	{
 		case ADE9000_RUN:
 			device.RUN = value;
+			break;
+
+		case ADE9000_STATUS0:
+			/* ADE9000 STATUS registers are Write-1-to-Clear */
+			device.STATUS0 &= ~value;
+			break;
+
+		case ADE9000_STATUS1:
+			/* ADE9000 STATUS registers are Write-1-to-Clear */
+			device.STATUS1 &= ~value;
+			break;
+
+		case ADE9000_MASK0:
+			device.MASK0 = value;
+			break;
+
+		case ADE9000_MASK1:
+			device.MASK1 = value;
 			break;
 
 		default:
@@ -620,3 +649,28 @@ bool ADE9000_Mock_SPI_BurstRead(
 
     return true;
 }
+
+
+/* =========================================================
+ * STATUS & MASK SETTERS
+ * ========================================================= */
+
+void ADE9000_Mock_SetSTATUS0(uint32_t value)
+{
+	device.STATUS0 = value;
+}
+
+void ADE9000_Mock_SetSTATUS1(uint32_t value)
+{
+	device.STATUS1 = value;
+}
+
+void ADE9000_Mock_SetMASK0(uint32_t value)
+{
+	device.MASK0 = value;
+}
+
+void ADE9000_Mock_SetMASK1(uint32_t value)
+{
+	device.MASK1 = value;
+}

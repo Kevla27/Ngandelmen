@@ -203,4 +203,28 @@ void USART1_IRQHandler(void)
 {
   HAL_UART_IRQHandler(&huart1);
 }
+
+/**
+  * @brief This function handles PVD through EXTI Line detection interrupt (Last-Gasp).
+  */
+void PVD_PVM_IRQHandler(void)
+{
+  HAL_PWR_PVD_IRQHandler();
+}
+
+/**
+  * @brief This function handles EXTI Line 0 interrupt (ADE9000 Hardware IRQ0).
+  */
+void EXTI0_IRQHandler(void)
+{
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
+}
+
+/**
+  * @brief This function handles EXTI Line 1 interrupt (ADE9000 Hardware IRQ1).
+  */
+void EXTI1_IRQHandler(void)
+{
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_1);
+}
 /* USER CODE END 1 */

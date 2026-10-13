@@ -349,6 +349,9 @@ static void MX_GPIO_Init(void)
   NVIC_SetTargetState(I2C1_ER_IRQn);
   NVIC_SetTargetState(GPDMA1_Channel0_IRQn);
   NVIC_SetTargetState(GPDMA1_Channel1_IRQn);
+  NVIC_SetTargetState(PVD_PVM_IRQn);
+  NVIC_SetTargetState(EXTI0_IRQn);
+  NVIC_SetTargetState(EXTI1_IRQn);
 
   /* Reconfigure PC13 for Tamper Case Open:
    * Pada board NUCLEO-U575ZI-Q, tombol B1 menghubungkan PC13 ke VDD (Active HIGH)

@@ -31,6 +31,8 @@
 #include "metrology_adapter.h"
 #include "secure_nsc.h"
 #include "bsp_alarm_buzzer.h"
+#include "bsp_pvd.h"
+#include "bsp_ade9000_irq.h"
 #include <stdio.h>
 #include <string.h>
 /* USER CODE END Includes */
@@ -136,12 +138,26 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
         } else if (s_usart1_rx_char == '4') {
             printf("\r\n[SIMULASI] Sabotase Kawat Netral Hilang (ERR23) via konsol UART!\r\n");
             rtos_tamper_record_event(DLMS_TAMPER_MISSING_NEUTRAL, true);
+        } else if (s_usart1_rx_char == '5') {
+            printf("\r\n[SIMULASI] Injeksi HW ADE9000 IRQ0: Reverse Power Tamper (ERR26)!\r\n");
+            bsp_ade9000_irq_simulate_trigger(0, ADE9000_STATUS0_REV_ALL);
+        } else if (s_usart1_rx_char == '6') {
+            printf("\r\n[SIMULASI] Injeksi HW ADE9000 IRQ1: Missing Neutral Tamper (ERR23)!\r\n");
+            bsp_ade9000_irq_simulate_trigger(1, ADE9000_STATUS1_MISNEUT);
+        } else if (s_usart1_rx_char == '7') {
+            printf("\r\n[SIMULASI] Injeksi HW ADE9000 IRQ1: Hilang Tegangan Fase / Sag (ERR24)!\r\n");
+            bsp_ade9000_irq_simulate_trigger(1, ADE9000_STATUS1_SAG);
+        } else if (s_usart1_rx_char == '8') {
+            printf("\r\n[SIMULASI] Injeksi HW ADE9000 IRQ0: Urutan Fase Terbalik (ERR21)!\r\n");
+            bsp_ade9000_irq_simulate_trigger(0, ADE9000_STATUS0_PWRORD);
         } else if (s_usart1_rx_char == '0') {
             printf("\r\n[SIMULASI] Pulihkan Status Sabotase ke Normal via konsol UART!\r\n");
             rtos_tamper_record_event(DLMS_TAMPER_TERMINAL_COVER_OPEN, false);
             rtos_tamper_record_event(DLMS_TAMPER_MAGNETIC_INDUCTION, false);
             rtos_tamper_record_event(DLMS_TAMPER_REVERSE_CURRENT, false);
             rtos_tamper_record_event(DLMS_TAMPER_MISSING_NEUTRAL, false);
+            rtos_tamper_record_event(DLMS_TAMPER_MISSING_VOLTAGE, false);
+            rtos_tamper_record_event(DLMS_TAMPER_WRONG_PHASE_SEQ, false);
         } else if (s_usart1_rx_char == 'p' || s_usart1_rx_char == 'P') {
             printf("\r\n[SIMULASI] Injeksi Beban Berlebih (Power Limiter Trip) via konsol UART!\r\n");
             rtos_power_relay_simulate_power_trip();
@@ -151,6 +167,11 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
         } else if (s_usart1_rx_char == 'c' || s_usart1_rx_char == 'C') {
             printf("\r\n[SIMULASI] Aksi Tombol Lokal Konfirmasi Reconnect via konsol UART!\r\n");
             rtos_power_relay_confirm_reconnect();
+        } else if (s_usart1_rx_char == 'v') {
+            printf("\r\n[SIMULASI] Penurunan Catu Daya PVD (Last-Gasp Sequence) via konsol UART!\r\n");
+            bsp_pvd_simulate_power_fail();
+        } else if (s_usart1_rx_char == 'V') {
+            bsp_pvd_simulate_power_restore();
         } else if (s_usart1_rx_char == 'h' || s_usart1_rx_char == 'H' || s_usart1_rx_char == '?') {
             printf("\r\n======================================================\r\n");
             printf("             KONSOL PERINTAH UJI COBA UART            \r\n");
@@ -160,11 +181,17 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
             printf(" [2]   : Trigger Induksi Medan Magnet >500mT (ERR25)  \r\n");
             printf(" [3]   : Trigger Arus Balik / Reverse Power (ERR26)   \r\n");
             printf(" [4]   : Trigger Kawat Netral Hilang / Putus (ERR23)  \r\n");
+            printf(" [5]   : Simulasi HW ADE9000 IRQ0 - Reverse (ERR26)   \r\n");
+            printf(" [6]   : Simulasi HW ADE9000 IRQ1 - Netral (ERR23)    \r\n");
+            printf(" [7]   : Simulasi HW ADE9000 IRQ1 - Hilang V (ERR24)  \r\n");
+            printf(" [8]   : Simulasi HW ADE9000 IRQ0 - Urutan F (ERR21)  \r\n");
             printf(" [0]   : Pulihkan Sabotase ke Normal (Status: Pulih)  \r\n");
             printf(" [l]   : Tampilkan Daftar Rekaman Tamper Log (Dump)   \r\n");
             printf(" [p]   : Simulasi Beban Berlebih (Power Limiter Trip) \r\n");
             printf(" [r]   : Remote Reconnect DLMS (Menuju READY ON)      \r\n");
             printf(" [c]   : Konfirmasi Tombol Lokal Reconnect Relai      \r\n");
+            printf(" [v]   : Simulasi PVD Power-Fail (Last-Gasp Flash Save)\r\n");
+            printf(" [V]   : Pulihkan Status Catu Daya Normal (Vdd OK)    \r\n");
             printf(" [h/?] : Tampilkan Menu Bantuan Ini                   \r\n");
             printf("======================================================\r\n\r\n");
         }
@@ -233,6 +260,8 @@ int main(void)
   metrology_adapter_sample(&initial_meas);
 
   rtos_system_init();
+  bsp_pvd_init();
+  bsp_ade9000_irq_init();
   rtos_meter_data_publish(&initial_meas);
   rtos_metrology_set_sample_cb(metrology_adapter_sample);
   rtos_dlms_task_set_tx_cb(dlms_uart_tx_callback);

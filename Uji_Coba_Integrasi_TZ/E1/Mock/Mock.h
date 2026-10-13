@@ -98,6 +98,10 @@ typedef struct
      * ========================= */
 
     uint32_t RUN;
+    uint32_t STATUS0;
+    uint32_t STATUS1;
+    uint32_t MASK0;
+    uint32_t MASK1;
 
 } ADE9000_Mock_t;
 
@@ -183,6 +187,15 @@ void ADE9000_Mock_SetCPERIOD(uint32_t value);
  * ========================= */
 
 void ADE9000_Mock_SetNIRMS(uint32_t value);
+
+/* =========================
+ * STATUS & MASK SETTERS
+ * ========================= */
+
+void ADE9000_Mock_SetSTATUS0(uint32_t value);
+void ADE9000_Mock_SetSTATUS1(uint32_t value);
+void ADE9000_Mock_SetMASK0(uint32_t value);
+void ADE9000_Mock_SetMASK1(uint32_t value);
 
 /* =========================
  * SPI TRANSACTION MOCK

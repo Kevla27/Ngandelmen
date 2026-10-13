@@ -24,6 +24,12 @@ add_library(dlms_core STATIC
     protocols/dlms/src/dlms_nvm.c
     drivers/bsp/src/bsp_lpuart_dma.c
     drivers/bsp/src/bsp_alarm_buzzer.c
+    drivers/bsp/src/bsp_pvd.c
+    drivers/bsp/src/bsp_ade9000_irq.c
+    ../E1/Metrology/Metrology.c
+    ../E1/Mock/Mock.c
+    ../E1/SPI/SPI.c
+    ../E1/Adapter/metrology_adapter.c
     app/display/src/display.c
     app/display/src/display_task.c
     app/tamper/src/tamper_manager.c
@@ -43,6 +49,11 @@ target_include_directories(dlms_core PUBLIC
     app/fsm/inc
     sys/inc
     app/profiling/inc
+    ../E1/Adapter
+    ../E1/Metrology
+    ../E1/Mock
+    ../E1/SPI
+    ../E1/RegisterMap
 )
 
 # Host Unit Testing Setup
@@ -59,6 +70,8 @@ if(BUILD_TESTS)
         test_dlms_task
         test_dlms_nvm
         test_bsp_lpuart
+        test_bsp_pvd
+        test_bsp_ade9000_irq
         test_e3_app
         test_fsm_statechart
         test_load_profile
@@ -78,6 +91,8 @@ if(BUILD_TESTS)
         tests/protocols/test_dlms_task.c
         tests/protocols/test_dlms_nvm.c
         tests/drivers/test_bsp_lpuart.c
+        tests/drivers/test_bsp_pvd.c
+        tests/drivers/test_bsp_ade9000_irq.c
         tests/app/test_e3_app.c
         tests/app/test_fsm_statechart.c
         tests/app/test_load_profile.c
@@ -102,15 +117,6 @@ if(BUILD_TESTS)
     # Integrasi Test 2: E1 (Metrologi ADE9000 Mock) -> E3 (Meas) -> E2 (DLMS/COSEM OBIS)
     add_executable(test_e1_to_e2_integration
         ${CMAKE_CURRENT_SOURCE_DIR}/../tests/test_e1_to_e2_integration.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../E1/Metrology/Metrology.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../E1/Mock/Mock.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../E1/SPI/SPI.c
-    )
-    target_include_directories(test_e1_to_e2_integration PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/../E1/Metrology
-        ${CMAKE_CURRENT_SOURCE_DIR}/../E1/Mock
-        ${CMAKE_CURRENT_SOURCE_DIR}/../E1/RegisterMap
-        ${CMAKE_CURRENT_SOURCE_DIR}/../E1/SPI
     )
     target_link_libraries(test_e1_to_e2_integration PRIVATE dlms_core)
     add_test(NAME test_e1_to_e2_integration COMMAND $<TARGET_FILE:test_e1_to_e2_integration>)
