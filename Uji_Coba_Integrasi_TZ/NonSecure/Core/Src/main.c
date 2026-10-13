@@ -35,6 +35,7 @@
 #include "bsp_ade9000_irq.h"
 #include "bsp_bringup_test.h"
 #include "bsp_rtc_tamp.h"
+#include "bsp_watchdog.h"
 #include <stdio.h>
 #include <string.h>
 /* USER CODE END Includes */
@@ -190,6 +191,19 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
             printf("\r\n[SIMULASI] Injeksi Sabotase Tutup Meter Saat Listrik Mati (Offline Tamper SPLN)!\r\n");
             bsp_rtc_tamp_simulate_offline_tamper(DLMS_TAMPER_METER_COVER_OPEN, HAL_GetTick() / 1000);
             bsp_rtc_tamp_process_offline_events();
+        } else if (s_usart1_rx_char == 'w') {
+            bsp_watchdog_status_t ws;
+            bsp_watchdog_get_status(&ws);
+            printf("\r\n[WATCHDOG] Telemetri Pengawas Multi-Task:\r\n");
+            printf("           Status Init    : %s\r\n", ws.is_initialized ? "AKTIF" : "NON-AKTIF");
+            printf("           Total Reset    : %lu kali\r\n", (unsigned long)ws.reset_counter);
+            printf("           Monitored Mask : 0x%02lX\r\n", (unsigned long)ws.monitored_mask);
+            printf("           Heartbeat Mask : 0x%02lX\r\n", (unsigned long)ws.current_heartbeat_mask);
+            printf("           Missing Mask   : 0x%02lX\r\n", (unsigned long)ws.missing_tasks_mask);
+            printf("           Timeout IWDG   : %lu ms\r\n", (unsigned long)ws.timeout_ms);
+        } else if (s_usart1_rx_char == 'W') {
+            printf("\r\n[SIMULASI] Bekukan DLMSTask untuk menguji Watchdog Supervisor Reset!\r\n");
+            bsp_watchdog_simulate_freeze_task(WATCHDOG_TASK_DLMS_BIT);
         } else if (s_usart1_rx_char == 'h' || s_usart1_rx_char == 'H' || s_usart1_rx_char == '?') {
             printf("\r\n======================================================\r\n");
             printf("             KONSOL PERINTAH UJI COBA UART            \r\n");
@@ -201,6 +215,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
             printf(" [a]   : Uji Aktuator Buzzer PB7 & Relai PC8/PC9      \r\n");
             printf(" [t/s] : Toggle Sabotase Tutup Meter (RUSAK / PC13)   \r\n");
             printf(" [o]   : Simulasi Sabotase Tutup Meter Saat Padam     \r\n");
+            printf(" [w]   : Status Telemetri Multi-Task Watchdog Supervisor\r\n");
+            printf(" [W]   : Simulasi Freeze DLMSTask (Uji Hard IWDG Reset)\r\n");
             printf(" [1]   : Trigger Tutup Terminal Dibuka (ERR20)        \r\n");
             printf(" [2]   : Trigger Induksi Medan Magnet >500mT (ERR25)  \r\n");
             printf(" [3]   : Trigger Arus Balik / Reverse Power (ERR26)   \r\n");
@@ -289,6 +305,7 @@ int main(void)
   bsp_bringup_init();
   bsp_rtc_tamp_init();
   bsp_rtc_tamp_process_offline_events();
+  bsp_watchdog_init(3000);
   rtos_meter_data_publish(&initial_meas);
   rtos_metrology_set_sample_cb(metrology_adapter_sample);
   rtos_dlms_task_set_tx_cb(dlms_uart_tx_callback);
@@ -302,6 +319,10 @@ int main(void)
 
   /* 5. Mulai Scheduler FreeRTOS */
   vTaskStartScheduler();
+
+  /* Jika eksekusi mencapai baris ini, berarti kernel FreeRTOS gagal jalan (Heap habis) */
+  printf("\r\n[FATAL ERROR] vTaskStartScheduler() GAGAL memulai kernel! (Heap Habis)\r\n");
+
   /* USER CODE END 2 */
 
   /* Infinite loop */

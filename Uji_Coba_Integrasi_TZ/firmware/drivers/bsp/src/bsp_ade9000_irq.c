@@ -15,6 +15,7 @@
 #include "Mock.h"
 #include "rtos_tasks.h"
 #include "display_task.h"
+#include "bsp_watchdog.h"
 #include <stdio.h>
 #include <time.h>
 #include <stdbool.h>
@@ -234,8 +235,11 @@ void bsp_ade9000_irq_task_entry(void *pvParameters) {
     printf("[ADE9000 IRQ] Worker Task Aktif (Priority 5, Protected SPI Mutex).\r\n");
     for (;;) {
 #if defined(EMBEDDED_HARDWARE_TARGET) || defined(USE_FREERTOS)
-        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
-        bsp_ade9000_irq_bottom_half_process();
+        uint32_t notify_val = ulTaskNotifyTake(pdTRUE, pdMS_TO_TICKS(1000));
+        bsp_watchdog_kick_task(WATCHDOG_TASK_ADE9000_BIT);
+        if (notify_val > 0) {
+            bsp_ade9000_irq_bottom_half_process();
+        }
 #else
         break;
 #endif

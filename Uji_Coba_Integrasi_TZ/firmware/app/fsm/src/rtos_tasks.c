@@ -12,6 +12,7 @@
 #include "display_task.h"
 #include "bsp_alarm_buzzer.h"
 #include "bsp_ade9000_irq.h"
+#include "bsp_watchdog.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -231,6 +232,7 @@ void task_tamper_emergency_entry(void *pvParameters) {
             bsp_alarm_buzzer_set(false);
         }
 
+        bsp_watchdog_kick_task(WATCHDOG_TASK_TAMPER_BIT);
         vTaskDelay(pdMS_TO_TICKS(200));
     }
 }
@@ -289,6 +291,7 @@ void task_metrology_profiling_entry(void *pvParameters) {
             printf("[PROFILE] Snapshot profil beban 15-menit berhasil dibekukan.\r\n");
         }
 
+        bsp_watchdog_kick_task(WATCHDOG_TASK_METROLOGY_BIT);
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
@@ -356,6 +359,7 @@ void task_dlms_entry(void *pvParameters) {
             rtos_dlms_process_tamper_event(&event_msg);
         }
 
+        bsp_watchdog_kick_task(WATCHDOG_TASK_DLMS_BIT);
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
@@ -364,6 +368,7 @@ void task_ui_display_entry(void *pvParameters) {
     (void)pvParameters;
     /* Diimplementasikan oleh task_oled128x32_carousel di display_task.c */
     for (;;) {
+        bsp_watchdog_kick_task(WATCHDOG_TASK_UI_BIT);
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
@@ -389,6 +394,10 @@ bool rtos_start_all_tasks(void) {
     }
     if (!bsp_ade9000_irq_start_worker_task()) {
         printf("[ERROR] Gagal membuat ADE9000 IRQ Worker Task!\r\n");
+        res = pdFAIL;
+    }
+    if (!bsp_watchdog_start_supervisor_task()) {
+        printf("[ERROR] Gagal membuat Watchdog Supervisor Task!\r\n");
         res = pdFAIL;
     }
     return (res == pdPASS);

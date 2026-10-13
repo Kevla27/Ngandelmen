@@ -6,6 +6,7 @@
 #include "display_task.h"
 #include "display.h"
 #include "rtos_tasks.h"
+#include "bsp_watchdog.h"
 #if defined(EMBEDDED_HARDWARE_TARGET) || defined(USE_FREERTOS)
 #include "FreeRTOS.h"
 #include "task.h"
@@ -131,6 +132,7 @@ void task_oled128x32_carousel(void *pvParameters)
                    spln_frame.is_alarm_active ? "!ALM (SABOTASE)" : "NORMAL");
         }
 
+        bsp_watchdog_kick_task(WATCHDOG_TASK_UI_BIT);
         vTaskDelay(pdMS_TO_TICKS(100));
         elapsed_accumulator_ms += 100;
     }

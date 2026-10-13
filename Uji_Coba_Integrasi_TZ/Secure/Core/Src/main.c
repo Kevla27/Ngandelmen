@@ -147,10 +147,11 @@ static void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI | RCC_OSCILLATORTYPE_LSI;
   RCC_OscInitStruct.MSIState = RCC_MSI_ON;
   RCC_OscInitStruct.MSICalibrationValue = RCC_MSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_4;
+  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
   RCC_OscInitStruct.PLL.PLLM = 1;
@@ -332,10 +333,19 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_ConfigPinAttributes(GPIOB, GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9, GPIO_PIN_NSEC);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
-  /* Pastikan peripheral I2C1, LPUART1, dan USART1 berstatus Non-Secure di GTZC TZSC */
+  /* Pastikan peripheral I2C1, LPUART1, USART1, IWDG, TAMP, dan RTC berstatus Non-Secure di GTZC TZSC */
   HAL_GTZC_TZSC_ConfigPeriphAttributes(GTZC_PERIPH_I2C1, GTZC_TZSC_PERIPH_NSEC);
   HAL_GTZC_TZSC_ConfigPeriphAttributes(GTZC_PERIPH_LPUART1, GTZC_TZSC_PERIPH_NSEC);
   HAL_GTZC_TZSC_ConfigPeriphAttributes(GTZC_PERIPH_USART1, GTZC_TZSC_PERIPH_NSEC);
+  HAL_GTZC_TZSC_ConfigPeriphAttributes(GTZC_PERIPH_IWDG, GTZC_TZSC_PERIPH_NSEC);
+  HAL_GTZC_TZSC_ConfigPeriphAttributes(GTZC_PERIPH_TAMP, GTZC_TZSC_PERIPH_NSEC);
+  HAL_GTZC_TZSC_ConfigPeriphAttributes(GTZC_PERIPH_RTC, GTZC_TZSC_PERIPH_NSEC);
+
+  /* Buka proteksi Backup Domain dan jadikan seluruh register TAMP Non-Secure */
+  __HAL_RCC_PWR_CLK_ENABLE();
+  HAL_PWR_EnableBkUpAccess();
+  __HAL_RCC_RTCAPB_CLK_ENABLE();
+  TAMP->SECCFGR = 0U; /* Seluruh Backup Register & TAMP dapat diakses Non-Secure */
 
   /* Alokasikan GPDMA1 Channel 0 dan Channel 1 ke Non-Secure */
   __HAL_RCC_GPDMA1_CLK_ENABLE();
@@ -352,6 +362,8 @@ static void MX_GPIO_Init(void)
   NVIC_SetTargetState(PVD_PVM_IRQn);
   NVIC_SetTargetState(EXTI0_IRQn);
   NVIC_SetTargetState(EXTI1_IRQn);
+  NVIC_SetTargetState(RTC_IRQn);
+  NVIC_SetTargetState(TAMP_IRQn);
 
   /* Reconfigure PC13 for Tamper Case Open:
    * Pada board NUCLEO-U575ZI-Q, tombol B1 menghubungkan PC13 ke VDD (Active HIGH)
