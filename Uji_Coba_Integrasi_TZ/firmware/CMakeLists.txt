@@ -27,6 +27,7 @@ add_library(dlms_core STATIC
     drivers/bsp/src/bsp_pvd.c
     drivers/bsp/src/bsp_ade9000_irq.c
     drivers/bsp/src/bsp_bringup_test.c
+    drivers/bsp/src/bsp_rtc_tamp.c
     ../E1/Metrology/Metrology.c
     ../E1/Mock/Mock.c
     ../E1/SPI/SPI.c
@@ -74,6 +75,7 @@ if(BUILD_TESTS)
         test_bsp_pvd
         test_bsp_ade9000_irq
         test_bsp_bringup
+        test_bsp_rtc_tamp
         test_e3_app
         test_fsm_statechart
         test_load_profile
@@ -81,6 +83,7 @@ if(BUILD_TESTS)
         test_nvram_storage
         test_rtos_tasks
         test_power_relay
+        test_stress_soak
     )
 
     set(TEST_SOURCES
@@ -96,6 +99,7 @@ if(BUILD_TESTS)
         tests/drivers/test_bsp_pvd.c
         tests/drivers/test_bsp_ade9000_irq.c
         tests/drivers/test_bsp_bringup.c
+        tests/drivers/test_bsp_rtc_tamp.c
         tests/app/test_e3_app.c
         tests/app/test_fsm_statechart.c
         tests/app/test_load_profile.c
@@ -103,6 +107,7 @@ if(BUILD_TESTS)
         tests/app/test_nvram_storage.c
         tests/app/test_rtos_tasks.c
         tests/app/test_power_relay.c
+        tests/app/test_stress_soak.c
     )
 
     # Memasangkan nama target dan source file secara aman menggunakan ZIP_LISTS
