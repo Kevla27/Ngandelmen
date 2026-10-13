@@ -11,6 +11,7 @@
 #include "dlms_obis.h"
 #include "display_task.h"
 #include "bsp_alarm_buzzer.h"
+#include "bsp_ade9000_irq.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -384,6 +385,10 @@ bool rtos_start_all_tasks(void) {
     }
     if (xTaskCreate(task_oled128x32_carousel, "OLEDTask", STACK_SIZE_UI, NULL, PRIORITY_TASK_UI, NULL) != pdPASS) {
         printf("[ERROR] Gagal membuat OLEDTask!\r\n");
+        res = pdFAIL;
+    }
+    if (!bsp_ade9000_irq_start_worker_task()) {
+        printf("[ERROR] Gagal membuat ADE9000 IRQ Worker Task!\r\n");
         res = pdFAIL;
     }
     return (res == pdPASS);

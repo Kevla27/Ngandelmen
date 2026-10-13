@@ -8,6 +8,7 @@
 #include "Mock.h"
 #include "Metrology.h"
 #include "SPI.h"
+#include "bsp_ade9000_irq.h"
 #include <string.h>
 #include <math.h>
 
@@ -55,7 +56,10 @@ void metrology_adapter_sample(meter_measurements_t *out_meas)
 {
     if (out_meas == NULL) return;
 
-    /* 1. Baca register RMS Tegangan & Arus via SPI Driver E1 */
+    /* 1. Ambil SPI Mutex untuk mencegah tabrakan dengan interupsi ADE9000 Bottom-Half */
+    bsp_ade9000_spi_lock();
+
+    /* Baca register RMS Tegangan & Arus via SPI Driver E1 */
     uint32_t airms = ADE9000_SPI_ReadRegister(ADE9000_AIRMS);
     uint32_t birms = ADE9000_SPI_ReadRegister(ADE9000_BIRMS);
     uint32_t cirms = ADE9000_SPI_ReadRegister(ADE9000_CIRMS);
@@ -79,6 +83,9 @@ void metrology_adapter_sample(meter_measurements_t *out_meas)
     uint32_t bwatthr_lo = ADE9000_SPI_ReadRegister(ADE9000_BWATTHR_LO);
     uint32_t cwatthr_hi = ADE9000_SPI_ReadRegister(ADE9000_CWATTHR_HI);
     uint32_t cwatthr_lo = ADE9000_SPI_ReadRegister(ADE9000_CWATTHR_LO);
+
+    /* Lepaskan SPI Mutex segera setelah transaksi SPI selesai */
+    bsp_ade9000_spi_unlock();
 
     /* 4. Konversi nilai mentah register ke unit engineering menggunakan library Metrology E1 */
     float va = Metrology_VoltageFromAVRMS(avrms);

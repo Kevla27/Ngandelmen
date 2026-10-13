@@ -1,4 +1,4 @@
-mni/**
+/**
  * @file bsp_pin_mapping.h
  * @brief Pemetaan Pinout Hardware Terpusat (Hardware Abstraction Pinout Config)
  * 

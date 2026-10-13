@@ -33,6 +33,7 @@
 #include "bsp_alarm_buzzer.h"
 #include "bsp_pvd.h"
 #include "bsp_ade9000_irq.h"
+#include "bsp_bringup_test.h"
 #include <stdio.h>
 #include <string.h>
 /* USER CODE END Includes */
@@ -172,10 +173,27 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
             bsp_pvd_simulate_power_fail();
         } else if (s_usart1_rx_char == 'V') {
             bsp_pvd_simulate_power_restore();
+        } else if (s_usart1_rx_char == 'b' || s_usart1_rx_char == 'B') {
+            bsp_bringup_print_menu();
+        } else if (s_usart1_rx_char == 'i' || s_usart1_rx_char == 'I') {
+            bsp_bringup_test_i2c_bus();
+        } else if (s_usart1_rx_char == 'm' || s_usart1_rx_char == 'M') {
+            bsp_bringup_test_ade9000_comm();
+        } else if (s_usart1_rx_char == 'a' || s_usart1_rx_char == 'A') {
+            bsp_bringup_test_gpio_actuators();
+        } else if (s_usart1_rx_char == 'd' || s_usart1_rx_char == 'D') {
+            bsp_bringup_run_all(NULL);
+        } else if (s_usart1_rx_char == 'n' || s_usart1_rx_char == 'N') {
+            bsp_bringup_test_nvram_storage();
         } else if (s_usart1_rx_char == 'h' || s_usart1_rx_char == 'H' || s_usart1_rx_char == '?') {
             printf("\r\n======================================================\r\n");
             printf("             KONSOL PERINTAH UJI COBA UART            \r\n");
             printf("======================================================\r\n");
+            printf(" [b]   : Buka Menu Diagnostik Hardware Bring-Up Spin 1\r\n");
+            printf(" [d]   : Jalankan Full Built-In Self-Test (BIST All)  \r\n");
+            printf(" [i]   : Pemindaian Bus I2C (I2C Address Scanner)     \r\n");
+            printf(" [m]   : Uji Integritas Komunikasi SPI ADE9000        \r\n");
+            printf(" [a]   : Uji Aktuator Buzzer PB7 & Relai PC8/PC9      \r\n");
             printf(" [t/s] : Toggle Sabotase Tutup Meter (RUSAK / PC13)   \r\n");
             printf(" [1]   : Trigger Tutup Terminal Dibuka (ERR20)        \r\n");
             printf(" [2]   : Trigger Induksi Medan Magnet >500mT (ERR25)  \r\n");
@@ -262,6 +280,7 @@ int main(void)
   rtos_system_init();
   bsp_pvd_init();
   bsp_ade9000_irq_init();
+  bsp_bringup_init();
   rtos_meter_data_publish(&initial_meas);
   rtos_metrology_set_sample_cb(metrology_adapter_sample);
   rtos_dlms_task_set_tx_cb(dlms_uart_tx_callback);

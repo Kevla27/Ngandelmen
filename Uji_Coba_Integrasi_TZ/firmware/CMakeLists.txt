@@ -26,6 +26,7 @@ add_library(dlms_core STATIC
     drivers/bsp/src/bsp_alarm_buzzer.c
     drivers/bsp/src/bsp_pvd.c
     drivers/bsp/src/bsp_ade9000_irq.c
+    drivers/bsp/src/bsp_bringup_test.c
     ../E1/Metrology/Metrology.c
     ../E1/Mock/Mock.c
     ../E1/SPI/SPI.c
@@ -72,6 +73,7 @@ if(BUILD_TESTS)
         test_bsp_lpuart
         test_bsp_pvd
         test_bsp_ade9000_irq
+        test_bsp_bringup
         test_e3_app
         test_fsm_statechart
         test_load_profile
@@ -93,6 +95,7 @@ if(BUILD_TESTS)
         tests/drivers/test_bsp_lpuart.c
         tests/drivers/test_bsp_pvd.c
         tests/drivers/test_bsp_ade9000_irq.c
+        tests/drivers/test_bsp_bringup.c
         tests/app/test_e3_app.c
         tests/app/test_fsm_statechart.c
         tests/app/test_load_profile.c

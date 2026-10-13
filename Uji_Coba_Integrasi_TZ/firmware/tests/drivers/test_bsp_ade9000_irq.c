@@ -98,6 +98,41 @@ int main(void) {
     assert(rx_msg.is_active == true);
     printf("[TEST] Verify IRQ1 Voltage Sag Dispatched to RTOS Queue: SUCCESS\n");
 
+    /* 7. Uji Coba Arsitektur Deferred Bottom-Half & SPI Mutex */
+    printf("\n[TEST] Menguji Pemisahan Top-Half ISR & Bottom-Half Worker Task...\n");
+    bsp_ade9000_irq_set_deferred_mode(true);
+
+    /* Simulasi Register STATUS0 terisi oleh hardware */
+    ADE9000_Mock_SetSTATUS0(ADE9000_STATUS0_REVBP);
+
+    /* Panggil Top-Half ISR (cepat, < 1 µs, tanpa transaksi SPI) */
+    bsp_ade9000_irq0_isr();
+
+    /* Verifikasi: Top-Half hanya mencatat pending flag dan counter, belum menyentuh SPI */
+    assert((bsp_ade9000_irq_get_pending_flags() & ADE9000_IRQ_FLAG_IRQ0) != 0);
+    assert(ADE9000_Mock_ReadRegister(ADE9000_STATUS0) == ADE9000_STATUS0_REVBP);
+    printf("[TEST] Top-Half ISR: Pending Flag Set, SPI Register Belum Dieksekusi (Aman): SUCCESS\n");
+
+    /* Uji SPI Mutex lock & unlock */
+    bsp_ade9000_spi_lock();
+    bsp_ade9000_spi_unlock();
+    printf("[TEST] SPI Mutex Lock & Unlock: SUCCESS\n");
+
+    /* Panggil Bottom-Half Worker Process (dijalankan di task context) */
+    bsp_ade9000_irq_bottom_half_process();
+
+    /* Verifikasi: Bottom-Half membaca status, Write-1-to-Clear, dan menghapus pending flag */
+    assert((bsp_ade9000_irq_get_pending_flags() & ADE9000_IRQ_FLAG_IRQ0) == 0);
+    assert(ADE9000_Mock_ReadRegister(ADE9000_STATUS0) == 0);
+    assert(bsp_ade9000_irq_get_last_status0() == ADE9000_STATUS0_REVBP);
+
+    received = rtos_queue_receive_tamper_event(&rx_msg, 0);
+    assert(received == true);
+    assert(rx_msg.tamper_code == DLMS_TAMPER_REVERSE_CURRENT);
+    printf("[TEST] Bottom-Half Worker: SPI Read & Clear under Mutex Completed: SUCCESS\n");
+
+    bsp_ade9000_irq_set_deferred_mode(false);
+
     printf("\n=========================================\n");
     printf("   SEMUA PENGUJIAN BSP ADE9000 IRQ LULUS \n");
     printf("=========================================\n");

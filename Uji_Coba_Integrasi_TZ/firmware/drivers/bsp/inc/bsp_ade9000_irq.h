@@ -45,23 +45,80 @@ extern "C" {
 #define ADE9000_STATUS1_ISUM        (1U << 25)  /**< Current Sum Anomaly */
 
 /* ========================================================================== */
+/*                ADE9000 IRQ PENDING FLAGS & DEFERRED DEFS                   */
+/* ========================================================================== */
+#define ADE9000_IRQ_FLAG_IRQ0       (1U << 0)   /**< Pending flag IRQ0 (PB0 Falling Edge) */
+#define ADE9000_IRQ_FLAG_IRQ1       (1U << 1)   /**< Pending flag IRQ1 (PB1 Falling Edge) */
+
+/* ========================================================================== */
 /*                           PUBLIC API DEFINITION                            */
 /* ========================================================================== */
 
 /**
- * @brief Inisialisasi GPIO PB0 (IRQ0) & PB1 (IRQ1), interrupt EXTI, dan konfigurasi mask register ADE9000
+ * @brief Inisialisasi GPIO PB0 (IRQ0) & PB1 (IRQ1), interrupt EXTI, SPI Mutex, dan mask register ADE9000
  */
 void bsp_ade9000_irq_init(void);
 
 /**
- * @brief Handler interupsi hardware ADE9000 IRQ0 (Dipanggil saat PB0 Falling Edge / EXTI0)
+ * @brief Top-Half ISR hardware ADE9000 IRQ0 (PB0 Falling Edge / EXTI0)
+ * Sangat cepat (< 1 µs), hanya mencatat pending flag dan memicu notifikasi FreeRTOS task.
+ * TIDAK ADA transaksi SPI atau printf di dalam fungsi ini.
+ */
+void bsp_ade9000_irq0_isr(void);
+
+/**
+ * @brief Top-Half ISR hardware ADE9000 IRQ1 (PB1 Falling Edge / EXTI1)
+ * Sangat cepat (< 1 µs), hanya mencatat pending flag dan memicu notifikasi FreeRTOS task.
+ * TIDAK ADA transaksi SPI atau printf di dalam fungsi ini.
+ */
+void bsp_ade9000_irq1_isr(void);
+
+/**
+ * @brief Handler interupsi hardware ADE9000 IRQ0 (Alias kompatibilitas untuk bsp_ade9000_irq0_isr)
  */
 void bsp_ade9000_irq0_handler(void);
 
 /**
- * @brief Handler interupsi hardware ADE9000 IRQ1 (Dipanggil saat PB1 Falling Edge / EXTI1)
+ * @brief Handler interupsi hardware ADE9000 IRQ1 (Alias kompatibilitas untuk bsp_ade9000_irq1_isr)
  */
 void bsp_ade9000_irq1_handler(void);
+
+/**
+ * @brief Pemrosesan Bottom-Half interupsi ADE9000 (Dijalankan di konteks FreeRTOS task)
+ * Mengunci SPI Mutex, membaca & acknowledge status register via SPI, lalu mengirimkan event ke RTOS Queue.
+ */
+void bsp_ade9000_irq_bottom_half_process(void);
+
+/**
+ * @brief FreeRTOS Task Entry Point untuk Bottom-Half Worker interupsi ADE9000
+ */
+void bsp_ade9000_irq_task_entry(void *pvParameters);
+
+/**
+ * @brief Membuat dan menjalankan Bottom-Half Worker Task di FreeRTOS (Prioritas 5)
+ */
+bool bsp_ade9000_irq_start_worker_task(void);
+
+/**
+ * @brief Mengunci akses ke bus SPI ADE9000 (Thread-Safe Mutex Lock)
+ */
+void bsp_ade9000_spi_lock(void);
+
+/**
+ * @brief Membuka kunci akses ke bus SPI ADE9000 (Thread-Safe Mutex Unlock)
+ */
+void bsp_ade9000_spi_unlock(void);
+
+/**
+ * @brief Mengambil bitmask pending flags IRQ yang belum diproses oleh Bottom-Half
+ */
+uint32_t bsp_ade9000_irq_get_pending_flags(void);
+
+/**
+ * @brief Mengatur mode deferred untuk pengujian unit test host
+ * @param enable true = deferred (Top-Half tidak langsung memanggil Bottom-Half), false = auto-process langsung
+ */
+void bsp_ade9000_irq_set_deferred_mode(bool enable);
 
 /**
  * @brief Mengambil total counter pemicuan interupsi IRQ0
@@ -84,7 +141,7 @@ uint32_t bsp_ade9000_irq_get_last_status0(void);
 uint32_t bsp_ade9000_irq_get_last_status1(void);
 
 /**
- * @brief Reset internal trigger counters dan status cache (terutama untuk unit test)
+ * @brief Reset internal trigger counters, status cache, dan pending flags (untuk unit test)
  */
 void bsp_ade9000_irq_reset_counters(void);
 
