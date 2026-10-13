@@ -131,43 +131,47 @@ void bsp_ade9000_irq_simulate_trigger(uint8_t irq_line, uint32_t status_val) {
 }
 
 #if defined(EMBEDDED_HARDWARE_TARGET) || defined(USE_FREERTOS)
-#include "stm32u5xx_hal.h"
+#include "bsp_pin_mapping.h"
 
 void bsp_ade9000_irq_init(void) {
     bsp_ade9000_irq_reset_counters();
 
-    /* 1. Aktifkan Clock Port GPIOB */
-    __HAL_RCC_GPIOB_CLK_ENABLE();
+    /* 1. Aktifkan Clock Port GPIO IRQ */
+    BSP_ADE9000_IRQ0_CLK_ENABLE();
+    BSP_ADE9000_IRQ1_CLK_ENABLE();
 
-    /* 2. Konfigurasi PB0 (ADE9000 IRQ0) & PB1 (ADE9000 IRQ1) sebagai EXTI Falling Edge dengan Pull-Up */
+    /* 2. Konfigurasi IRQ0 & IRQ1 sebagai EXTI Falling Edge dengan Pull-Up */
     GPIO_InitTypeDef GPIO_InitStruct = {0};
-    GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1;
+    GPIO_InitStruct.Pin = BSP_ADE9000_IRQ0_PIN;
     GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+    HAL_GPIO_Init(BSP_ADE9000_IRQ0_GPIO_PORT, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = BSP_ADE9000_IRQ1_PIN;
+    HAL_GPIO_Init(BSP_ADE9000_IRQ1_GPIO_PORT, &GPIO_InitStruct);
 
     /* 3. Atur Prioritas NVIC ke 5 (Syscall Safe untuk FreeRTOS) & Aktifkan Interupsi */
-    HAL_NVIC_SetPriority(EXTI0_IRQn, 5, 0);
-    HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+    HAL_NVIC_SetPriority(BSP_ADE9000_IRQ0_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(BSP_ADE9000_IRQ0_IRQn);
 
-    HAL_NVIC_SetPriority(EXTI1_IRQn, 5, 0);
-    HAL_NVIC_EnableIRQ(EXTI1_IRQn);
+    HAL_NVIC_SetPriority(BSP_ADE9000_IRQ1_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(BSP_ADE9000_IRQ1_IRQn);
 
     /* 4. Konfigurasi Enable Mask pada Register ADE9000 via SPI */
     ADE9000_SPI_WriteRegister(ADE9000_MASK0, ADE9000_STATUS0_REV_ALL | ADE9000_STATUS0_PWRORD);
     ADE9000_SPI_WriteRegister(ADE9000_MASK1, ADE9000_STATUS1_SAG_ALL | ADE9000_STATUS1_MISNEUT | ADE9000_STATUS1_ISUM);
 
-    printf("[ADE9000 IRQ] Driver Hardware IRQ0 (PB0) & IRQ1 (PB1) diinisialisasi.\r\n");
+    printf("[ADE9000 IRQ] Driver Hardware IRQ0 & IRQ1 diinisialisasi.\r\n");
 }
 
 /**
  * @brief Implementasi callback HAL EXTI Falling Edge saat pin berstatus Active-Low
  */
 void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin) {
-    if (GPIO_Pin == GPIO_PIN_0) {
+    if (GPIO_Pin == BSP_ADE9000_IRQ0_PIN) {
         bsp_ade9000_irq0_handler();
-    } else if (GPIO_Pin == GPIO_PIN_1) {
+    } else if (GPIO_Pin == BSP_ADE9000_IRQ1_PIN) {
         bsp_ade9000_irq1_handler();
     }
 }

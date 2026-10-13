@@ -7,34 +7,31 @@
 #include "bsp_alarm_buzzer.h"
 
 #if defined(EMBEDDED_HARDWARE_TARGET) || defined(USE_FREERTOS)
-#include "stm32u5xx_hal.h"
-
-#define ALARM_BUZZER_GPIO_PORT   GPIOB
-#define ALARM_BUZZER_PIN         GPIO_PIN_7
+#include "bsp_pin_mapping.h"
 
 void bsp_alarm_buzzer_init(void) {
-    __HAL_RCC_GPIOB_CLK_ENABLE();
+    BSP_BUZZER_CLK_ENABLE();
 
     GPIO_InitTypeDef GPIO_InitStruct = {0};
-    HAL_GPIO_WritePin(ALARM_BUZZER_GPIO_PORT, ALARM_BUZZER_PIN, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(BSP_BUZZER_GPIO_PORT, BSP_BUZZER_PIN, GPIO_PIN_RESET);
 
-    GPIO_InitStruct.Pin = ALARM_BUZZER_PIN;
+    GPIO_InitStruct.Pin = BSP_BUZZER_PIN;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    HAL_GPIO_Init(ALARM_BUZZER_GPIO_PORT, &GPIO_InitStruct);
+    HAL_GPIO_Init(BSP_BUZZER_GPIO_PORT, &GPIO_InitStruct);
 }
 
 void bsp_alarm_buzzer_set(bool on) {
-    HAL_GPIO_WritePin(ALARM_BUZZER_GPIO_PORT, ALARM_BUZZER_PIN, on ? GPIO_PIN_SET : GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(BSP_BUZZER_GPIO_PORT, BSP_BUZZER_PIN, on ? GPIO_PIN_SET : GPIO_PIN_RESET);
 }
 
 void bsp_alarm_buzzer_toggle(void) {
-    HAL_GPIO_TogglePin(ALARM_BUZZER_GPIO_PORT, ALARM_BUZZER_PIN);
+    HAL_GPIO_TogglePin(BSP_BUZZER_GPIO_PORT, BSP_BUZZER_PIN);
 }
 
 bool bsp_alarm_buzzer_get(void) {
-    return (HAL_GPIO_ReadPin(ALARM_BUZZER_GPIO_PORT, ALARM_BUZZER_PIN) == GPIO_PIN_SET);
+    return (HAL_GPIO_ReadPin(BSP_BUZZER_GPIO_PORT, BSP_BUZZER_PIN) == GPIO_PIN_SET);
 }
 
 #else
