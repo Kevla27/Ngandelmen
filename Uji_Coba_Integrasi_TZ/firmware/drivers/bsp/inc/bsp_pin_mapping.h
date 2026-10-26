@@ -39,13 +39,20 @@
 #define BSP_TAMPER_CASE_IRQn              EXTI13_IRQn
 #define BSP_TAMPER_CASE_CLK_ENABLE()      __HAL_RCC_GPIOC_CLK_ENABLE()
 
-/* --- 4. RELAI BEBAN (LATCHING RELAY PULSES - SPLN D3.006 Tabel 1 & Tabel 5) --- */
+/* --- 4. KONTROL RELAI BEBAN (METER SAMBUNGAN TIDAK LANGSUNG - SPLN D3.006: 2021 Butir 5.2, 5.3, Tabel 2 & Tabel 5) --- */
+/* Catatan Sambungan Tidak Langsung (CT Connection):
+ * - Pemutusan beban (Trip/Disconnect) menggunakan Kontak Relai Kontrol (PC8) yang memicu Shunt Trip MCCB eksternal.
+ * - Penyambungan kembali (Reconnect) dilakukan secara MANUAL oleh petugas paska Tripping Release (PC8 de-energized/LOW)
+ *   setelah menekan kombinasi tombol (PB_UP + PB_DN) pada meter (SPLN D3.006 Tabel 5 No 12).
+ * - Pin PC9 (sebelumnya RELAY_CLOSE pada meter langsung) ditiadakan / dialokasikan sebagai SPARE GPIO / CTRL_OUT. */
 #define BSP_RELAY_TRIP_GPIO_PORT          GPIOC
-#define BSP_RELAY_TRIP_PIN                GPIO_PIN_8    /* Pulsa Buka Relai 100ms */
-#define BSP_RELAY_CLOSE_GPIO_PORT         GPIOC
-#define BSP_RELAY_CLOSE_PIN               GPIO_PIN_9    /* Pulsa Tutup Relai 100ms */
+#define BSP_RELAY_TRIP_PIN                GPIO_PIN_8    /* Kontrol Shunt Trip MCCB Eksternal */
+#define BSP_CTRL_RELAY_TRIP_GPIO_PORT     GPIOC
+#define BSP_CTRL_RELAY_TRIP_PIN           GPIO_PIN_8    /* Alias Standar SPLN Tabel 2 */
 #define BSP_RELAY_FEEDBACK_GPIO_PORT      GPIOC
-#define BSP_RELAY_FEEDBACK_PIN            GPIO_PIN_7    /* Feedback Kontak Bantu Relai (ERR07) */
+#define BSP_RELAY_FEEDBACK_PIN            GPIO_PIN_7    /* Feedback Kontak Bantu Relai / MCCB (ERR07) */
+#define BSP_SPARE_PC9_GPIO_PORT           GPIOC
+#define BSP_SPARE_PC9_PIN                 GPIO_PIN_9    /* Spare GPIO / Auxiliary Digital Output */
 
 /* --- 5. KOMUNIKASI DUA ARAH MODEM (RS-232 DEDICATED - SPLN Butir 6.12.1 & Tabel 3) --- */
 #define BSP_MODEM_UART_INSTANCE           LPUART1
@@ -86,6 +93,35 @@
 /* --- 10. MONITORING TEGANGAN BATERAI (SPLN Butir 6.11 & Tabel 4 No 3) --- */
 #define BSP_BATTERY_SENSE_GPIO_PORT       GPIOA
 #define BSP_BATTERY_SENSE_PIN             GPIO_PIN_1    /* PA1 ADC1_IN6 Baterai 2.7V (ERR03) */
+
+/* --- 11. ADE9000 METROLOGI & KALIBRASI ENERGI (CF1, CF2, CF3/ZX, CF4/EVENT) --- */
+/* Sesuai Ketentuan Metrologi SPLN D3.006: 2021 Butir 6.10, Butir 7.1, & Pinout ADE9000:
+ * - CF1 (Pin 33 ADE9000 -> PE12): Keluaran Pulsa Kalibrasi Energi Aktif Total (imp/kWh, 80ms)
+ *   Paralel dengan Driver LED PB4 untuk verifikasi mandiri register Wh (AWATTHR, BWATTHR, CWATTHR).
+ * - CF2 (Pin 34 ADE9000 -> PE13): Keluaran Pulsa Kalibrasi Energi Reaktif Total (imp/kvarh, 80ms)
+ *   Paralel dengan Driver LED PB5 untuk validasi mandiri register varh 4-kuadran.
+ * - CF3/ZX (Pin 35 ADE9000 -> PE8): Sinyal Multifungsi:
+ *   1. Pulsa Energi Semu Total (CF3 / imp/kVAh)
+ *   2. Zero-Crossing AC (ZX): Deteksi perlintasan nol untuk Zero-Current Switching pemutus beban (PC8).
+ * - CF4/EVENT (Pin 36 ADE9000 -> PE11):
+ *   PENYESUAIAN ARSITEKTUR: Pin multifungsi CF4 dikonfigurasi sebagai EVENT (bukan lagi DREADY)
+ *   via register CFMODE[13:12]=10b. Berfungsi sebagai interupsi hardware Power Quality
+ *   (Voltage Sag/Dip Tabel 10, Voltage Swell Tabel 11, & Overcurrent Butir 10.4). */
+#define BSP_ADE_CF1_GPIO_PORT             GPIOE
+#define BSP_ADE_CF1_PIN                   GPIO_PIN_12   /* Pin 33 ADE9000: Pulsa Kalibrasi Wh */
+#define BSP_ADE_CF1_IRQn                  EXTI12_IRQn
+
+#define BSP_ADE_CF2_GPIO_PORT             GPIOE
+#define BSP_ADE_CF2_PIN                   GPIO_PIN_13   /* Pin 34 ADE9000: Pulsa Kalibrasi varh */
+#define BSP_ADE_CF2_IRQn                  EXTI13_IRQn
+
+#define BSP_ADE_CF3_ZX_GPIO_PORT          GPIOE
+#define BSP_ADE_CF3_ZX_PIN                GPIO_PIN_8    /* Pin 35 ADE9000: Zero-Crossing / CF3 kVAh */
+#define BSP_ADE_CF3_ZX_IRQn               EXTI8_IRQn
+
+#define BSP_ADE_EVENT_GPIO_PORT           GPIOE
+#define BSP_ADE_EVENT_PIN                 GPIO_PIN_11   /* Pin 36 ADE9000: PQ EVENT (Sag/Swell/OI) */
+#define BSP_ADE_EVENT_IRQn                EXTI11_IRQn
 
 #endif /* EMBEDDED_HARDWARE_TARGET || USE_FREERTOS */
 

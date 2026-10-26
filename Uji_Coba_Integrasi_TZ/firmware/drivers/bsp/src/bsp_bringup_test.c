@@ -119,7 +119,7 @@ bool bsp_bringup_test_ade9000_comm(void) {
 
 bool bsp_bringup_test_gpio_actuators(void) {
     printf("\r\n========================================================\r\n");
-    printf("   [DIAGNOSTIK 3] UJI AKTUATOR (BUZZER & RELAI BEBAN)   \r\n");
+    printf("   [DIAGNOSTIK 3] UJI AKTUATOR (BUZZER & SHUNT TRIP)    \r\n");
     printf("========================================================\r\n");
 
     printf("1. Menyalakan Buzzer / LED Alarm PB7 (200 ms)...\r\n");
@@ -133,16 +133,16 @@ bool bsp_bringup_test_gpio_actuators(void) {
     printf("   Buzzer dimatikan kembali.\r\n");
 
 #if defined(EMBEDDED_HARDWARE_TARGET) || defined(USE_FREERTOS)
-    /* Uji Pulsa Relai Trip PC8 dan Close PC9 jika GPIO terkonfigurasi */
-    printf("2. Menguji Pulsa Relai Beban PC8 (Trip) & PC9 (Close)...\r\n");
+    /* Uji Kontrol Pemutus Shunt Trip PC8 (Meter Sambungan Tidak Langsung - SPLN D3.006 Tabel 2) */
+    printf("2. Menguji Kontrol Pemutus Beban Shunt Trip PC8...\r\n");
     HAL_GPIO_WritePin(BSP_RELAY_TRIP_GPIO_PORT, BSP_RELAY_TRIP_PIN, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(BSP_RELAY_CLOSE_GPIO_PORT, BSP_RELAY_CLOSE_PIN, GPIO_PIN_RESET);
-    printf("   Pin Relai dalam kondisi aman (IDLE/LOW).\r\n");
+    printf("   Pin Shunt Trip PC8 dalam kondisi aman (IDLE/LOW - Tripping Release).\r\n");
+    printf("   (Catatan: Reconnect MCCB dilakukan secara MANUAL paska Tripping Release).\r\n");
 #else
-    printf("2. Simulasi Pulsa Relai PC8/PC9 (OK).\r\n");
+    printf("2. Simulasi Kontrol Shunt Trip PC8 (OK - Tripping Release).\r\n");
 #endif
 
-    printf("[PASS] Aktuator PB7 & PC8/PC9 berhasil diuji.\r\n");
+    printf("[PASS] Aktuator PB7 & Shunt Trip PC8 berhasil diuji.\r\n");
     return true;
 }
 
@@ -154,11 +154,19 @@ bool bsp_bringup_test_gpio_sensors(void) {
     uint8_t case_state = 0;
     uint8_t irq0_state = 1;
     uint8_t irq1_state = 1;
+    uint8_t cf1_state = 1;
+    uint8_t cf2_state = 1;
+    uint8_t cf3_state = 0;
+    uint8_t event_state = 1;
 
 #if defined(EMBEDDED_HARDWARE_TARGET) || defined(USE_FREERTOS)
     case_state = (uint8_t)HAL_GPIO_ReadPin(BSP_TAMPER_CASE_GPIO_PORT, BSP_TAMPER_CASE_PIN);
     irq0_state = (uint8_t)HAL_GPIO_ReadPin(BSP_ADE9000_IRQ0_GPIO_PORT, BSP_ADE9000_IRQ0_PIN);
     irq1_state = (uint8_t)HAL_GPIO_ReadPin(BSP_ADE9000_IRQ1_GPIO_PORT, BSP_ADE9000_IRQ1_PIN);
+    cf1_state = (uint8_t)HAL_GPIO_ReadPin(BSP_ADE_CF1_GPIO_PORT, BSP_ADE_CF1_PIN);
+    cf2_state = (uint8_t)HAL_GPIO_ReadPin(BSP_ADE_CF2_GPIO_PORT, BSP_ADE_CF2_PIN);
+    cf3_state = (uint8_t)HAL_GPIO_ReadPin(BSP_ADE_CF3_ZX_GPIO_PORT, BSP_ADE_CF3_ZX_PIN);
+    event_state = (uint8_t)HAL_GPIO_ReadPin(BSP_ADE_EVENT_GPIO_PORT, BSP_ADE_EVENT_PIN);
 #endif
 
     printf("• PC13 - Switch Tutup Meter (Case Open) : %s (Logika: %u)\r\n",
@@ -167,6 +175,11 @@ bool bsp_bringup_test_gpio_sensors(void) {
            (irq0_state == 0 ? "ASSERTED / AKTIF" : "IDLE / HIGH"), irq0_state);
     printf("• PB1  - ADE9000 IRQ1 (Active-Low)      : %s (Logika: %u)\r\n",
            (irq1_state == 0 ? "ASSERTED / AKTIF" : "IDLE / HIGH"), irq1_state);
+    printf("• PE12 - ADE9000 CF1 (Pulsa Wh Aktif)   : Logika: %u (Idle: HIGH, Pulsa: 80ms LOW)\r\n", cf1_state);
+    printf("• PE13 - ADE9000 CF2 (Pulsa varh Reaktif): Logika: %u (Idle: HIGH, Pulsa: 80ms LOW)\r\n", cf2_state);
+    printf("• PE8  - ADE9000 CF3/ZX (Zero-Crossing) : Logika: %u (Deteksi AC Zero-Crossing)\r\n", cf3_state);
+    printf("• PE11 - ADE9000 EVENT (Sag/Swell/OI)   : %s (Logika: %u, Pengganti DREADY)\r\n",
+           (event_state == 0 ? "EVENT TERDETEKSI" : "NORMAL / IDLE"), event_state);
 
     printf("[PASS] Pembacaan logika level pin sensor valid.\r\n");
     return true;
@@ -283,7 +296,7 @@ void bsp_bringup_print_menu(void) {
     printf("========================================================\r\n");
     printf("  'i' / 'I' : Pindai Alamat Bus I2C (I2C Scanner)\r\n");
     printf("  'm' / 'M' : Uji Integritas SPI ADE9000 (Loopback Check)\r\n");
-    printf("  'a' / 'A' : Uji Aktuator Buzzer PB7 & Relai PC8/PC9\r\n");
+    printf("  'a' / 'A' : Uji Aktuator Buzzer PB7 & Shunt Trip PC8\r\n");
     printf("  's' / 'S' : Baca Status Logika Pin Sensor & Tamper\r\n");
     printf("  'v' / 'V' : Cek Status Tegangan Rel PVD (Last-Gasp)\r\n");
     printf("  'n' / 'N' : Uji Tulis/Baca Memori Non-Volatile (NVRAM)\r\n");

@@ -102,6 +102,11 @@ typedef struct
     uint32_t STATUS1;
     uint32_t MASK0;
     uint32_t MASK1;
+    uint32_t CFMODE;
+    uint32_t CF1DEN;
+    uint32_t CF2DEN;
+    uint32_t CF3DEN;
+    uint32_t CF4DEN;
 
 } ADE9000_Mock_t;
 

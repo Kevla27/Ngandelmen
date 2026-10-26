@@ -212,7 +212,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
             printf(" [d]   : Jalankan Full Built-In Self-Test (BIST All)  \r\n");
             printf(" [i]   : Pemindaian Bus I2C (I2C Address Scanner)     \r\n");
             printf(" [m]   : Uji Integritas Komunikasi SPI ADE9000        \r\n");
-            printf(" [a]   : Uji Aktuator Buzzer PB7 & Relai PC8/PC9      \r\n");
+            printf(" [a]   : Uji Aktuator Buzzer PB7 & Shunt Trip PC8     \r\n");
             printf(" [t/s] : Toggle Sabotase Tutup Meter (RUSAK / PC13)   \r\n");
             printf(" [o]   : Simulasi Sabotase Tutup Meter Saat Padam     \r\n");
             printf(" [w]   : Status Telemetri Multi-Task Watchdog Supervisor\r\n");

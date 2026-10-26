@@ -1,0 +1,434 @@
+=== PDF Page 26 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+2
+k. IEC 61000-4-34: 2005, Electromagnetic compatibility (EMC) - Part 4-34: Testing and
+measurement techniques - Voltage dips, short interuptions and voltage variations
+immunity tests for equipment with input current more than 16 A per phase;   
+l. IEC TR 61000-2-8: 2002, Electromagnetic compatibility (EMC) - Part 4-34: Testing and
+measurement techniques - Voltage dips, short interuptions on public electric power
+supply systems with statistical measurement result;
+m. EN 50160: 2010 +A1:2015, Voltage characteristics of electricity supplied by public
+electricity networks;
+n. ITIC ( Information Technology Industry Council  );
+o. SPLN D5.002: 2021, Sistem Metering Komunikasi Dua Arah;
+p. SPLN D3.005-2: 2008, Inspeksi Penerimaan Meter Statik Energi Aktif dan Reaktif;
+q. SPLN D3.006-2: 2021, Meter Statik Pascabayar Fase Tiga, Bagian 2: Pemodelan data   
+dan Persyaratan Kode OBIS;
+r. SPLN D3.015-1: 2011, Alat Pengukur, Pembatas, dan Perlengkapannya, Bagian 1:
+APP Pengukuran Langsung Fase Tiga untuk pelanggan 3,9 kVA s/d 41,5 kVA;
+s. SPLN D3.015-2: 2012, Alat Pengukur, Pembatas, dan Perlengkapannya, Bagian 2:
+APP Pengukuran Tidak Langsung Fase Tiga untuk pelanggan 53 kVA s/d 197 kVA.  
+4 Istilah dan Definisi
+4.1 Istilah umum
+▪   Meter statik energi aktif  
+Meter yang arus dan tegangannya menimbulkan suatu proses pada elemen-elemen
+elektronik untuk menghasilkan frekuensi pulsa keluaran yang proporsional dengan besaran
+energi aktif yang diukur.
+▪   Meter statik energi reaktif  
+Meter yang arus dan tegangannya menimbulkan suatu proses pada elemen-elemen
+elektronik untuk menghasilkan frekuensi pulsa keluaran yang proporsional dengan besaran
+energi reaktif yang diukur.
+▪   Tipe meter  
+Suatu rancangan/desain meter yang karakteristiknya ditentukan oleh:
+a. Bentuk dan tata letak dari konstruksi, serta fungsi jenis pengukuran;
+b. Rasio arus dasar terhadap arus maksimum ( I b /I m );
+c. Versi firmware;  
+d. Tegangan pengenal dan tegangan operasi;
+
+
+=== PDF Page 27 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+3
+e. Merek, jenis, dan tipe komponen utama;
+f. Diproduksi satu pabrikan.
+ Tipe meter harus bersifat unik (tunggal), tidak boleh ada duplikasi.
+▪   Komponen utama
+Komponen pada sirkit meter listrik yang terkait langsung dengan akurasi pengukuran, yaitu:
+sensor arus, pencacah (ADC/DAC), kristal, prosesor (MCU), sistem memori, dan komponen
+untuk sistem pengukuran; serta komponen lain berupa: superkapasitor, baterai, layar
+tampilan ( display ), watchdog unit , relai/kontaktor, komponen kontrol bantu, varistor, dan
+komponen catu daya.
+▪   Meter tersambung langsung  
+Meter yang penggunaannya terkoneksi secara langsung ke sirkit yang diukur tanpa
+perangkat bantu ukur eksternal seperti transformator ukur.
+▪   Meter tersambung tidak langsung  
+Meter yang penggunaannya terkoneksi secara tidak langsung ke sirkit yang diukur, lewat
+transformator ukur.
+▪   Pusat data (data center)   
+Suatu sistem yang dapat berisi meter data management system   (MDMS), head-end system  
+(HES), dan/atau enterprise system . Dalam sistem PLN dapat merujuk juga pada aplikasi
+automatic meter data reading   terpusat (A2MRT).
+4.2 Istilah elemen mekanis
+▪   Tutup meter
+Penutup pada bagian muka meter, dibuat dari bahan yang seluruhnya tembus pandang
+atau bahan yang tidak tembus pandang yang dilengkapi jendela untuk membaca penunjuk
+operasi (bila terpasang) dan tampilan.
+▪   Kotak meter  
+Bagian yang terdiri dari dasar dan tutup.
+CATATAN: Kotak dapat untuk sebuah meter atau lebih.
+
+
+=== PDF Page 28 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+4
+▪   Tutup terminal  
+Penutup yang menutupi terminal-terminal meter dan pada umumnya termasuk juga bagian
+ujung kawat atau kabel luar yang dihubungkan ke terminal.
+4.3 Istilah besaran meter
+▪   Arus dasar ( I b ) 
+Nilai arus yang dijadikan dasar untuk menetapkan kinerja yang relevan dari suatu meter.
+▪   Arus maksimum ( I m ) 
+Nilai arus tertinggi yang diizinkan mengalir secara kontinu dimana persyaratan ketelitian
+masih terpenuhi.
+▪   Arus mula ( I st )
+Nilai arus terendah meter untuk mulai bekerja dan menjalankan registernya.
+▪   Arus minimum ( I min )
+Nilai arus terendah meter dimana persyaratan ketelitian masih terpenuhi.
+▪   Arus transisi ( I tr )
+Nilai arus pada dan di atasnya telah ditentukan dimana berada dalam kesalahan maksimum
+terkecil yang diizinkan sesuai kelas akurasi meter.
+▪   Tegangan acuan ( U n ) 
+Nilai tegangan yang dijadikan dasar untuk menetapkan kinerja meter yang relevan.
+▪   Frekuensi pengenal  
+Nilai frekuensi yang dijadikan dasar untuk menetapkan kinerja meter statik yang relevan.
+▪   Kelas ketelitian  
+Sebuah angka yang merupakan batas kesalahan yang diizinkan, dalam persen, untuk
+semua nilai arus antara 0,1 I b  dan I m , faktor kerja satu, bilamana meter diuji dalam kondisi
+acuan (termasuk toleransi yang diizinkan untuk nilai acuan) sebagaimana ditentukan dalam
+standar ini.
+
+
+=== PDF Page 29 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+5
+▪   Persentase kesalahan  
+Kesalahan meter dinyatakan dengan rumus sebagai berikut:
+Presentase kesalahan = Energi yang dihitung oleh meter  – Energi sebenarnya x 100 %
+Energi sebenarnya
+CATATAN: Oleh karena nilai sebenarnya tidak dapat dipastikan, maka nilai itu didekati oleh sebuah
+nilai dengan ketidakpastian yang ditetapkan, yang dapat ditelusur ke standar yang disepakati
+bersama antara PLN dan pabrikan atau ke standar nasional.
+▪   Pengukuran energi aktif dengan algoritma pengukuran fundamental  
+Pengukuran energi aktif yang hanya menjumlahkan besaran fundamental.
+▪   Pengukuran energi aktif dengan algoritma pengukuran total harmonik  
+Pengukuran energi aktif yang sudah menjumlahkan besaran fundamental dan (+/-)
+harmonik dalam satu kesatuan nilai.
+▪   Pengukuran energi aktif dengan algoritma pengukuran total harmonik asbolut  
+Pengukuran energi aktif yang menjumlahkan besaran fundamental dan nilai absolut
+harmonik dalam satu kesatuan nilai. Besaran harmonik dijumlahkan untuk seluruh orde
+yang terukur untuk kemudian diabsolutkan.
+▪   Energi reaktif  
+Nilai pengukuran energi reaktif yang sudah menjumlahkan besaran fundamental dan
+harmonik dalam satu kesatuan nilai.
+▪   Energi reaktif billing   (kompensasi)  
+Nilai pengukuran energi reaktif secara real time  berdasarkan profil beban tertentu saat itu.
+▪   Energi aktif total  
+Nilai pengukuran energi aktif yang menjumlahkan energi aktif kirim dan energi aktif terima.
+4.4 Istilah besaran berpengaruh
+▪   Besaran berpengaruh  
+Setiap besaran, umumnya dari luar meter, yang dapat mempengaruhi kinerja meter.
+
+
+=== PDF Page 30 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+6
+▪   Kondisi acuan
+Perangkat besaran-besaran berpengaruh dan karakteristik kinerja yang bersesuaian,
+dengan nilai-nilai acuan, julat-julat toleransi dan acuannya, yang dijadikan dasar untuk
+menentukan kesalahan hakikinya.
+Istilah ”tegangan” dan ”arus” menunjukkan nilai r.m.s, kecuali bila ditentukan lain. 
+▪   Variasi kesalahan yang disebabkan oleh satu besaran berpengaruh  
+Variasi kesalahan yang disebabkan oleh satu besaran berpengaruh adalah perbedaan
+antara dua nilai kesalahan dalam persen suatu meter, salah satu diantaranya merupakan
+nilai acuan dan nilai yang lain diperoleh dari satu besaran berpengaruh, yang berbeda dari
+acuannya.
+▪   Faktor distorsi
+Rasio antara nilai-nilai r.m.s kandungan harmonik (diperoleh dengan cara mengurangi
+besaran bolak-balik non sinusoida dengan besaran fundamentalnya), dengan nilai r.m.s
+besaran sinusoida. Faktor distorsi biasanya dinyatakan dalam persen.
+▪   Gangguan elektromagnetis  
+Interferensi elektromagnetis terhantarkan atau teradiasikan yang dapat mempengaruhi
+operasi meter secara fungsional atau secara metrologik.
+▪   Suhu acuan
+Suhu sekitar yang ditentukan sebagai kondisi acuan.
+▪   Koefisien suhu rata-rata  
+Rasio antara variasi kesalahan dalam persen dengan perubahan suhu yang menyebabkan
+variasi tersebut.
+4.5 Istilah kondisi pengoperasian pengenal
+Seperangkat julat ukur yang ditentukan untuk karakteristik kinerja dan julat operasi yang
+ditentukan untuk besaran-besaran berpengaruh, yang didalamnya ditentukan dan
+ditetapkan variasi kesalahan dan kesalahan operasi meter.
+▪   Julat ukur yang ditentukan
+Seperangkat nilai besaran terukur yang ditentukan untuk menetapkan bahwa kesalahan
+meter berada dalam batas-batas tertentu.
+
+
+=== PDF Page 31 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+7
+▪   Julat operasi yang ditentukan  
+ J ulat nilai-nilai besaran berpengaruh tunggal yang merupakan bagian kondisi
+pengoperasian pengenal.
+▪   Batas julat operasi  
+Kondisi ekstrim yang dapat ditahan oleh meter yang dioperasikan, tanpa mengalami
+kerusakan dan tanpa penurunan karakteristik metrologik bilamana meter itu dioperasikan
+kembali pada kondisi operasi normalnya.
+▪   Kondisi transportasi dan penyimpanan  
+Kondisi ekstrim yang dapat ditahan oleh meter yang tidak dioperasikan, tanpa mengalami
+kerusakan dan tanpa penurunan karakteristik metrologik bilamana meter itu dioperasikan
+pada kondisi operasi normalnya.
+5 Desain dan spesifikasi
+5.1 Karakteristik
+Nilai pengenal dan spesifikasi meter tercantum pada  Tabel 1.  
+
+
+=== PDF Page 32 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+8
+Tabel 1. Nilai pengenal dan spesifikasi
+Jenis pengenal
+Nilai pengenal
+Tersambung
+langsung Tersambung tidak langsung
+Kelas 1 Kelas 0.5S Kelas 0.2S
+ J enis meter Pasangan luar
+Cara pengawatan Fase tiga  – 4 kawat  
+ J umlah sensor (S) & relai (R) Fungsi 4S - 3R Fungsi 4S  
+ Tegangan pengenal ( Un ) 3 x 231/400 V 3 x 57,7/100  – 3 x 231/400 V
+Arus pengenal / I b  (I m ) atau I n  (I m ) 5 (80) A 5 (10) A 1 (2) / 5 (10) A
+Arus mula ( I st ) 0,002 I b   0,001  I n   0,001 I n  
+Frekuensi pengenal 50 Hz
+ Tingkat perlindungan IP54
+Konsumsi daya per-fase 1) 
+•   Sirkit tegangan ≤ 2 W dan ≤ 10 VA ≤ 2 W dan ≤ 10 VA
+•   Sirkit arus ≤ 4 VA ≤ 1 VA 
+Port  komunikasi dua arah RS-232 dan/atau RS-485
+Port  konektor catu daya DC 12 VDC ±5%, maksimal 5 W
+CATATAN:
+1) Konsumsi daya internal meter diluar kebutuhan untuk modem.
+5.2 Komponen
+Komponen-komponen meter berupa: sensor arus, pencacah (ADC/DAC), kristal, prosesor
+(MCU), sistem memori, komponen untuk sistem pengukuran, superkapasitor, baterai, layar
+tampilan ( display ), watchdog unit , relai/kontaktor, komponen kontrol bantu, varistor, dan
+komponen catu daya harus memiliki kualitas kelas industri dan dibuktikan dengan sertifikat
+keaslian produk ( certificate of manufacture  ) dan data pendukung dari pabrikan komponen
+(hasil uji komponen dan/atau datasheet ).
+Meter harus memiliki:
+1. Memori non-volatile   (tak terhapus) dengan kapasitas minimal 1024 kByte untuk
+penyimpanan data load profile . Khusus untuk meter kelas 1 tersambung langsung,
+kapasitas memori non-volatile  minimum 256 kByte;
+2. Sensor dan relai/kontaktor sesuai karakteristik pada  Tabel 1;  
+
+
+=== PDF Page 33 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+9
+3. Sensor arus harus terpasang pada masing-masing fase dan netral. Sensor arus netral
+dipergunakan sebagai besaran dalam menghitung ketidakseimbangan beban dan
+untuk mendeteksi adanya kelainan atau pemakaian tidak legal;
+4. Untuk meter tersambung langsung dilengkapi dengan relai/kontaktor yang dipasang
+pada rangkaian fase dan harus mampu memutus 1,5 I m  dan dialiri kontinu arus
+maksimum. Bila tanpa catu daya, kondisi relai/kontaktor harus terbuka, dan terhubung
+otomatis ketika catu daya normal.
+5. Untuk meter tersambung tidak langsung dilengkapi dengan kontrol bantu sebagai
+berikut:
+Tabel 2. Persyaratan kontrol bantu pada meter tersambung tidak langsung
+Kontrol bantu Jumlah Persyaratan minimal
+Control input Minimal 2 ▪   Tegangan masukan minimum: 60 V (AC/DC)
+▪   Tegangan masukan maksimum: 288 V AC /300 VDC
+▪   Arus masukan maksimum: 3 mA
+Control output   Minimal 1 ▪   Tegangan keluaran maksimum: 288 V AC /300 VDC
+▪   Arus maksimum: 50 mA
+Control relay
+output
+Minimal 1 ▪   Dapat digunakan untuk shunt trip coil  MCCB atau external
+circuit breaker  tanpa tambahan eksternal auxiliary relay.
+▪   Tegangan penyaklaran maksimum: 240 V AC 
+▪   Arus maksimum: 2 A
+Untuk meter tersambung langsung dilengkapi dengan kontrol bantu sebagai berikut:
+Tabel 2B. Persyaratan kontrol bantu pada meter tersambung langsung
+Kontrol bantu Jumlah Persyaratan minimal
+Control input Minimal 2 ▪   Tegangan masukan minimum: 60 V (AC/DC)
+▪   Tegangan masukan maksimum: 288 V AC /300 VDC
+▪   Arus masukan maksimum: 3 mA
+Control output   Minimal 2 ▪   Tegangan keluaran maksimum: 288 V AC /300 VDC
+▪   Arus maksimum: 50 mA
+6. Real Time Clock (RTC) digunakan dalam meter ini dan dapat dilakukan sinkronisasi
+dengan pusat data.  
+7. Port komunikasi RS-232 (dan/atau RS-485 full duplex   sesuai kebutuhan). Meter
+dengan port  komunikasi RS-232 dapat diganti menggunakan port  komunikasi RS-485
+dan dianggap sebagai tipe meter yang sama (tidak memerlukan pengujian jenis ulang)
+selama masih memenuhi definisi tipe meter pada butir  4.1.  
+8. Catu daya dengan menggunakan teknologi switching atau transformator, dan harus
+mampu mensuplai:  
+
+
+=== PDF Page 34 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+10
+1) Daya internal meter; dan  
+2) Modem, melalui port  konektor catu daya DC.  
+9. Meter dilengkapi dengan watchdog unit  sehingga dapat memerintahkan relai/ shunt trip  
+membuka jika mikroprosesor/mikrokontroler hang /error , dibuktikan dengan simulasi di
+laboratorium (misal: dengan melepas kristal).
+10. Superkapasitor sebagai backup  utama yang setelah dienerjais selama maksimal 60
+menit harus mampu mengoperasikan seluruh sistem meter selama minimal 48 jam
+terus menerus. Dalam proses pengujian, verifikasi fungsi dari superkapasitor ini
+dilakukan melalui pemeriksaan pada layar tampilan dan RTC sebanyak 1 kali setiap 24
+ jam.
+11. Baterai non-rechargeable  sebagai backup  kedua yang mampu beroperasi (lifetime) 
+minimal 5 tahun tanpa catu daya listrik, dibuktikan dengan sertifikat, spesifikasi, dan
+kalkulasinya.
+12. Pada saat catu daya padam, superkapasitor dan/atau baterai harus mampu
+mengaktifkan layar tampilan pada saat penekanan tombol.
+13. J ika sumber tegangan hilang, meter dicatu oleh superkapasitor sampai tegangan 2,7
+V kemudian catu daya digantikan oleh baterai. J ika terjadi kerusakan baterai atau nilai
+tegangan baterai telah mencapai threshold -nya (2,7 V), meter harus memberikan
+simbol tanda “ “ berkedip terus menerus. 
+Semua komponen elektronik dan Printed Circuit Board   (PCB) wajib memiliki sertifikat
+Restriction of Hazardous Substances   (RoHS).
+5.3 Perangkat lunak
+Meter menggunakan firmware   yang mendukung fungsinya sebagai DLMS_server   dan
+harus memenuhi seluruh fitur dan fungsi di dalam standar ini, serta ketentuan yang
+dipersyaratkan pada SPLN D5.002.
+Firmware   pada meter harus menyediakan fasilitas acknowledgment   pada saat proses
+pemasukan kembali beban secara jarak jauh (remote reconnect)   sebagai prosedur
+keselamatan, dimana sebelum relai/kontaktor dapat menutup atau relay output  untuk shunt
+trip  dapat melepas perintah trip (tripping release)  harus dilakukan aksi penekanan tombol
+atas dan bawah pada meter secara bersamaan terlebih dahulu.-
+Meter dilengkapi dengan perangkat konfigurator yang berfungsi sebagai DLMS_client  yang
+dapat digunakan untuk melakukan penyetelan parameter yang terdapat di meter.
+6 Persyaratan mekanis
+Persyaratan mengikuti SNI/IEC 62052-11 butir 5, dengan tambahan ketentuan berikut.
+
+
+=== PDF Page 35 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+11
+6.1 Umum
+Printed Circuit Board  (PCB), relai/kontaktor, dan semua komponen bantu harus dipasang
+secara kuat dan tidak terpengaruh oleh guncangan.
+Bahan material kotak meter, terminal block , tombol, bagian-bagian seal , dan bagian lainnya
+mempunyai ketahanan terhadap serangga.  
+6.2 Printed Circuit Board   (PCB)
+PCB diberi conformal coating   untuk melindungi PCB dan seluruh komponennya dari
+pengaruh lingkungan, air, dan debu, serta sebagai proteksi korosi. Coating  minimal harus
+diaplikasikan pada:
+1. Komponen-komponen utama;
+2. J alur AC yang berdekatan dengan DC;
+3. Semua bagian yang dilakukan penyolderan; dan
+4. Pada setiap bagian PCB yang sensitif terhadap oksidasi.
+Reworking  PCB tidak diizinkan.
+6.3 Kotak meter
+Konstruksi kotak meter didesain untuk tidak dapat dibuka dengan cara apapun dan apabila
+ingin membuka harus merusak tutup kotak meter. Untuk keperluan ini dapat menggunakan
+metode ultrasonic welding , die-casting , atau metode lain yang setara.  
+Kotak meter pada meter tersambung langsung dikonstruksi untuk dapat dipasang tanpa
+memerlukan kotak APP dan dikonstruksi untuk dapat dipasangi MCB secara terpadu yang
+dipasang pada pelat dasar (baseplate)  dan dapat ditutup oleh tutup terminal. Pelat dasar
+terbuat dari bahan logam anti karat (electroplating) .
+CATATAN: Hanya dalam hal diperlukan sebagai proteksi tambahan, meter tersambung langsung
+dapat menggunakan kotak APP pengukuran langsung.
+6.4 Kompartemen baterai
+Meter menyediakan kompartemen khusus untuk meletakkan baterai. Kompartemen
+tersebut berada pada bagian bodi utama meter dan dilengkapi tutup kompartemen yang
+dapat dibuka tanpa membuka kotak meter atau tutup terminal. Kompartemen didesain
+aman dari kemungkinan terhubung-singkat.
+Kompartemen baterai memiliki fasilitas segel pengaman.
+
+
+=== PDF Page 36 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+12
+6.5 Kompartemen modem
+Meter harus menyediakan kompartemen khusus untuk meletakkan modem. Kompartemen
+tersebut berada pada bagian bodi utama meter dan dilengkapi tutup kompartemen yang
+dapat dibuka tanpa membuka kotak meter atau tutup terminal.
+Ukuran kompartemen modem adalah minimal 150 mm (panjang) x 75 mm (lebar) x 40 mm
+(tebal) dan di dalamnya tersedia port  komunikasi RS-232 dan port konektor catu daya  DC ,
+serta terdapat lubang untuk keluaran kabel antena. Kompartemen modem harus cukup
+untuk diletakkannya modem dalam kondisi semua konektor terpasang.
+CATATAN: Dimensi modem maksimal 100 mm (panjang) x 70 mm (lebar) x 30 mm (tebal).
+Peletakan modem pada kompartemen modem disarankan diperkuat dengan menggunakan
+tali strap, pita perekat (double-sided foam tape   kelas industrial  ), atau ganjal lain sehingga
+modem tidak bergerak di dalam kompartemen.
+Kompartemen modem memiliki fasilitas segel pengaman.
+ J ika berdampingan, tutup kompartemen baterai dan modem dapat digabung.
+6.6 Terminal
+Bahan titik kontak plat terminal harus terbuat dari bahan dasar tembaga, bahan baut
+penguat mekanis dan sekrup terbuat dari bahan dasar baja dilapis anti karat.
+Celah terminal harus tertutup dari masuknya serangga.  
+Konfigurasi dan susunan terminal dapat dilihat pada  Gambar 1 dan Gambar 2.  
+ TAMPAK BAWAH
+ TAMPAK DEPAN
+2  5  8  121  3  4  6  7  9  10  11  13
+ 
+Gambar 1. Contoh susunan terminal meter tersambung langsung fase tiga
+
+
+=== PDF Page 37 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+13
+Pada meter tersambung langsung, terminal pembumian harus tersambung secara elektris
+dengan terminal netral dan pelat dasar, dengan cara pelat dasar sebagai mur untuk baut
+pembumian bagian atas (Gambar 1 warna hijau).
+ TAMPAK BAWAH
+ TAMPAK DEPAN
+2  5  8  121  3  4  6  7  9  10  11  13
+ 
+Gambar 2. Contoh susunan terminal meter tersambung tidak langsung fase tiga
+ Terminal harus dari jenis press-screw system  (baut pengencang konduktor kabel dilengkapi
+dengan pelat penekan) seperti Gambar 3.   Meter tersambung   langsung harus mampu
+menerima kabel masukan ukuran 10 s.d 35 mm² dan meter pengukuran tidak langsung
+harus mampu menerima kabel masukan ukuran 4 s.d 10 mm².
+Gambar 3. Press screw system
+Instalasi pengawatan terminal meter dapat dilihat pada  Gambar 4.  
+2  5  8  121  3  4  6  7  9  10  11  13
+Ri   Ro  Si  So  Ti   To   G  Ni  No
+ 
+Gambar 4. Pengawatan terminal meter fase tiga tersambung langsung
+
+
+=== PDF Page 38 ===
+ 
+SPLN D3.006: 2021+SUP-1: 2022+SUP-2: 2023
+14
+2  5  8  121  3  4  6  7  9  10  11  13
+Ri   Ro  Si  So  Ti   To   Ni  NoR  S  T  N
+ 
+Gambar 5. Pengawatan terminal meter fase tiga tersambung tidak langsung  
+6.7 Tutup terminal
+ Tutup terminal harus terbuat dari material tembus pandang (transparan) dan dapat menutup
+semua terminal, baut pengencang konduktor kabel, dan sebagian dari insulasi kabel.
+Khusus untuk meter tersambung langsung, tutup terminal dibuat memiliki akses untuk
+mengoperasikan sakelar pada MCB.
+ Tutup terminal harus sesuai untuk beberapa ukuran MCB yang digunakan oleh PLN (fit for
+all).
+6.8 Fasilitas segel pengaman
+Meter harus mempunyai fasilitas untuk segel pengaman terdiri dari:
+a. Segel metrologi dua buah terpasang pada tutup kotak meter (dapat berupa segel
+timah maupun tanda sah lainnya);
+b. Segel PLN dua buah terpasang pada tutup terminal,
+c. Segel PLN terpasang pada tutup kompartemen baterai dan modem.
+6.9 Indikator LED
+Meter harus dilengkapi dengan sekurang-kurangnya 4 (empat) buah lampu indikator LED
+dari jenis super bright , dengan ketentuan warna dan fungsi sebagai berikut:
+a. merah 1 : keluaran pulsa (imp/kWh);
+b. merah 2 : keluaran pulsa (imp/kVARh);
+c. kuning : penyalahgunaan ( tamper ) atau ketidaknormalan atau alarm ;
+d. hijau : catu daya (catu daya).
+Setiap indikator LED harus dituliskan fungsinya.
+
+

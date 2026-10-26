@@ -200,6 +200,21 @@ uint32_t ADE9000_Mock_ReadRegister(uint16_t address)
 		case ADE9000_MASK1:
 			return device.MASK1;
 
+		case ADE9000_CFMODE:
+			return device.CFMODE;
+
+		case ADE9000_CF1DEN:
+			return device.CF1DEN;
+
+		case ADE9000_CF2DEN:
+			return device.CF2DEN;
+
+		case ADE9000_CF3DEN:
+			return device.CF3DEN;
+
+		case ADE9000_CF4DEN:
+			return device.CF4DEN;
+
 		default:
 			printf("Mock: unknown register 0x%03X\n", address);
 			return 0;
@@ -235,6 +250,26 @@ void ADE9000_Mock_WriteRegister(uint16_t address,
 
 		case ADE9000_MASK1:
 			device.MASK1 = value;
+			break;
+
+		case ADE9000_CFMODE:
+			device.CFMODE = value;
+			break;
+
+		case ADE9000_CF1DEN:
+			device.CF1DEN = value;
+			break;
+
+		case ADE9000_CF2DEN:
+			device.CF2DEN = value;
+			break;
+
+		case ADE9000_CF3DEN:
+			device.CF3DEN = value;
+			break;
+
+		case ADE9000_CF4DEN:
+			device.CF4DEN = value;
 			break;
 
 		default:
@@ -673,4 +708,4 @@ void ADE9000_Mock_SetMASK0(uint32_t value)
 void ADE9000_Mock_SetMASK1(uint32_t value)
 {
 	device.MASK1 = value;
-}
+}

@@ -127,8 +127,8 @@ def create_meter_pinout_doc():
         ('16', 'PB7', 'BUZZER_ALM', 'VDD', 'Non-Secure', 'Output (Push-Pull, Low)', 'Butir 6.9 c', 'Driver Transistor Buzzer Audio & Lampu Indikator LED Kuning Alarm/Tamper'),
         ('17', 'PB4', 'LED_PULSE_KWH', 'VDD', 'Non-Secure', 'Output (Push-Pull, High)', 'Butir 6.9 a', 'Indikator LED Merah 1: Keluaran Pulsa Kalibrasi Energi Aktif (imp/kWh)'),
         ('18', 'PB5', 'LED_PULSE_KVAR', 'VDD', 'Non-Secure', 'Output (Push-Pull, High)', 'Butir 6.9 b', 'Indikator LED Merah 2: Keluaran Pulsa Kalibrasi Energi Reaktif (imp/kVARh)'),
-        ('19', 'PC8', 'RELAY_TRIP', 'VDD', 'Non-Secure', 'Output (Pull-Down, Low)', 'Tabel 1 & Tab 5', 'Pulsa Pembuka Relai Pemutus Beban (Latching Relay Coil Open - 100 ms)'),
-        ('20', 'PC9', 'RELAY_CLOSE', 'VDD', 'Non-Secure', 'Output (Pull-Down, Low)', 'Tabel 1 & Tab 5', 'Pulsa Penyambung Relai Beban (Latching Relay Coil Close - 100 ms)'),
+        ('19', 'PC8', 'CTRL_RELAY_TRIP', 'VDD', 'Non-Secure', 'Output (Pull-Down, Low)', 'Tabel 2 & Tab 5', 'Kontrol Shunt Trip MCCB Eksternal (Pemutus Beban Sambungan Tidak Langsung)'),
+        ('20', 'PC9', 'SPARE / CTRL_OUT', 'VDD', 'Non-Secure', 'Output (Pull-Down, Low)', 'Tabel 2 (Cadangan)', 'Cadangan Kontrol / Spare Digital Output (Bukan Relai Close karena MCCB Manual)'),
         ('21', 'PC7', 'RELAY_STATUS', 'VDD', 'Non-Secure', 'Input (Pull-Down)', 'Tabel 4 No 7', 'Membaca Kontak Bantu Relai / Deteksi Relai Macet/Gagal Operasi (ERR07)'),
         ('22', 'PA1', 'VBAT_SENSE', 'VDD', 'Non-Secure', 'Analog (ADC1_IN6)', 'Butir 6.11 & Tab 4', 'Monitor Tegangan Baterai Cadangan (Memicu ERR03 Bila < 2.7 V)'),
         ('23', 'PA4', 'ADE_NSS', 'VDD', 'Non-Secure', 'Output (Push-Pull, VHigh)', 'Metrologi ADE9000', 'SPI Chip Select (CS) AFE Metrologi 3-Fasa ADE9000'),
@@ -140,7 +140,14 @@ def create_meter_pinout_doc():
         ('29', 'PA9', 'VCP_TX', 'VDD', 'Non-Secure', 'AF7 (USART1_TX, High)', 'Console IO', 'Transmit Serial Debugging ST-LINK VCP @ 115.200 bps'),
         ('30', 'PA10', 'VCP_RX', 'VDD', 'Non-Secure', 'AF7 (USART1_RX, High)', 'Console IO', 'Receive Serial Debugging ST-LINK VCP (Konsol BIST Shell Interaktif)'),
         ('31', 'PA13', 'SWDIO', 'VDD', 'Non-Secure', 'AF0 (JTMS-SWDIO)', 'ST-LINK Debug', 'Jalur Data Serial Wire Debugging (SWD) ST-LINK'),
-        ('32', 'PA14', 'SWCLK', 'VDD', 'Non-Secure', 'AF0 (JTCK-SWCLK)', 'ST-LINK Debug', 'Jalur Clock Serial Wire Debugging (SWD) ST-LINK')
+        ('32', 'PA14', 'SWCLK', 'VDD', 'Non-Secure', 'AF0 (JTCK-SWCLK)', 'ST-LINK Debug', 'Jalur Clock Serial Wire Debugging (SWD) ST-LINK'),
+        ('33', 'PE12', 'ADE_CF1', 'VDD', 'Secure World', 'Input (Pull-Up, EXTI12)', 'Butir 6.10 & 6.9 a', 'Pulsa Kalibrasi Energi Aktif Total (CF1 Pin 33 ADE9000, 1000 imp/kWh, 80 ms) paralel ke LED Merah 1 PB4 untuk validasi mandiri register Wh'),
+        ('34', 'PE13', 'ADE_CF2', 'VDD', 'Secure World', 'Input (Pull-Up, EXTI13)', 'Butir 6.10 & 6.9 b', 'Pulsa Kalibrasi Energi Reaktif Total (CF2 Pin 34 ADE9000, 1000 imp/kvarh, 80 ms) paralel ke LED Merah 2 PB5 untuk validasi mandiri register varh 4-kuadran'),
+        ('35', 'PE8', 'ADE_CF3_ZX', 'VDD', 'Secure World', 'Input EXTI8 Dual-Edge', 'Butir 5.2 & Tabel 2', 'Fungsi Ganda Pin 35 ADE9000: Pulsa Energi Semu (CF3 / imp/kVAh) atau Zero-Crossing (ZX) untuk Zero-Current Switching Shunt Trip'),
+        ('36', 'PE11', 'ADE_EVENT', 'VDD', 'Secure World', 'Input EXTI11 Falling', 'Butir 10.4 & Tabel 10-11', 'Power Quality Hardware Event (CF4 ADE9000 disetel sebagai EVENT, sebelumnya DREADY): Deteksi Cepat Sag/Dip, Swell, & Overcurrent'),
+        ('37', 'PE7', 'ADE_RESET', 'VDD', 'Secure World', 'Output Push-Pull, High', 'Keandalan AFE', 'Hardware Reset Pin AFE ADE9000 (Pin 30 ADE9000) untuk pemulihan otonom jika sampling ADC terhenti'),
+        ('38', 'PE9', 'ADE_PM0', 'VDD', 'Secure World', 'Output Push-Pull, Low', 'Butir 6.4 (Hemat Daya)', 'Kontrol Power Mode 0 ADE9000: Bersama PM1 mengatur PSM0 Run / PSM3 Total Sleep ~2uA saat listrik padam'),
+        ('39', 'PE10', 'ADE_PM1', 'VDD', 'Secure World', 'Output Push-Pull, Low', 'Butir 6.4 (Hemat Daya)', 'Kontrol Power Mode 1 ADE9000: Menurunkan mode daya ADE saat listrik PLN padam')
     ]
 
     table_master = doc.add_table(rows=len(master_data)+1, cols=len(master_headers))

@@ -13,6 +13,7 @@ extern "C" {
 #include "display.h"
 #include "tamper_manager.h"
 #include "dlms_task.h"
+#include "ami_server.h"
 #include "power_relay_manager.h"
 
 /* Prioritas Task FreeRTOS */
@@ -130,6 +131,7 @@ void rtos_dlms_process_tamper_event(const tamper_event_msg_t *msg);
 * @brief Mengambil pointer konteks DLMS Task aktif
 */
 dlms_task_ctx_t* rtos_dlms_get_task_ctx(void);
+ami_server_t* rtos_ami_get_server(void);
 
 /**
 * @brief Mengambil pointer konteks Tamper aktif

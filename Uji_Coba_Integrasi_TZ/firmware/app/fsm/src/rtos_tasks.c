@@ -9,6 +9,7 @@
 #include "nvram_storage.h"
 #include "dlms_task.h"
 #include "dlms_obis.h"
+#include "ami_server.h"
 #include "display_task.h"
 #include "bsp_alarm_buzzer.h"
 #include "bsp_ade9000_irq.h"
@@ -45,6 +46,7 @@ static tamper_context_t g_tamper_ctx;
 static load_profile_ctx_t g_load_profile_buf;
 static display_context_t g_display_ctx;
 static dlms_task_ctx_t s_dlms_task_ctx;
+static ami_server_t s_ami_server;
 static dlms_uart_tx_fn_t s_dlms_uart_tx_cb = NULL;
 static power_relay_context_t g_power_relay_ctx;
 
@@ -76,6 +78,7 @@ void rtos_system_init(void) {
 
     /* 4. Inisialisasi Stack DLMS Task & Tamper Log */
     dlms_task_init(&s_dlms_task_ctx, s_dlms_uart_tx_cb);
+    ami_server_init(&s_ami_server);
 
     printf("[RTOS] All E3 Firmware Subsystems, Queues, Mutexes & NVRAM Initialized Successfully!\n");
 }
@@ -145,6 +148,7 @@ void rtos_meter_data_publish(const meter_measurements_t *meas) {
 
     /* Sinkronkan nilai terbaru ke kamus register OBIS DLMS */
     dlms_obis_update_from_meter(meas);
+    ami_server_update_from_meter(&s_ami_server, meas);
 
 #if defined(EMBEDDED_HARDWARE_TARGET) || defined(USE_FREERTOS)
     if (xMeasMutex != NULL) {
@@ -311,10 +315,8 @@ void rtos_dlms_process_tamper_event(const tamper_event_msg_t *msg) {
     uint8_t status = msg->is_active ? 1 : 0;
 
     /* 1. Tambahkan ke DLMS Tamper Log Profile Generic (0.0.99.98.0.255) */
-    dlms_tamper_log_add_event(&s_dlms_task_ctx.server.tamper_log,
-                              msg->timestamp,
-                              dcode,
-                              status);
+    dlms_tamper_log_add_event(&s_dlms_task_ctx.server.tamper_log, msg->timestamp, dcode, status);
+    ami_server_add_tamper_event(&s_ami_server, msg->timestamp, (uint8_t)dcode, status);
 
     /* 2. Update akumulasi register OBIS Tamper Counter */
     if (msg->is_active) {
@@ -335,6 +337,10 @@ dlms_task_ctx_t* rtos_dlms_get_task_ctx(void) {
     return &s_dlms_task_ctx;
 }
 
+ami_server_t* rtos_ami_get_server(void) {
+    return &s_ami_server;
+}
+
 tamper_context_t* rtos_tamper_get_ctx(void) {
     return &g_tamper_ctx;
 }
@@ -346,6 +352,7 @@ void task_dlms_entry(void *pvParameters) {
 
     if (!s_dlms_task_ctx.is_running) {
         dlms_task_init(&s_dlms_task_ctx, s_dlms_uart_tx_cb);
+    ami_server_init(&s_ami_server);
     }
 
     tamper_event_msg_t event_msg;

@@ -325,5 +325,36 @@
 #define ADE9000_ANGL_VB_VC      0x483   // Selisih waktu zero-crossing tegangan B dan C
 #define ADE9000_ANGL_VA_VC      0x484   // Selisih waktu zero-crossing tegangan A dan C
 
+/* =========================================================
+ * CF CALIBRATION FREQUENCY & EVENT OUTPUT CONFIGURATION
+ * ========================================================= */
+
+#define ADE9000_CFMODE          0x490   // Konfigurasi output pulsa CF1-CF4 & pemilihan fungsi Pin 36 (CF4/DREADY/EVENT)
+#define ADE9000_CF1DEN          0x491   // Denominator frekuensi pulsa CF1 (Energi Aktif Wh)
+#define ADE9000_CF2DEN          0x492   // Denominator frekuensi pulsa CF2 (Energi Reaktif varh)
+#define ADE9000_CF3DEN          0x493   // Denominator frekuensi pulsa CF3 (Energi Semu VAh / ZX)
+#define ADE9000_CF4DEN          0x494   // Denominator frekuensi pulsa CF4
+
+/* Bitfield constants untuk ADE9000_CFMODE (0x490) */
+#define ADE9000_CFMODE_CF1_ENABLE       (0x0U << 0)   // CF1 output aktif (0 = enable)
+#define ADE9000_CFMODE_CF1_DISABLE      (0x1U << 0)   // CF1 output disable
+#define ADE9000_CFMODE_CF2_ENABLE       (0x0U << 1)   // CF2 output aktif (0 = enable)
+#define ADE9000_CFMODE_CF2_DISABLE      (0x1U << 1)   // CF2 output disable
+#define ADE9000_CFMODE_CF3_ENABLE       (0x0U << 2)   // CF3 output aktif (0 = enable)
+#define ADE9000_CFMODE_CF3_DISABLE      (0x1U << 2)   // CF3 output disable
+#define ADE9000_CFMODE_CF4_ENABLE       (0x0U << 3)   // CF4 output aktif (0 = enable)
+#define ADE9000_CFMODE_CF4_DISABLE      (0x1U << 3)   // CF4 output disable
+
+/* Konfigurasi Seleksi Energi CF1, CF2, CF3 (Bits [11:4]) */
+#define ADE9000_CF1_SEL_TOTAL_ACTIVE    (0x0U << 4)   // CF1: Total Active Power (Wh / kWh)
+#define ADE9000_CF2_SEL_TOTAL_REACTIVE  (0x1U << 6)   // CF2: Total Reactive Power (varh / kvarh)
+#define ADE9000_CF3_SEL_TOTAL_APPARENT  (0x2U << 8)   // CF3: Total Apparent Power (VAh / kVAh)
+
+/* Konfigurasi Pin 36 ADE9000 pada CFMODE Bits [13:12] (CF4_CFG)
+ * Penyesuaian Arsitektur: Nilai 10b memilih mode hardware EVENT (menggantikan mode lama 01b DREADY) */
+#define ADE9000_CF4_CFG_PULSE_OUT       (0x0U << 12)  // Pin 36 berfungsi sebagai pulsa frekuensi CF4
+#define ADE9000_CF4_CFG_DREADY          (0x1U << 12)  // Pin 36 (Legacy): Data Ready sampling (6.4 / 8 kSPS)
+#define ADE9000_CF4_CFG_EVENT           (0x2U << 12)  // Pin 36 (Standar SPLN): Hardware Power Quality EVENT (Sag/Swell/OI)
+
 
 #endif

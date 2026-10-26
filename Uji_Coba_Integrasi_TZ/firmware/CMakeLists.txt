@@ -13,6 +13,13 @@ add_compile_options(-UNDEBUG)
 
 # Modern CMake Target: dlms_core
 add_library(dlms_core STATIC
+    protocols/src/ami_cosem_model.c
+    protocols/src/ami_dlms_apdu.c
+    protocols/src/ami_dlms_association.c
+    protocols/src/ami_dlms_hdlc.c
+    protocols/src/ami_security.c
+    protocols/src/ami_server.c
+    protocols/src/ami_task.c
     protocols/dlms/src/dlms_association.c
     protocols/dlms/src/dlms_transport.c
     protocols/dlms/src/dlms_apdu.c
@@ -45,6 +52,8 @@ add_library(dlms_core STATIC
 )
 
 target_include_directories(dlms_core PUBLIC 
+    protocols/inc
+    protocols/ami/inc
     protocols/dlms/inc
     drivers/bsp/inc
     app/display/inc
@@ -64,6 +73,7 @@ if(BUILD_TESTS)
     enable_testing()
 
     set(TEST_NAMES
+        test_ami_core
         test_dlms_association
         test_dlms_apdu
         test_dlms_integration
@@ -89,6 +99,7 @@ if(BUILD_TESTS)
     )
 
     set(TEST_SOURCES
+        tests/protocols/test_ami_core.c
         tests/protocols/test_dlms_association.c
         tests/protocols/test_dlms_apdu.c
         tests/protocols/test_dlms_integration.c

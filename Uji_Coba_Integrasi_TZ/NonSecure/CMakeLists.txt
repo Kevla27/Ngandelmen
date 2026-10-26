@@ -64,6 +64,8 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/app/fsm/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/app/profiling/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/app/console/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/protocols/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/protocols/ami/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/protocols/dlms/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/drivers/bsp/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/../E1/Adapter
@@ -99,6 +101,15 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/app/profiling/src/load_profile_dlms_adapter.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/app/profiling/src/nvram_storage.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/app/console/src/console_io.c
+
+    # Modern AMI Protocol Sources
+    ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/protocols/src/ami_cosem_model.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/protocols/src/ami_dlms_apdu.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/protocols/src/ami_dlms_association.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/protocols/src/ami_dlms_hdlc.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/protocols/src/ami_security.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/protocols/src/ami_server.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/protocols/src/ami_task.c
 
     # Protocol (E2) & BSP Sources
     ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/protocols/dlms/src/dlms_association.c
@@ -152,12 +163,3 @@ add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.hex
     COMMENT "Generating physical flash HEX file for Non-Secure World (${CMAKE_PROJECT_NAME}.hex)"
 )
-
-
-
-
-
-
-
-
-
